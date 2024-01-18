@@ -1,5 +1,11 @@
-.calendar-grid-item {
-  border: 1px double black;
+.calendar-item {
   width: 150px;
   height: 100px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.calendar-item:hover {
+  transform: scale(1.05);
+  background-color: rgb(232, 238, 247);
 }

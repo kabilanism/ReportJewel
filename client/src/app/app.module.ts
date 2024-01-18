@@ -8,6 +8,7 @@ import { NavComponent } from './nav/nav.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { FormsModule } from '@angular/forms';
 import { CalendarItemComponent } from './calendar-item/calendar-item.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [AppComponent, NavComponent, CalendarComponent, CalendarItemComponent],
@@ -16,6 +17,7 @@ import { CalendarItemComponent } from './calendar-item/calendar-item.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    BsDropdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

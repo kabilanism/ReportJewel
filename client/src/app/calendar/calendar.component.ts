@@ -15,9 +15,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.dateRange = this.initializeAppointmentRange();
     this.dateBatches = this.initializeDateBatches(this.dateRange);
-
-    console.log(this.dateRange);
-    console.log(this.dateBatches);
   }
 
   private initializeAppointmentRange(): Date[] {

@@ -2,20 +2,18 @@
   <button class="btn btn-primary me-4">
     <i class="bi bi-arrow-left"></i>
   </button>
-  <h1>{{ selectedMonth }} - {{ selectedYear }}</h1>
+  <h1 class="display-4">{{ selectedMonth }} - {{ selectedYear }}</h1>
   <button class="btn btn-primary ms-4">
     <i class="bi bi-arrow-right"></i>
   </button>
 </div>
 
-<div class="calendar-grid mt-4">
+<div class="mt-4">
   <div class="row" *ngFor="let dateBatch of dateBatches">
-    <div
-      class="calendar-grid-item col-md-1"
-      style="border: 1px double black; width: 150px; height: 100px"
+    <app-calendar-item
       *ngFor="let date of dateBatch.dates"
-    >
-      {{ date | date : "dd" }}
-    </div>
+      [date]="date"
+      class="col-sm-1 ms-5 mb-2"
+    ></app-calendar-item>
   </div>
 </div>
