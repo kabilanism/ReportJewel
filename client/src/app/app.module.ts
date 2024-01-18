@@ -7,9 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { FormsModule } from '@angular/forms';
+import { CalendarItemComponent } from './calendar-item/calendar-item.component';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, CalendarComponent],
+  declarations: [AppComponent, NavComponent, CalendarComponent, CalendarItemComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

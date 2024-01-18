@@ -1,0 +1,5 @@
+.calendar-grid-item {
+  border: 1px double black;
+  width: 150px;
+  height: 100px;
+}
