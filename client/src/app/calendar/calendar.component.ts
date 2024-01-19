@@ -95,21 +95,11 @@ export class CalendarComponent implements OnInit {
     return dateBatches;
   }
 
-  onMonthSelected(event: Event) {
+  onMonthSelected() {
     this.initializeCalendar();
   }
 
   onCalendarItemClick() {
     this.modalService.showModal();
-  }
-  // onCalendarItemClicked(modalTemplate: TemplateRef<void>) {
-  //   this.modalRef = this.modalService.show(
-  //     modalTemplate,
-  //     Object.assign({}, { class: 'gray modal-lg' })
-  //   );
-  // }
-
-  createEvent() {
-    console.log(this.createEventForm?.value);
   }
 }

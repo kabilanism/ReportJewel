@@ -17,12 +17,16 @@
       (ngSubmit)="submitEvent(modalTemplate)"
     >
       <div class="form-group">
-        <label for="event-description">Description</label>
+        <label class="form-label" for="event-description">Description</label>
         <textarea
           class="form-control"
           id="event-description"
           rows="3"
         ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">E-mail</label>
+        <input class="form-control" type="email" id="email" />
       </div>
     </form>
   </div>
