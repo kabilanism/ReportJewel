@@ -1,0 +1,32 @@
+<ng-template #modalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Event</h4>
+    <button
+      type="button"
+      class="close btn-close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form
+      id="createEventForm"
+      #createEventForm="ngForm"
+      (ngSubmit)="submitEvent(modalTemplate)"
+    >
+      <div class="form-group">
+        <label for="event-description">Description</label>
+        <textarea
+          class="form-control"
+          id="event-description"
+          rows="3"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Create</button>
+  </div>
+</ng-template>

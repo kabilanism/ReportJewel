@@ -2,7 +2,21 @@
   <button class="btn btn-primary me-4">
     <i class="bi bi-arrow-left"></i>
   </button>
-  <h1 class="display-4">{{ selectedMonth }} - {{ selectedYear }}</h1>
+  <select
+    class="form-select form-select-md me-3 w-25"
+    [(ngModel)]="selectedMonth"
+    (change)="onMonthSelected($event)"
+  >
+    <option value="" class="fw-light" selected disabled hidden>
+      <span class="fw-light">Select a month ...</span>
+    </option>
+    <option *ngFor="let month of months; let i = index" value="{{ i }}">
+      {{ month }}
+    </option>
+  </select>
+  <select class="form-select form-select-md w-25">
+    <option selected>2024</option>
+  </select>
   <button class="btn btn-primary ms-4">
     <i class="bi bi-arrow-right"></i>
   </button>
@@ -14,6 +28,9 @@
       *ngFor="let date of dateBatch.dates"
       [date]="date"
       class="col-sm-1 ms-5 mb-2"
+      (calendarItemClicked)="onCalendarItemClick()"
     ></app-calendar-item>
   </div>
 </div>
+
+<app-modal></app-modal>

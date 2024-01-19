@@ -1,8 +1,7 @@
-<div class="calendar-item card">
+<div class="calendar-item card" (click)="onCalendarItemClicked()">
   <div class="card-body">
     <div class="card-title fw-light">
-      {{ date | date : "d - EEE" }}
+      {{ date | date : "d - MMM" }}
     </div>
-    <!-- <h5 class="card-title">{{ date | date : "d - EEE" }}</h5> -->
   </div>
 </div>

@@ -9,15 +9,18 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { FormsModule } from '@angular/forms';
 import { CalendarItemComponent } from './calendar-item/calendar-item.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, CalendarComponent, CalendarItemComponent],
+  declarations: [AppComponent, NavComponent, CalendarComponent, CalendarItemComponent, ModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
