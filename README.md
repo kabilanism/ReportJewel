@@ -1,1 +1,1 @@
-# Simple Book - A Minimalisitc Scheduling Application
+# Simple Book - A Minimalist Scheduling Application
