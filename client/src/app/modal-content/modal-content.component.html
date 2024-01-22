@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Create Event</h4>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="bsModalRef.hide()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="eventEditorForm" (ngSubmit)="onSubmit(eventEditorForm)">
+    <div
+      class="mb-3"
+      *ngFor="let eventFormControl of eventFormControls"
+      [ngSwitch]="eventFormControl.type"
+    >
+      <label class="form-label" for="{{ eventFormControl.id }}"
+        >{{ eventFormControl.label }}
+        <i class="{{ eventFormControl.iconClass }}"></i
+      ></label>
+      <input
+        *ngSwitchCase="'text'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
+      <input />
+      <textarea
+        *ngSwitchCase="'textarea'"
+        class="form-control"
+        [id]="eventFormControl.id"
+        rows="3"
+        [formControlName]="eventFormControl.formControlName"
+      ></textarea>
+    </div>
+    <button type="submit">Send</button>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
+    {{ closeBtnName }}
+  </button>
+</div>

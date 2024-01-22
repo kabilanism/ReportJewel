@@ -1,0 +1,22 @@
+[
+  {
+    "id": "exampleControlId2",
+    "type": "text",
+    "formControlName": "description",
+    "placeholder": "Your description",
+    "label": "Description",
+    "order": 2,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId1",
+    "type": "text",
+    "formControlName": "name",
+    "placeholder": "Your name",
+    "label": "Name",
+    "order": 1,
+    "value": null,
+    "options": null
+  }
+]

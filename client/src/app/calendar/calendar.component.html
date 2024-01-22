@@ -4,8 +4,8 @@
   </button>
   <select
     class="form-select form-select-md me-3 w-25"
-    [(ngModel)]="selectedMonth"
     (change)="onMonthSelected()"
+    [(ngModel)]="selectedMonth"
   >
     <option value="" class="fw-light" selected disabled hidden>
       <span class="fw-light">Select a month ...</span>
@@ -32,5 +32,3 @@
     ></app-calendar-item>
   </div>
 </div>
-
-<app-modal></app-modal>

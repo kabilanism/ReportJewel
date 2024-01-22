@@ -1,19 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
-  private showModalSubject = new Subject<void>();
+  bsModalRef?: BsModalRef;
 
-  constructor() {}
+  constructor(private bsModalService: BsModalService) {}
 
-  loadModal(): Observable<void> {
-    return this.showModalSubject.asObservable();
-  }
-
-  showModal() {
-    this.showModalSubject.next();
+  openModalWithComponent() {
+    const initialState: ModalOptions = {
+      initialState: {
+        list: [
+          'Open a modal with component',
+          'Pass your data',
+          'Do something else',
+          '...',
+        ],
+        title: 'Modal with component',
+      },
+    };
+    this.bsModalRef = this.bsModalService.show(
+      ModalContentComponent,
+      initialState
+    );
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 }

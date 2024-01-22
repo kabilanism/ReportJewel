@@ -1,14 +1,7 @@
-import {
-  Component,
-  HostListener,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { DateBatch } from '../_models/dateBatch';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { ModalService } from '../_services/modal-service.service';
 
 @Component({
@@ -100,6 +93,6 @@ export class CalendarComponent implements OnInit {
   }
 
   onCalendarItemClick() {
-    this.modalService.showModal();
+    // this.modalService.showModal();
   }
 }
