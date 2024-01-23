@@ -15,7 +15,37 @@
     "formControlName": "name",
     "placeholder": "Your name",
     "label": "Name",
+    "order": 2,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId2",
+    "type": "password",
+    "formControlName": "password",
+    "placeholder": "Your password",
+    "label": "Password",
+    "order": 3,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId4",
+    "type": "color",
+    "formControlName": "color",
+    "placeholder": "Your color",
+    "label": "Color",
     "order": 1,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId5",
+    "type": "tel",
+    "formControlName": "telephone",
+    "placeholder": "Your phone",
+    "label": "Telephone",
+    "order": 3,
     "value": null,
     "options": null
   }

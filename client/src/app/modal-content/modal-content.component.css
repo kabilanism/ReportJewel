@@ -1,0 +1,9 @@
+.form-footer {
+  display: flex;
+  justify-content: center;
+}
+
+label,
+input {
+  cursor: pointer;
+}

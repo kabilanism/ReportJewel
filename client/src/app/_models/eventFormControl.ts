@@ -7,6 +7,11 @@ export interface EventFormControl {
   order: number;
   required: boolean;
   value: string | null;
-  options: string[] | null;
+  options: SelectOption[] | null;
   iconClass: string;
+}
+
+export interface SelectOption {
+  value: string;
+  displayValue: string;
 }

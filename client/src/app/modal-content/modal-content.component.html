@@ -26,17 +26,96 @@
         [type]="eventFormControl.type"
         [id]="eventFormControl.id"
         [formControlName]="eventFormControl.formControlName"
+        placeholder="{{ eventFormControl.placeholder }}"
       />
-      <input />
+      <input
+        *ngSwitchCase="'password'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+        placeholder="{{ eventFormControl.placeholder }}"
+      />
       <textarea
         *ngSwitchCase="'textarea'"
         class="form-control"
         [id]="eventFormControl.id"
         rows="3"
         [formControlName]="eventFormControl.formControlName"
+        placeholder="{{ eventFormControl.placeholder }}"
       ></textarea>
+      <input
+        *ngSwitchCase="'checkbox'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+        value="{{ eventFormControl.value }}"
+        placeholder="{{ eventFormControl.placeholder }}"
+      />
+      <input
+        *ngSwitchCase="'radio'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+        value="{{ eventFormControl.value }}"
+      />
+      <select *ngSwitchCase="'select'" class="form-select">
+        <option
+          *ngFor="let option of eventFormControl.options"
+          value="{{ option.value }}"
+        >
+          {{ option.displayValue }}
+        </option>
+      </select>
+      <input
+        *ngSwitchCase="'file'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
+      <input
+        *ngSwitchCase="'range'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
+      <input
+        *ngSwitchCase="'date'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
+      <input
+        *ngSwitchCase="'color'"
+        class="form-control w-25"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
+      <input
+        *ngSwitchCase="'email'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
+      <input
+        *ngSwitchCase="'tel'"
+        class="form-control"
+        [type]="eventFormControl.type"
+        [id]="eventFormControl.id"
+        [formControlName]="eventFormControl.formControlName"
+      />
     </div>
-    <button type="submit">Send</button>
+    <div class="form-footer">
+      <button class="btn btn-primary me-2" type="submit">Submit</button>
+      <button class="btn btn-danger" (click)="onReset()">Reset</button>
+    </div>
   </form>
 </div>
 <div class="modal-footer">

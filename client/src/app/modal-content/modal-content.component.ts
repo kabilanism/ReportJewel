@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient } from '@angular/common/http';
 import { EventFormControl } from '../_models/eventFormControl';
+import { FormControlService } from '../_services/form-control-service.service';
 
 @Component({
   selector: 'app-modal-content',
@@ -19,41 +15,48 @@ export class ModalContentComponent implements OnInit {
   closeBtnName?: string;
   list: string[] = [];
   eventEditorForm: FormGroup;
-  eventFormControls: EventFormControl[] = [];
+  eventFormControls: EventFormControl[] | undefined;
 
   constructor(
     public bsModalRef: BsModalRef,
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private formControlService: FormControlService
   ) {
     this.eventEditorForm = new FormGroup({});
   }
 
   ngOnInit() {
-    this.getFormControls();
+    this.initializeFormControls();
   }
 
-  getFormControls() {
-    this.http
-      .get<EventFormControl[]>('assets/sample-form-control.json')
-      .subscribe({
-        next: (data: EventFormControl[]) => {
-          let formGroupConfig: { [key: string]: string } = {};
+  initializeFormControls(): void {
+    this.formControlService.getFormControls().subscribe({
+      next: (formControls: EventFormControl[]) => {
+        this.eventEditorForm = this.formBuilder.group(
+          this.setFormConfig(formControls)
+        );
+      },
+    });
+  }
 
-          this.eventFormControls = data;
+  private setFormConfig(formControls: EventFormControl[]): {
+    [key: string]: string;
+  } {
+    let formConfig: { [key: string]: string } = {};
 
-          this.eventFormControls.map((formControl) => {
-            formGroupConfig[formControl.formControlName] = '';
-          });
-          this.eventEditorForm = this.formBuilder.group(formGroupConfig);
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+    this.eventFormControls = formControls;
+    this.eventFormControls.map((formControl) => {
+      formConfig[formControl.formControlName] = '';
+    });
+
+    return formConfig;
   }
 
   onSubmit(form: FormGroup) {
     console.log(form.value);
+  }
+
+  onReset() {
+    this.eventEditorForm.reset();
   }
 }
