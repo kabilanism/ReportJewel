@@ -1,21 +1,31 @@
 [
   {
-    "id": "exampleControlId2",
+    "id": "exampleControlId1",
     "type": "text",
-    "formControlName": "description",
-    "placeholder": "Your description",
-    "label": "Description",
+    "formControlName": "firstName",
+    "placeholder": "e.g. John",
+    "label": "First Name",
+    "order": 1,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId3",
+    "type": "text",
+    "formControlName": "lastName",
+    "placeholder": "e.g. Doe",
+    "label": "Last Name",
     "order": 2,
     "value": null,
     "options": null
   },
   {
-    "id": "exampleControlId1",
-    "type": "text",
-    "formControlName": "name",
-    "placeholder": "Your name",
-    "label": "Name",
-    "order": 2,
+    "id": "exampleControlId6",
+    "type": "email",
+    "formControlName": "email",
+    "placeholder": "e.g. John.Doe@gmail.com",
+    "label": "E-mail",
+    "order": 3,
     "value": null,
     "options": null
   },
@@ -23,19 +33,8 @@
     "id": "exampleControlId2",
     "type": "password",
     "formControlName": "password",
-    "placeholder": "Your password",
     "label": "Password",
     "order": 3,
-    "value": null,
-    "options": null
-  },
-  {
-    "id": "exampleControlId4",
-    "type": "color",
-    "formControlName": "color",
-    "placeholder": "Your color",
-    "label": "Color",
-    "order": 1,
     "value": null,
     "options": null
   },
@@ -43,8 +42,8 @@
     "id": "exampleControlId5",
     "type": "tel",
     "formControlName": "telephone",
-    "placeholder": "Your phone",
-    "label": "Telephone",
+    "placeholder": "e.g. 416-614-9147",
+    "label": "Phone Number",
     "order": 3,
     "value": null,
     "options": null

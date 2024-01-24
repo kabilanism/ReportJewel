@@ -29,3 +29,12 @@ export class ModalService {
     this.bsModalRef.content.closeBtnName = 'Close';
   }
 }
+
+/*
+Tables
+- FormControl
+- FormControlOptions
+- FormControlValidators
+- FormControlValues
+
+*/
