@@ -10,60 +10,59 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="eventEditorForm" (ngSubmit)="onSubmit(eventEditorForm)">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
     <div
       class="mb-3"
-      *ngFor="let eventFormControl of eventFormControls"
-      [ngSwitch]="eventFormControl.type"
+      *ngFor="let formControl of formControls"
+      [ngSwitch]="formControl.type"
     >
-      <label class="form-label" for="{{ eventFormControl.id }}"
-        >{{ eventFormControl.label }}
-        <i class="{{ eventFormControl.iconClass }}"></i
+      <label class="form-label" for="{{ formControl.id }}"
+        >{{ formControl.label }} <i class="{{ formControl.iconClass }} ms-1"></i
       ></label>
       <input
         *ngSwitchCase="'text'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
-        placeholder="{{ eventFormControl.placeholder }}"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
+        placeholder="{{ formControl.placeholder }}"
       />
       <input
         *ngSwitchCase="'password'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
-        placeholder="{{ eventFormControl.placeholder }}"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
+        placeholder="{{ formControl.placeholder }}"
       />
       <textarea
         *ngSwitchCase="'textarea'"
         class="form-control"
-        [id]="eventFormControl.id"
+        [id]="formControl.id"
         rows="3"
-        [formControlName]="eventFormControl.formControlName"
-        placeholder="{{ eventFormControl.placeholder }}"
+        [formControlName]="formControl.formControlName"
+        placeholder="{{ formControl.placeholder }}"
       ></textarea>
       <input
         *ngSwitchCase="'checkbox'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
-        value="{{ eventFormControl.value }}"
-        placeholder="{{ eventFormControl.placeholder }}"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
+        value="{{ formControl.value }}"
+        placeholder="{{ formControl.placeholder }}"
       />
       <input
         *ngSwitchCase="'radio'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
-        value="{{ eventFormControl.value }}"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
+        value="{{ formControl.value }}"
       />
       <select *ngSwitchCase="'select'" class="form-select">
         <option
-          *ngFor="let option of eventFormControl.options"
+          *ngFor="let option of formControl.options"
           value="{{ option.value }}"
         >
           {{ option.displayValue }}
@@ -72,49 +71,51 @@
       <input
         *ngSwitchCase="'file'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
       />
       <input
         *ngSwitchCase="'range'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
       />
       <input
         *ngSwitchCase="'date'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
       />
       <input
         *ngSwitchCase="'color'"
         class="form-control w-25"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
       />
       <input
         *ngSwitchCase="'email'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
+        placeholder="{{ formControl.placeholder }}"
       />
       <input
         *ngSwitchCase="'tel'"
         class="form-control"
-        [type]="eventFormControl.type"
-        [id]="eventFormControl.id"
-        [formControlName]="eventFormControl.formControlName"
+        [type]="formControl.type"
+        [id]="formControl.id"
+        [formControlName]="formControl.formControlName"
+        placeholder="{{ formControl.placeholder }}"
       />
     </div>
     <div class="form-footer">
-      <button class="btn btn-primary me-2" type="submit">Submit</button>
-      <button class="btn btn-danger" (click)="onReset()">Reset</button>
+      <button class="btn btn-outline-primary me-4" type="submit">Submit</button>
+      <button class="btn btn-outline-danger" (click)="onReset()">Reset</button>
     </div>
   </form>
 </div>
