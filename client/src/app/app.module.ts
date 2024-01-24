@@ -5,21 +5,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { CalendarComponent } from './calendar/calendar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CalendarItemComponent } from './calendar-item/calendar-item.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormFactoryComponent } from './form-factory/form-factory.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    CalendarComponent,
-    CalendarItemComponent,
     ModalContentComponent,
+    FormFactoryComponent,
   ],
   imports: [
     BrowserModule,
