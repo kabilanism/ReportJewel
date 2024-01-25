@@ -24,7 +24,7 @@
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         placeholder="{{ formControl.placeholder }}"
       />
       <input
@@ -32,7 +32,7 @@
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         placeholder="{{ formControl.placeholder }}"
       />
       <textarea
@@ -40,7 +40,7 @@
         class="form-control"
         [id]="formControl.id"
         rows="3"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         placeholder="{{ formControl.placeholder }}"
       ></textarea>
       <input
@@ -48,7 +48,7 @@
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         value="{{ formControl.value }}"
         placeholder="{{ formControl.placeholder }}"
       />
@@ -57,7 +57,7 @@
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         value="{{ formControl.value }}"
       />
       <select *ngSwitchCase="'select'" class="form-select">
@@ -73,35 +73,35 @@
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
       />
       <input
         *ngSwitchCase="'range'"
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
       />
       <input
         *ngSwitchCase="'date'"
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
       />
       <input
         *ngSwitchCase="'color'"
         class="form-control w-25"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
       />
       <input
         *ngSwitchCase="'email'"
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         placeholder="{{ formControl.placeholder }}"
       />
       <input
@@ -109,7 +109,7 @@
         class="form-control"
         [type]="formControl.type"
         [id]="formControl.id"
-        [formControlName]="formControl.formControlName"
+        [formControlName]="formControl.name"
         placeholder="{{ formControl.placeholder }}"
       />
     </div>

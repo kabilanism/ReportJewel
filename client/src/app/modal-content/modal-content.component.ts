@@ -28,7 +28,15 @@ export class ModalContentComponent implements OnInit {
     this.initializeFormControls();
   }
 
-  initializeFormControls(): void {
+  onSubmit(formGroup: FormGroup) {
+    console.log(formGroup);
+  }
+
+  onReset() {
+    this.formGroup.reset();
+  }
+
+  private initializeFormControls(): void {
     const iconClassBase: string = 'bi';
 
     this.formControlService.getFormControls().subscribe({
@@ -45,17 +53,9 @@ export class ModalContentComponent implements OnInit {
 
     this.formControls = this.formControlService.formControls.slice();
     this.formControls.map((formControl) => {
-      formConfig[formControl.formControlName] = '';
+      formConfig[formControl.name] = '';
     });
 
     return formConfig;
-  }
-
-  onSubmit(formGroup: FormGroup) {
-    console.log(formGroup.value);
-  }
-
-  onReset() {
-    this.formGroup.reset();
   }
 }

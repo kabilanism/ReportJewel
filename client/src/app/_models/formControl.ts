@@ -1,7 +1,7 @@
 export interface FormControl {
   id: string;
   type: string;
-  formControlName: string;
+  name: string;
   placeholder: string | null;
   label: string;
   order: number;
