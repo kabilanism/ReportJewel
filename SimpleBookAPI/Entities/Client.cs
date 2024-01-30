@@ -4,9 +4,9 @@ namespace SimpleBookAPI.Entities
 {
   public class Client
   {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     [Required]
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
     public User User { get; set; }
     public ICollection<FormInstance> FormInstances { get; set; }
     [Required]

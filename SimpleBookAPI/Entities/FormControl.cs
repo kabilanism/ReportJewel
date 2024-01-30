@@ -4,8 +4,8 @@ namespace SimpleBookAPI.Entities
 {
   public class FormControl
   {
-    public Guid Id { get; set; }
-    public Guid FormId { get; set; }
+    public int Id { get; set; }
+    public int FormId { get; set; }
     public Form Form { get; set; }
     public ICollection<FormControlOption> FormControlOptions { get; set; }
     public ICollection<FormControlValue> FormControlValues { get; set; }
