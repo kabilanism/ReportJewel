@@ -10,14 +10,15 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormFactoryComponent } from './form-factory/form-factory.component';
+import { HomeComponent } from './home/home.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     ModalContentComponent,
-    FormFactoryComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +29,9 @@ import { FormFactoryComponent } from './form-factory/form-factory.component';
     HttpClientModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
