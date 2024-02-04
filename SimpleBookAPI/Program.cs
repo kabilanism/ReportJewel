@@ -15,6 +15,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 
 builder.Services.AddCors();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFormRepository, FormRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
