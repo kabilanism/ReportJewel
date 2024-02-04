@@ -13,6 +13,7 @@ namespace SimpleBookAPI.Entities
     public string Type { get; set; }
     [Required]
     public string Name { get; set; }
+    public string Description { get; set; }
     public string Placeholder { get; set; }
     [Required]
     public string Label { get; set; }
