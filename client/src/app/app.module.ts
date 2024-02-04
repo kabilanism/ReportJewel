@@ -8,17 +8,21 @@ import { NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { ModalContentComponent } from './modal-content/modal-content.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsComponent } from './forms/forms.component';
+import { RegisterComponent } from './register/register.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    ModalContentComponent,
     HomeComponent,
+    FormsComponent,
+    RegisterComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,
