@@ -1,0 +1,13 @@
+h1 {
+  font-weight: bold;
+  font-style: italic;
+}
+
+th {
+  font-weight: bold;
+}
+
+td {
+  font-size: 150%;
+  cursor: pointer;
+}
