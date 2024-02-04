@@ -1,17 +1,9 @@
 export interface FormControl {
-  id: string;
+  id: number;
   type: string;
   name: string;
   placeholder: string | null;
   label: string;
   order: number;
   required: boolean;
-  value: string | null;
-  options: SelectOption[] | null;
-  iconClass: string;
-}
-
-export interface SelectOption {
-  value: string;
-  displayValue: string;
 }
