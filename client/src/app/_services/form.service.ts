@@ -5,6 +5,7 @@ import { Form } from '../_models/form';
 import { UserService } from './user.service';
 import { User } from '../_models/user';
 import { BehaviorSubject, Subject, map, take } from 'rxjs';
+import { FormControl } from '../_models/formControl';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,11 @@ export class FormService {
   private formsSubject: BehaviorSubject<Form[]> = new BehaviorSubject<Form[]>(
     []
   );
-  private selectedFormSubject: BehaviorSubject<number | null> =
-    new BehaviorSubject<number | null>(null);
+  private selectedControlSubject: BehaviorSubject<FormControl | null> =
+    new BehaviorSubject<FormControl | null>(null);
 
   forms$ = this.formsSubject.asObservable();
-  selectedForm$ = this.selectedFormSubject.asObservable();
+  selectedControl$ = this.selectedControlSubject.asObservable();
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.userService.currentUser$.pipe(take(1)).subscribe({
@@ -39,7 +40,9 @@ export class FormService {
       });
   }
 
-  setSelectedForm(formId: number) {
-    this.selectedFormSubject.next(formId);
+  controlSelected(control: FormControl): void {
+    this.selectedControlSubject.next(control);
   }
+
+  updateForm() {}
 }

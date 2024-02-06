@@ -1,1 +1,1 @@
-# Simple Book - A Minimalist Scheduling Application
+# Simple Book - Extensible, Minimalist Verification Service

@@ -19,10 +19,10 @@ namespace SimpleBookAPI.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("GetForms/{id}")]
-    public async Task<ActionResult<List<FormDto>>> GetForms(int id)
+    [HttpGet("templates")]
+    public async Task<ActionResult<List<FormDto>>> GetTemplates([FromQuery] int userId)
     {
-      var forms = await _formRepository.GetFormsByUserId(id);
+      var forms = await _formRepository.GetFormsByUserId(userId);
       var formsDto = _mapper.Map<List<FormDto>>(forms);
 
       return formsDto;

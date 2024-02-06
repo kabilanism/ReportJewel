@@ -14,6 +14,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { FormsComponent } from './forms/forms.component';
 import { RegisterComponent } from './register/register.component';
 import { FormComponent } from './form/form.component';
+import { FormControlComponent } from './form-control/form-control.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ClientComponent } from './client/client.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { FormComponent } from './form/form.component';
     FormsComponent,
     RegisterComponent,
     FormComponent,
+    FormControlComponent,
+    ClientsComponent,
+    ClientComponent,
   ],
   imports: [
     BrowserModule,

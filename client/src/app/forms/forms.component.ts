@@ -13,7 +13,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   forms: Form[] = [];
   formsSubscription: Subscription | undefined;
 
-  constructor(private formService: FormService, private router: Router) {}
+  constructor(private formService: FormService) {}
 
   ngOnInit(): void {
     this.formsSubscription = this.formService.forms$.subscribe({
@@ -27,10 +27,5 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.formsSubscription?.unsubscribe();
-  }
-
-  onFormClicked(formId: number) {
-    this.formService.setSelectedForm(formId);
-    this.router.navigate(['/form', formId]);
   }
 }

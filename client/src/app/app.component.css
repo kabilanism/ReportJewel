@@ -1,7 +1,5 @@
 .container {
-  margin-top: 100px;
   display: flex;
   justify-content: left;
   align-items: left;
-  width: 100%;
 }

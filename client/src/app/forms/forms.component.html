@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let form of forms" (click)="onFormClicked(form.id)">
+    <tr *ngFor="let form of forms" routerLink="/form/{{ form.id }}">
       <td>{{ form.name }}</td>
       <td>{{ form.description }}</td>
     </tr>
