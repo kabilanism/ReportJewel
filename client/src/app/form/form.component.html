@@ -1,4 +1,12 @@
-<h1 class="mb-3">Form Configuration</h1>
+<div class="row mb-2">
+  <div class="col">
+    <h1 class="display-4">
+      Template Configuration<span
+        ><button class="btn btn-success ms-3">SAVE</button></span
+      >
+    </h1>
+  </div>
+</div>
 
 <form #loginForm="ngForm" class="w-75">
   <div class="row mb-4">
@@ -29,12 +37,12 @@
   </div>
   <div class="row">
     <div class="col">
-      <h2 class="fw-bold">Controls<i class="bi bi-card-list ms-3"></i></h2>
+      <h2>Controls<i class="bi bi-card-list ms-3"></i></h2>
       <table class="table table-striped table-hover table-responsive">
         <thead>
           <tr>
-            <th scope="col" class="fw-bold">Name</th>
-            <th scope="col" class="fw-bold">Type</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
           </tr>
         </thead>
         <tbody>
@@ -47,11 +55,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-3">
-      <button class="btn btn-success">SAVE</button>
     </div>
   </div>
 </form>

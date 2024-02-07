@@ -17,6 +17,7 @@ import { FormComponent } from './form/form.component';
 import { FormControlComponent } from './form-control/form-control.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ClientComponent } from './client/client.component';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),
+    TooltipModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

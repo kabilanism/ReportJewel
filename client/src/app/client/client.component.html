@@ -1,1 +1,47 @@
-<p>{{ client?.address }}</p>
+<h1 class="display-4">Client - {{ client?.name }}</h1>
+<form #generateReportForm="ngForm" class="w-75">
+  <div class="row mb-4">
+    <div class="col-4">
+      <label for="template" class="mb-2"> Template</label>
+      <select
+        id="template"
+        class="form-control"
+        required
+        name="template"
+        [(ngModel)]="selectedTemplate"
+      >
+        <option *ngFor="let form of forms" [value]="form.id">
+          <div *ngIf="loadingForms; else formDetail">Loading ...</div>
+          <ng-template #formDetail>
+            {{ form.name }} - {{ form.description }}
+          </ng-template>
+        </option>
+      </select>
+    </div>
+    <div class="col-4">
+      <label for="excelFile" class="mb-2">Source File</label>
+      <input
+        id="excelFile"
+        class="form-control"
+        type="file"
+        (change)="onFileChange($event)"
+        name="excelFile"
+        ngModel
+      />
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-4">
+      <span>
+        <button
+          id="generateReport"
+          class="btn btn-primary"
+          (click)="generateReport()"
+          type="submit"
+        >
+          Create Report
+        </button></span
+      >
+    </div>
+  </div>
+</form>

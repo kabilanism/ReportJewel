@@ -37,7 +37,7 @@ const routes: Routes = [
         component: ClientsComponent,
       },
       {
-        path: 'client',
+        path: 'client/:id',
         component: ClientComponent,
       },
     ],

@@ -1,18 +1,18 @@
 form {
   border: 1px solid rgba(236, 240, 241);
   padding: 25px;
-  border-radius: 25px;
+  border-radius: 1rem;
 }
 
 label {
   font-size: 140%;
-  font-weight: bold;
-}
-
-h1 {
-  font-weight: bold;
 }
 
 input {
   cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+select {
+  border-radius: 0.5rem;
 }

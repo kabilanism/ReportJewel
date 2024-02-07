@@ -29,6 +29,7 @@ export class EntityService<T> {
     this.http
       .get<T[]>(`${this.baseUrl}${this.fetchUrl}${this.user?.id}`)
       .subscribe((clients: T[]) => {
+        console.log(clients);
         this.entitiesSubject.next(clients);
       });
   }

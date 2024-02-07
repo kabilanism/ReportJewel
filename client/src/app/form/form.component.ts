@@ -21,9 +21,11 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formService.forms$.pipe(take(1)).subscribe((forms: Form[]) => {
-      let formId = Number(this.route.snapshot.paramMap.get('id'));
-      this.form = forms.find((f) => f.id == formId);
+    this.formService.forms$.pipe(take(1)).subscribe((forms: Form[] | null) => {
+      if (forms) {
+        let formId = Number(this.route.snapshot.paramMap.get('id'));
+        this.form = forms.find((f) => f.id == formId);
+      }
     });
   }
 

@@ -17,8 +17,10 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formsSubscription = this.formService.forms$.subscribe({
-      next: (forms: Form[]) => {
-        this.forms = forms;
+      next: (forms: Form[] | null) => {
+        if (forms) {
+          this.forms = forms;
+        }
       },
     });
 

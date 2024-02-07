@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Form } from '../_models/form';
 import { UserService } from './user.service';
 import { User } from '../_models/user';
-import { BehaviorSubject, Subject, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, of, take } from 'rxjs';
 import { FormControl } from '../_models/formControl';
 
 @Injectable({
@@ -13,9 +13,9 @@ import { FormControl } from '../_models/formControl';
 export class FormService {
   baseUrl: string = environment.apiUrl;
   user: User | undefined;
-  private formsSubject: BehaviorSubject<Form[]> = new BehaviorSubject<Form[]>(
-    []
-  );
+  private formsSubject: BehaviorSubject<Form[] | null> = new BehaviorSubject<
+    Form[] | null
+  >(null);
   private selectedControlSubject: BehaviorSubject<FormControl | null> =
     new BehaviorSubject<FormControl | null>(null);
 
@@ -33,16 +33,35 @@ export class FormService {
   }
 
   getForms(): void {
-    this.http
-      .get<Form[]>(`${this.baseUrl}form/GetForms/${this.user?.id}`)
-      .subscribe((forms: Form[]) => {
-        this.formsSubject.next(forms);
-      });
+    if (this.user) {
+      const params = new HttpParams().set('userId', this.user.id);
+      this.http
+        .get<Form[]>(`${this.baseUrl}form/templates/`, { params })
+        .subscribe((forms: Form[]) => {
+          this.formsSubject.next(forms);
+        });
+    }
   }
 
   controlSelected(control: FormControl): void {
     this.selectedControlSubject.next(control);
   }
 
-  updateForm() {}
+  fetchData(): Observable<Form[] | null> {
+    if (this.user) {
+      const params = new HttpParams().set('userId', this.user.id);
+      return this.http
+        .get<Form[]>(`${this.baseUrl}form/templates/`, {
+          params,
+        })
+        .pipe(
+          map((forms: Form[]) => {
+            this.formsSubject.next(forms);
+            return forms;
+          })
+        );
+    } else {
+      return of(null);
+    }
+  }
 }

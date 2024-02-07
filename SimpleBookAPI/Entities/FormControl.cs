@@ -17,7 +17,10 @@ namespace SimpleBookAPI.Entities
     public string Placeholder { get; set; }
     [Required]
     public string Label { get; set; }
+    public int Section { get; set; }
+    public int Row { get; set; }
     public int Order { get; set; }
+    public string CellSource { get; set; }
     [Required]
     public bool Required { get; set; }
   }
