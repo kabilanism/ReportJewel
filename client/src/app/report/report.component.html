@@ -1,0 +1,17 @@
+<form #reportForm="ngForm">
+  <div class="row mb-2" *ngFor="let section of reportSections">
+    <div class="row" *ngFor="let row of section.rows">
+      <div class="col-3" *ngFor="let control of row.controls">
+        <label class="form-label" for="{{ control.id }}">{{
+          control.label
+        }}</label>
+        <input
+          class="form-control"
+          type="text"
+          readonly
+          [value]="control.value"
+        />
+      </div>
+    </div>
+  </div>
+</form>
