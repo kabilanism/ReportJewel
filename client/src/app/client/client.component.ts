@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClientService } from '../_services/client.service';
 import { Client } from '../_models/client';
 import { take } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Form } from '../_models/form';
 import { FormService } from '../_services/form.service';
 import { ExcelService } from '../_services/excel.service';
@@ -17,7 +17,7 @@ export class ClientComponent implements OnInit {
   client: Client | undefined;
   forms: Form[] | undefined;
   loadingForms: boolean = true;
-  excelFile: File | undefined;
+  sourceFile: File | undefined;
   selectedTemplate: string = '';
   @ViewChild('generateReportForm') generateReportForm: NgForm | undefined;
 
@@ -25,7 +25,8 @@ export class ClientComponent implements OnInit {
     private clientService: ClientService,
     public formService: FormService,
     private route: ActivatedRoute,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -61,22 +62,24 @@ export class ClientComponent implements OnInit {
   onFileChange(event: any) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      this.excelFile = fileList[0];
+      this.sourceFile = fileList[0];
     }
   }
 
   generateReport() {
-    console.log('generating report ..');
-    console.log('selected template is ..', this.selectedTemplate);
     if (this.generateReportForm) {
-      const templateId = this.generateReportForm.value.template;
+      const templateId = this.generateReportForm.value.selectedTemplate;
       let selectedForm = this.forms?.find((f) => f.id == templateId);
-      if (this.excelFile && selectedForm?.controls) {
+      if (this.sourceFile && selectedForm) {
         this.excelService
-          .readFile(this.excelFile, selectedForm.controls)
+          .readFile(this.sourceFile, selectedForm.controls)
           .subscribe({
             next: () => {
-              console.log(selectedForm?.controls);
+              console.log('hii');
+              if (selectedForm) {
+                this.formService.setReportForm(selectedForm);
+                this.router.navigateByUrl('/report');
+              }
             },
             error: (error) => {
               console.error(

@@ -4,10 +4,10 @@
     <div class="col-4">
       <label for="template" class="mb-2"> Template</label>
       <select
-        id="template"
+        id="selectedTemplate"
         class="form-control"
         required
-        name="template"
+        name="selectedTemplate"
         [(ngModel)]="selectedTemplate"
       >
         <option *ngFor="let form of forms" [value]="form.id">
@@ -19,13 +19,13 @@
       </select>
     </div>
     <div class="col-4">
-      <label for="excelFile" class="mb-2">Source File</label>
+      <label for="sourceFile" class="mb-2">Source File</label>
       <input
-        id="excelFile"
+        id="sourceFile"
         class="form-control"
         type="file"
         (change)="onFileChange($event)"
-        name="excelFile"
+        name="sourceFile"
         ngModel
       />
     </div>
@@ -38,6 +38,7 @@
           class="btn btn-primary"
           (click)="generateReport()"
           type="submit"
+          [disabled]="!sourceFile || selectedTemplate.length === 0"
         >
           Create Report
         </button></span
