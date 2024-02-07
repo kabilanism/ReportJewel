@@ -8,6 +8,7 @@ import { FormComponent } from './form/form.component';
 import { FormControlComponent } from './form-control/form-control.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
+import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   { path: '', component: RegisterComponent },
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'client/:id',
         component: ClientComponent,
+      },
+      {
+        path: 'report',
+        component: ReportComponent,
       },
     ],
   },

@@ -18,6 +18,7 @@ import { FormControlComponent } from './form-control/form-control.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     FormControlComponent,
     ClientsComponent,
     ClientComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,

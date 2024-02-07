@@ -14,9 +14,11 @@ export interface FormControl {
 }
 
 export interface FormSection {
+  sectionNumber: number;
   rows: FormRow[];
 }
 
 export interface FormRow {
+  rowNumber: number;
   controls: FormControl[];
 }

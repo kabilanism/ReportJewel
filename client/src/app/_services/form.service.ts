@@ -16,11 +16,14 @@ export class FormService {
   private formsSubject: BehaviorSubject<Form[] | null> = new BehaviorSubject<
     Form[] | null
   >(null);
+  private reportFormSubject: BehaviorSubject<Form | null> =
+    new BehaviorSubject<Form | null>(null);
   private selectedControlSubject: BehaviorSubject<FormControl | null> =
     new BehaviorSubject<FormControl | null>(null);
 
   forms$ = this.formsSubject.asObservable();
   selectedControl$ = this.selectedControlSubject.asObservable();
+  reportForm$ = this.reportFormSubject.asObservable();
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.userService.currentUser$.pipe(take(1)).subscribe({
@@ -45,6 +48,10 @@ export class FormService {
 
   controlSelected(control: FormControl): void {
     this.selectedControlSubject.next(control);
+  }
+
+  setReportForm(form: Form): void {
+    this.reportFormSubject.next(form);
   }
 
   fetchData(): Observable<Form[] | null> {
