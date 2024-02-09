@@ -12,7 +12,7 @@
 </div>
 <div class="row">
   <div class="col">
-    <form #controlForm="ngForm">
+    <form [formGroup]="controlForm">
       <div class="row mb-4 align-items-center">
         <div class="col">
           <label for="name" class="mb-2"
@@ -23,6 +23,7 @@
             type="text"
             class="form-control"
             [value]="control?.name"
+            formControlName="name"
           />
         </div>
         <div class="col">
@@ -34,14 +35,20 @@
             type="text"
             class="form-control"
             [value]="control?.description"
+            formControlName="description"
           />
         </div>
         <div class="col">
           <label for="type" class="mb-2"
             >Type<i class="bi bi-list-ul ms-2"></i
           ></label>
-          <select id="type" class="form-control">
-            <option *ngFor="let type of inputTypes" [value]="type">
+          <select
+            id="type"
+            class="form-control"
+            formControlName="type"
+            [value]="'type'"
+          >
+            <option *ngFor="let type of inputTypes">
               {{ type }}
             </option>
           </select>
@@ -49,14 +56,15 @@
       </div>
       <div class="row mb-4 align-items-center">
         <div class="col">
-          <label for="description" class="mb-2"
+          <label for="placeholder" class="mb-2"
             >Placeholder<i class="bi bi-card-text ms-2"></i
           ></label>
           <input
-            id="description"
+            id="placeholder"
             type="text"
             class="form-control"
-            [value]="control?.description"
+            [value]="control?.placeholder"
+            formControlName="placeholder"
           />
         </div>
         <div class="col">
@@ -68,45 +76,47 @@
             type="text"
             class="form-control"
             [value]="control?.label"
+            formControlName="label"
           />
         </div>
         <div class="col">
-          <label for="label" class="mb-2"
+          <label for="order" class="mb-2"
             >Order<i class="bi bi-123 ms-2"></i
           ></label>
           <input
-            id="label"
+            id="order"
             type="number"
             class="form-control"
             [value]="control?.order"
+            formControlName="order"
           />
         </div>
       </div>
       <div class="row mb-4 align-items-center">
         <div class="col">
-          <label for="label" class="mb-2"
+          <label for="section" class="mb-2"
             >Section<i class="bi bi-123 ms-2"></i
           ></label>
           <input
-            id="label"
+            id="section"
             type="number"
             class="form-control"
             [value]="control?.section"
+            formControlName="section"
           />
         </div>
         <div class="col">
-          <label for="label" class="mb-2"
+          <label for="row" class="mb-2"
             >Row<i class="bi bi-123 ms-2"></i
           ></label>
           <input
-            id="label"
+            id="row"
             type="number"
             class="form-control"
             [value]="control?.row"
+            formControlName="row"
           />
         </div>
-      </div>
-      <div class="row mb-4 align-items-center">
         <div class="col">
           <label class="form-check-label" for="required"
             >Required<i class="bi bi-check2-square ms-2"></i
@@ -117,6 +127,7 @@
               type="checkbox"
               id="required"
               [checked]="control?.required"
+              formControlName="required"
             />
           </div>
         </div>

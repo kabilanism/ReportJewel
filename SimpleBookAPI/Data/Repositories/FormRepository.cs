@@ -13,8 +13,6 @@ namespace SimpleBookAPI.Data.Repositories
       _context = context;
     }
 
-
-
     public async Task<Form> GetFormByIdAsync(int id)
     {
       return await _context.Form.SingleOrDefaultAsync(f => f.Id == id);
@@ -30,7 +28,7 @@ namespace SimpleBookAPI.Data.Repositories
 
     public async Task<FormControl> GetControlByIdAsync(int id)
     {
-      return await _context.Form
+      return await _context.FormControl.SingleOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<bool> SaveChangesAsync()

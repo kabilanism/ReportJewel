@@ -49,7 +49,7 @@ namespace SimpleBookAPI.Controllers
     }
 
     [HttpPut("control/update")]
-    public async Task<ActionResult> UpdateFormControl(FormControlDto controlUpdateDto)
+    public async Task<ActionResult> UpdateControl(FormControlDto controlUpdateDto)
     {
       var control = await _formRepository.GetControlByIdAsync(controlUpdateDto.Id);
       if (control == null)

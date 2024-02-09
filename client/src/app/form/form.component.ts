@@ -55,7 +55,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    let updatedForm = { id: this.form?.id, ...this.templateForm?.value };
+    const updatedForm = { id: this.form?.id, ...this.templateForm?.value };
 
     if (this.form) {
       this.formService.updateForm(updatedForm).subscribe({
