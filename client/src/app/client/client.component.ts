@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ClientService } from '../_services/client.service';
 import { Client } from '../_models/client';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Form } from '../_models/form';
 import { FormService } from '../_services/form.service';
@@ -13,9 +13,11 @@ import { NgForm } from '@angular/forms';
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.css', '../_styles/form.styles.css'],
 })
-export class ClientComponent implements OnInit {
+export class ClientComponent implements OnInit, OnDestroy {
   client: Client | undefined;
+  clientsSubscription: Subscription = new Subscription();
   forms: Form[] | undefined;
+  formsSubscription: Subscription = new Subscription();
   loadingForms: boolean = true;
   sourceFile: File | undefined;
   selectedTemplate: string = '';
@@ -30,33 +32,28 @@ export class ClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clientService.entities$.pipe(take(1)).subscribe({
-      next: (clients: Client[]) => {
-        let clientId: number = Number(this.route.snapshot.paramMap.get('id'));
-        this.client = clients.find((c) => c.id == clientId);
+    this.clientsSubscription = this.clientService.fetchEntityData().subscribe({
+      next: (clients: Client[] | null) => {
+        if (clients) {
+          let clientId: number = Number(this.route.snapshot.paramMap.get('id'));
+          this.client = clients.find((c) => c.id == clientId);
+        }
       },
     });
 
-    this.formService.forms$.pipe(take(1)).subscribe({
+    this.formsSubscription = this.formService.getForms().subscribe({
       next: (forms: Form[] | null) => {
-        if (!forms) {
-          this.formService
-            .fetchData()
-            .pipe(take(1))
-            .subscribe({
-              next: (forms: Form[] | null) => {
-                this.loadingForms = false;
-                if (forms) {
-                  this.forms = forms;
-                }
-              },
-            });
-        } else {
-          this.loadingForms = false;
+        this.loadingForms = false;
+        if (forms) {
           this.forms = forms;
         }
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.formsSubscription.unsubscribe();
+    this.clientsSubscription.unsubscribe();
   }
 
   onFileChange(event: any) {
@@ -75,9 +72,12 @@ export class ClientComponent implements OnInit {
           .readFile(this.sourceFile, selectedForm.controls)
           .subscribe({
             next: () => {
-              console.log('hii');
               if (selectedForm) {
                 this.formService.setReportForm(selectedForm);
+                if (this.client) {
+                  this.clientService.entitySelected(this.client);
+                }
+
                 this.router.navigateByUrl('/report');
               }
             },

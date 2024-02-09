@@ -10,19 +10,18 @@ import { Subscription, take } from 'rxjs';
 })
 export class ClientsComponent implements OnInit, OnDestroy {
   clients: Client[] = [];
-  clientsSubscription: Subscription | undefined;
+  clientsSubscription: Subscription = new Subscription();
 
   constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
-    this.clientsSubscription = this.clientService.entities$.subscribe({
-      next: (clients: Client[]) => {
-        console.log(clients);
-        this.clients = clients;
+    this.clientsSubscription = this.clientService.fetchEntityData().subscribe({
+      next: (clients: Client[] | null) => {
+        if (clients) {
+          this.clients = clients;
+        }
       },
     });
-
-    this.clientService.fetchEntityData();
   }
 
   ngOnDestroy(): void {

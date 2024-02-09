@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SimpleBookAPI.Controllers;
 using SimpleBookAPI.Data.DTOs;
 using SimpleBookAPI.Data.Repositories.Interfaces;
 
@@ -17,15 +16,14 @@ namespace SimpleBookAPI.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("GetClients/{id}")]
-    public async Task<ActionResult<List<ClientDto>>> GetClients(int id)
+    [HttpGet("list")]
+    public async Task<ActionResult<List<ClientDto>>> GetClients([FromQuery] int userId)
     {
-      var clients = await _clientRepository.GetClientsByUserId(id);
+      var clients = await _clientRepository.GetClientsByUserId(userId);
       var clientsDto = _mapper.Map<List<ClientDto>>(clients);
 
       return clientsDto;
     }
   }
-
 }
 

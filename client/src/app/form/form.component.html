@@ -2,13 +2,25 @@
   <div class="col">
     <h1 class="display-4">
       Template Configuration<span
-        ><button class="btn btn-success ms-3">SAVE</button></span
+        ><button
+          class="btn btn-success ms-3"
+          type="submit"
+          form="templateForm"
+          [disabled]="!templateForm.dirty"
+        >
+          SAVE
+        </button></span
       >
     </h1>
   </div>
 </div>
 
-<form #loginForm="ngForm" class="w-75">
+<form
+  id="templateForm"
+  [formGroup]="templateForm"
+  (ngSubmit)="updateForm()"
+  class="w-75"
+>
   <div class="row mb-4">
     <div class="col-6">
       <label for="name" class="mb-2"
@@ -19,7 +31,7 @@
         type="text"
         class="form-control"
         placeholder="Name"
-        [value]="form?.name"
+        formControlName="name"
       />
     </div>
     <div class="col-6">
@@ -31,7 +43,7 @@
         type="text"
         class="form-control"
         placeholder="Description"
-        [value]="form?.description"
+        formControlName="description"
       />
     </div>
   </div>

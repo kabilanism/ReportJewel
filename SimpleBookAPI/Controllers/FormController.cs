@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBookAPI.Data.DTOs;
 using SimpleBookAPI.Data.Repositories.Interfaces;
@@ -20,12 +21,50 @@ namespace SimpleBookAPI.Controllers
     }
 
     [HttpGet("templates")]
-    public async Task<ActionResult<List<FormDto>>> GetTemplates([FromQuery] int userId)
+    public async Task<ActionResult<List<FormDto>>> GetForms([FromQuery] int userId)
     {
-      var forms = await _formRepository.GetFormsByUserId(userId);
+      var forms = await _formRepository.GetFormsByUserIdAsync(userId);
       var formsDto = _mapper.Map<List<FormDto>>(forms);
 
       return formsDto;
+    }
+
+    [HttpPut("update")]
+    public async Task<ActionResult> UpdateForm(FormUpdateDto formUpdateDto)
+    {
+      var form = await _formRepository.GetFormByIdAsync(formUpdateDto.Id);
+      if (form == null)
+      {
+        return NotFound();
+      }
+
+      _mapper.Map(formUpdateDto, form);
+
+      if (await _formRepository.SaveChangesAsync())
+      {
+        return NoContent();
+      }
+
+      return BadRequest("Failed to update template.");
+    }
+
+    [HttpPut("control/update")]
+    public async Task<ActionResult> UpdateFormControl(FormControlDto controlUpdateDto)
+    {
+      var control = await _formRepository.GetControlByIdAsync(controlUpdateDto.Id);
+      if (control == null)
+      {
+        return NotFound();
+      }
+
+      _mapper.Map(controlUpdateDto, control);
+
+      if (await _formRepository.SaveChangesAsync())
+      {
+        return NoContent();
+      }
+
+      return BadRequest("Failed to update control");
     }
   }
 }

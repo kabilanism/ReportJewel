@@ -10,6 +10,6 @@ import { EntityService } from './entity.service';
 export class ClientService extends EntityService<Client> {
   constructor(http: HttpClient, userService: UserService) {
     super(http, userService);
-    this.fetchUrl = 'client/GetClients/';
+    this.fetchUrl = 'client/list';
   }
 }

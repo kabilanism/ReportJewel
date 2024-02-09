@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { UserService } from './user.service';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, take } from 'rxjs';
 
 export class EntityService<T> {
+  entities: T[] = [];
   baseUrl: string = environment.apiUrl;
   user: User | undefined;
   private entitiesSubject: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
@@ -24,14 +25,26 @@ export class EntityService<T> {
     });
   }
 
-  fetchEntityData(): void {
-    console.log('url is: ', `${this.baseUrl}${this.fetchUrl}${this.user?.id}`);
-    this.http
-      .get<T[]>(`${this.baseUrl}${this.fetchUrl}${this.user?.id}`)
-      .subscribe((clients: T[]) => {
-        console.log(clients);
-        this.entitiesSubject.next(clients);
-      });
+  fetchEntityData(): Observable<T[] | null> {
+    if (this.user) {
+      if (this.entities.length > 0) {
+        return of(this.entities.slice());
+      }
+
+      const params = new HttpParams().set('userId', this.user.id);
+      return this.http
+        .get<T[]>(`${this.baseUrl}${this.fetchUrl}`, {
+          params,
+        })
+        .pipe(
+          map((entities: T[]) => {
+            this.entities = entities;
+            return this.entities.slice();
+          })
+        );
+    } else {
+      return of(null);
+    }
   }
 
   entitySelected(entity: T): void {

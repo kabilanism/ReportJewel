@@ -1,41 +1,68 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../_models/form';
 import { FormService } from '../_services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FormControl } from '../_models/formControl';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css', '../_styles/form.styles.css'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
+  templateForm: FormGroup;
   form: Form | undefined;
-  itemId: number = 0;
+  formSubscription: Subscription = new Subscription();
 
   constructor(
     private formService: FormService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.formService.forms$.pipe(take(1)).subscribe((forms: Form[] | null) => {
-      if (forms) {
-        let formId = Number(this.route.snapshot.paramMap.get('id'));
-        this.form = forms.find((f) => f.id == formId);
-      }
+    private router: Router,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder
+  ) {
+    this.templateForm = this.formBuilder.group({
+      name: [''],
+      description: [''],
     });
   }
 
+  ngOnInit(): void {
+    this.formSubscription = this.formService.getForms().subscribe({
+      next: (forms: Form[] | null) => {
+        if (forms) {
+          let formId = Number(this.route.snapshot.paramMap.get('formId'));
+          this.form = forms.find((f) => f.id == formId);
+
+          this.templateForm.get('name')?.setValue(this.form?.name);
+          this.templateForm
+            .get('description')
+            ?.setValue(this.form?.description);
+        }
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.formSubscription.unsubscribe();
+  }
+
   onControlClicked(id: number): void {
-    let control: FormControl | undefined = this.form?.controls.find(
-      (c) => c.id == id
-    );
-    if (control) {
-      this.formService.controlSelected(control);
-      this.router.navigateByUrl('/control');
+    this.router.navigate(['control', id], { relativeTo: this.route });
+  }
+
+  updateForm() {
+    let updatedForm = { id: this.form?.id, ...this.templateForm?.value };
+
+    if (this.form) {
+      this.formService.updateForm(updatedForm).subscribe({
+        next: (_) => {
+          this.toastr.success('Template updated successfully.');
+        },
+      });
     }
   }
 }

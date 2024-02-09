@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '../_models/formControl';
 import { FormService } from '../_services/form.service';
 import { take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Form } from '../_models/form';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-control',
@@ -28,15 +31,36 @@ export class FormControlComponent implements OnInit {
     'week',
   ];
 
-  constructor(private formService: FormService) {}
+  constructor(
+    private formService: FormService,
+    private route: ActivatedRoute,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    this.formService.selectedControl$.pipe(take(1)).subscribe((control) => {
-      if (control) {
+    console.log('im in the form control component');
+
+    this.formService.getForms().subscribe({
+      next: (forms: Form[] | null) => {
+        let formId = Number(this.route.snapshot.paramMap.get('formId'));
+        let controlId = Number(this.route.snapshot.paramMap.get('controlId'));
+
+        let form = forms?.find((form) => form.id == formId);
+        let control = form?.controls.find((control) => control.id == controlId);
+
         this.control = control;
-      }
+      },
     });
   }
 
-  updateControl(): void {}
+  updateControl(): void {
+    if (this.control) {
+      let formId = Number(this.route.snapshot.paramMap.get('formId'));
+      this.formService.updateControl(formId, this.control).subscribe({
+        next: (_) => {
+          this.toastr.success('Control updated successfully.');
+        },
+      });
+    }
+  }
 }

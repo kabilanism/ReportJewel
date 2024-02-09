@@ -13,12 +13,29 @@ namespace SimpleBookAPI.Data.Repositories
       _context = context;
     }
 
-    public async Task<IEnumerable<Form>> GetFormsByUserId(int id)
+
+
+    public async Task<Form> GetFormByIdAsync(int id)
+    {
+      return await _context.Form.SingleOrDefaultAsync(f => f.Id == id);
+    }
+
+    public async Task<IEnumerable<Form>> GetFormsByUserIdAsync(int userId)
     {
       return await _context.Form
-        .Where(f => f.UserId == id)
+        .Where(f => f.UserId == userId)
         .Include(f => f.FormControls)
         .ToListAsync();
+    }
+
+    public async Task<FormControl> GetControlByIdAsync(int id)
+    {
+      return await _context.Form
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+      return await _context.SaveChangesAsync() > 0;
     }
   }
 }

@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from '../_services/form.service';
 import { Form } from '../_models/form';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-forms',
@@ -16,15 +15,13 @@ export class FormsComponent implements OnInit, OnDestroy {
   constructor(private formService: FormService) {}
 
   ngOnInit(): void {
-    this.formsSubscription = this.formService.forms$.subscribe({
+    this.formsSubscription = this.formService.getForms().subscribe({
       next: (forms: Form[] | null) => {
         if (forms) {
           this.forms = forms;
         }
       },
     });
-
-    this.formService.getForms();
   }
 
   ngOnDestroy(): void {

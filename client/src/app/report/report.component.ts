@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from '../_services/form.service';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Form } from '../_models/form';
 import { FormRow, FormSection } from '../_models/formControl';
+import { ClientService } from '../_services/client.service';
+import { Client } from '../_models/client';
 
 @Component({
   selector: 'app-report',
@@ -11,16 +13,31 @@ import { FormRow, FormSection } from '../_models/formControl';
 })
 export class ReportComponent implements OnInit {
   reportForm: Form | undefined;
+  reportClient: Client | undefined;
   reportSections: FormSection[] = [];
+  reportGenerationComplete: boolean = false;
+  reportFormSubscription: Subscription = new Subscription();
+  selectedClientSubscription: Subscription = new Subscription();
 
-  constructor(private formService: FormService) {}
+  constructor(
+    private formService: FormService,
+    private clientService: ClientService
+  ) {}
 
   ngOnInit(): void {
-    this.formService.reportForm$.pipe(take(1)).subscribe({
+    this.reportFormSubscription = this.formService.reportForm$.subscribe({
       next: (reportForm: Form | null) => {
         if (reportForm) {
           this.reportForm = reportForm;
           this.buildReport();
+        }
+      },
+    });
+
+    this.clientService.selectedEntity$.pipe(take(1)).subscribe({
+      next: (client: Client | null) => {
+        if (client) {
+          this.reportClient = client;
         }
       },
     });
@@ -68,6 +85,8 @@ export class ReportComponent implements OnInit {
       this.reportSections = this.reportSections.sort((a, b) => {
         return a.sectionNumber - b.sectionNumber;
       });
+
+      this.reportGenerationComplete = true;
     }
   }
 }

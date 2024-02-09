@@ -2,7 +2,11 @@
   <div class="col">
     <h1 class="mb-3 display-4">
       Template Control Configuration
-      <span><button class="btn btn-success ms-2">SAVE</button></span>
+      <span
+        ><button class="btn btn-success ms-2" (click)="updateControl()">
+          SAVE
+        </button></span
+      >
     </h1>
   </div>
 </div>
@@ -99,17 +103,6 @@
             type="number"
             class="form-control"
             [value]="control?.row"
-          />
-        </div>
-        <div class="col">
-          <label for="label" class="mb-2"
-            >Label<i class="bi bi-card-text ms-2"></i
-          ></label>
-          <input
-            id="label"
-            type="text"
-            class="form-control"
-            [value]="control?.label"
           />
         </div>
       </div>

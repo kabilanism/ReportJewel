@@ -18,15 +18,15 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'forms',
+        path: 'form',
         component: FormsComponent,
       },
       {
-        path: 'form/:id',
+        path: 'form/:formId',
         component: FormComponent,
       },
       {
-        path: 'control',
+        path: 'form/:formId/control/:controlId',
         component: FormControlComponent,
       },
       {
