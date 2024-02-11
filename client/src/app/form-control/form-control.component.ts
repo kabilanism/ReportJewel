@@ -14,7 +14,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class FormControlComponent implements OnInit {
   controlForm: FormGroup;
-  @Input() control: FormControl | undefined;
+  @Input() parentForm: Form | undefined;
+  control: FormControl | undefined;
   inputTypes: string[] = [
     'button',
     'checkbox',
@@ -54,16 +55,12 @@ export class FormControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formService.getForms().subscribe({
-      next: (forms: Form[] | null) => {
-        let formId = Number(this.route.snapshot.paramMap.get('formId'));
-        let controlId = Number(this.route.snapshot.paramMap.get('controlId'));
-
-        let form = forms?.find((form) => form.id == formId);
-        let control = form?.controls.find((control) => control.id == controlId);
-
-        this.control = control;
-        this.setControlValuesInForm();
+    this.formService.selectedControl$.subscribe({
+      next: (index: number | null) => {
+        if (index !== null && this.parentForm) {
+          this.control = this.parentForm.controls[index];
+          this.setControlValuesInForm();
+        }
       },
     });
   }
@@ -83,13 +80,16 @@ export class FormControlComponent implements OnInit {
 
   updateControl(): void {
     const updatedControl = { id: this.control?.id, ...this.controlForm?.value };
-    console.log(updatedControl);
 
     if (this.control) {
       let formId = Number(this.route.snapshot.paramMap.get('formId'));
       this.formService.updateControl(formId, updatedControl).subscribe({
-        next: (_) => {
-          this.toastr.success('Control updated successfully.');
+        next: (updatedControl: FormControl) => {
+          this.control = updatedControl;
+          this.toastr.success('Field updated successfully.');
+        },
+        error: (error) => {
+          console.log(error);
         },
       });
     }

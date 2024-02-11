@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 import { User } from '../_models/user';
 import { BehaviorSubject, Observable, Subject, map, of, take } from 'rxjs';
 import { FormControl } from '../_models/formControl';
+import { FormNew } from '../_models/formNew';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,16 @@ export class FormService {
   forms: Form[] = [];
   baseUrl: string = environment.apiUrl;
   user: User | undefined;
+  private formsSubject: BehaviorSubject<Form[]> = new BehaviorSubject<Form[]>(
+    []
+  );
   private reportFormSubject: BehaviorSubject<Form | null> =
     new BehaviorSubject<Form | null>(null);
-  private selectedControlSubject: BehaviorSubject<FormControl | null> =
-    new BehaviorSubject<FormControl | null>(null);
+  private selectedControlSubject: Subject<number | null> = new BehaviorSubject<
+    number | null
+  >(null);
 
+  forms$ = this.formsSubject.asObservable();
   selectedControl$ = this.selectedControlSubject.asObservable();
   reportForm$ = this.reportFormSubject.asObservable();
 
@@ -83,11 +89,22 @@ export class FormService {
     );
   }
 
-  updateForm(form: Form): Observable<void> {
+  updateForm(form: Form): Observable<Form> {
     return this.http.put<Form>(`${this.baseUrl}form/update`, form).pipe(
       map(() => {
         const index = this.forms.findIndex((f) => f.id == form.id);
         this.forms[index] = { ...this.forms[index], ...form };
+
+        return this.forms[index];
+      })
+    );
+  }
+
+  addForm(formToAdd: FormNew): Observable<Form> {
+    return this.http.post<Form>(`${this.baseUrl}form/add`, formToAdd).pipe(
+      map((addedForm: Form) => {
+        this.forms.push(addedForm);
+        return addedForm;
       })
     );
   }
@@ -107,12 +124,13 @@ export class FormService {
           };
 
           this.forms[formIndex].controls[controlIndex] = updatedControl;
+          return this.forms[formIndex].controls[controlIndex];
         })
       );
   }
 
-  controlSelected(control: FormControl): void {
-    this.selectedControlSubject.next(control);
+  controlSelected(index: number): void {
+    this.selectedControlSubject.next(index);
   }
 
   setReportForm(form: Form): void {

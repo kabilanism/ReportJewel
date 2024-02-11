@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from '../_services/form.service';
 import { Form } from '../_models/form';
 import { Subscription, take } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forms',
@@ -12,7 +13,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   forms: Form[] = [];
   formsSubscription: Subscription | undefined;
 
-  constructor(private formService: FormService) {}
+  constructor(private formService: FormService, private router: Router) {}
 
   ngOnInit(): void {
     this.formsSubscription = this.formService.getForms().subscribe({
@@ -27,4 +28,6 @@ export class FormsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.formsSubscription?.unsubscribe();
   }
+
+  addForm(): void {}
 }

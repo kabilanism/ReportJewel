@@ -18,6 +18,9 @@ namespace SimpleBookAPI.Data.Repositories
 
     public async Task<User> GetUserByIdAsync(int id)
     {
+      var foo = await _context.User
+        .FirstOrDefaultAsync(u => u.Id == id);
+
       return await _context.User
         .FirstOrDefaultAsync(u => u.Id == id);
     }
@@ -26,6 +29,11 @@ namespace SimpleBookAPI.Data.Repositories
     {
       return await _context.User
         .SingleOrDefaultAsync(u => u.Username == username);
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+      return await _context.SaveChangesAsync() > 0;
     }
 
     public void UpdateUser(User user)

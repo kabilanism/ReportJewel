@@ -1,9 +1,13 @@
 <div class="row mb-2">
   <div class="col">
-    <h1 class="mb-3 display-4">
-      Template Control Configuration
+    <h1 class="mb-3">
+      Field Setting - <span class="fw-bold">{{ control?.name }}</span>
       <span
-        ><button class="btn btn-success ms-2" (click)="updateControl()">
+        ><button
+          class="btn btn-success btn-sm ms-3"
+          (click)="updateControl()"
+          [disabled]="!controlForm.dirty"
+        >
           SAVE
         </button></span
       >
@@ -56,15 +60,15 @@
       </div>
       <div class="row mb-4 align-items-center">
         <div class="col">
-          <label for="placeholder" class="mb-2"
-            >Placeholder<i class="bi bi-card-text ms-2"></i
+          <label for="cellSource" class="mb-2"
+            >Cell Source<i class="bi bi-card-text ms-2"></i
           ></label>
           <input
-            id="placeholder"
+            id="cellSource"
             type="text"
             class="form-control"
-            [value]="control?.placeholder"
-            formControlName="placeholder"
+            [value]="control?.cellSource"
+            formControlName="cellSource"
           />
         </div>
         <div class="col">
@@ -130,6 +134,9 @@
               formControlName="required"
             />
           </div>
+        </div>
+        <div class="row mb-4 align-items-center">
+          <div class="col-4"></div>
         </div>
       </div>
     </form>

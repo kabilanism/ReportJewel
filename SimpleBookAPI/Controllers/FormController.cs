@@ -3,20 +3,24 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBookAPI.Data.DTOs;
 using SimpleBookAPI.Data.Repositories.Interfaces;
+using SimpleBookAPI.Entities;
 
 namespace SimpleBookAPI.Controllers
 {
   public class FormController : BaseApiController
   {
     private readonly IFormRepository _formRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
     public FormController(
       IFormRepository formRepository,
+      IUserRepository userRepository,
       IMapper mapper
     )
     {
       _formRepository = formRepository;
+      _userRepository = userRepository;
       _mapper = mapper;
     }
 
@@ -46,6 +50,34 @@ namespace SimpleBookAPI.Controllers
       }
 
       return BadRequest("Failed to update template.");
+    }
+
+    [HttpPost("add")]
+    public async Task<ActionResult<FormDto>> AddForm(FormAddDto formAddDto)
+    {
+      var user = await _userRepository.GetUserByIdAsync(formAddDto.UserId);
+      if (user == null)
+      {
+        return BadRequest("User does not exist");
+      }
+
+      var newForm = new Form
+      {
+        UserId = formAddDto.UserId,
+        Name = formAddDto.Name,
+        Description = formAddDto.Description
+      };
+
+      await _formRepository.AddFormAsync(newForm);
+
+      var newFormDto = _mapper.Map<FormDto>(newForm);
+
+      if (await _userRepository.SaveChangesAsync())
+      {
+        return Ok(newFormDto);
+      }
+
+      return BadRequest("Failed to add new report.");
     }
 
     [HttpPut("control/update")]

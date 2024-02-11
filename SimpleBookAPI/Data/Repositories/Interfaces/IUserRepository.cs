@@ -8,6 +8,7 @@ namespace SimpleBookAPI.Data.Repositories.Interfaces
     void UpdateUser(User user);
     Task<User> GetUserByIdAsync(int id);
     Task<User> GetUserByUsernameAsync(string username);
+    Task<bool> SaveChangesAsync();
   }
 
 }

@@ -5,7 +5,6 @@ import { authGuard } from './_guards/auth.guard';
 import { FormsComponent } from './forms/forms.component';
 import { RegisterComponent } from './register/register.component';
 import { FormComponent } from './form/form.component';
-import { FormControlComponent } from './form-control/form-control.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
 import { ReportComponent } from './report/report.component';
@@ -18,7 +17,7 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'form',
+        path: 'forms',
         component: FormsComponent,
       },
       {
@@ -26,8 +25,8 @@ const routes: Routes = [
         component: FormComponent,
       },
       {
-        path: 'form/:formId/control/:controlId',
-        component: FormControlComponent,
+        path: 'form',
+        component: FormComponent,
       },
       {
         path: 'home',
