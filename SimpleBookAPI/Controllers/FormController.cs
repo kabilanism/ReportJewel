@@ -70,10 +70,9 @@ namespace SimpleBookAPI.Controllers
 
       await _formRepository.AddFormAsync(newForm);
 
-      var newFormDto = _mapper.Map<FormDto>(newForm);
-
       if (await _userRepository.SaveChangesAsync())
       {
+        var newFormDto = _mapper.Map<FormDto>(newForm);
         return Ok(newFormDto);
       }
 
