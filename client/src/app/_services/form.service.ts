@@ -7,6 +7,8 @@ import { User } from '../_models/user';
 import { BehaviorSubject, Observable, Subject, map, of, take } from 'rxjs';
 import { FormControl } from '../_models/formControl';
 import { FormNew } from '../_models/formNew';
+import { ControlMode } from '../_models/controlMode';
+import { FormControlNew } from '../_models/formControlNew';
 
 @Injectable({
   providedIn: 'root',
@@ -15,18 +17,17 @@ export class FormService {
   forms: Form[] = [];
   baseUrl: string = environment.apiUrl;
   user: User | undefined;
-  private formsSubject: BehaviorSubject<Form[]> = new BehaviorSubject<Form[]>(
-    []
-  );
+
   private reportFormSubject: BehaviorSubject<Form | null> =
     new BehaviorSubject<Form | null>(null);
-  private selectedControlSubject: Subject<number | null> = new BehaviorSubject<
-    number | null
-  >(null);
+  private selectedControlSubject: BehaviorSubject<FormControl | null> =
+    new BehaviorSubject<FormControl | null>(null);
+  private controlModeSubject: BehaviorSubject<ControlMode | null> =
+    new BehaviorSubject<ControlMode | null>(null);
 
-  forms$ = this.formsSubject.asObservable();
-  selectedControl$ = this.selectedControlSubject.asObservable();
   reportForm$ = this.reportFormSubject.asObservable();
+  selectedControl$ = this.selectedControlSubject.asObservable();
+  controlMode$ = this.controlModeSubject.asObservable();
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.userService.currentUser$.pipe(take(1)).subscribe({
@@ -63,13 +64,12 @@ export class FormService {
   getForm(formId: number): Observable<Form | null> {
     if (this.user && this.forms) {
       if (this.forms.length > 0) {
-        let form: Form | undefined = this.forms.find(
+        const form: Form | undefined = this.forms.find(
           (form) => form.id == formId
         );
         if (form) {
           return of(form);
         }
-        return this.fetchForm(formId);
       }
       return this.fetchForm(formId);
     }
@@ -89,19 +89,23 @@ export class FormService {
     );
   }
 
-  updateForm(form: Form): Observable<Form> {
-    return this.http.put<Form>(`${this.baseUrl}form/update`, form).pipe(
+  updateForm(updatedForm: Form): Observable<Form> {
+    return this.http.put<Form>(`${this.baseUrl}form/update`, updatedForm).pipe(
       map(() => {
-        const index = this.forms.findIndex((f) => f.id == form.id);
-        this.forms[index] = { ...this.forms[index], ...form };
+        const forms = this.forms.slice();
+        const index = forms.findIndex((f) => f.id == updatedForm.id);
+        const form = { ...forms[index], ...updatedForm };
 
-        return this.forms[index];
+        forms[index] = form;
+        this.forms = forms;
+
+        return form;
       })
     );
   }
 
-  addForm(formToAdd: FormNew): Observable<Form> {
-    return this.http.post<Form>(`${this.baseUrl}form/add`, formToAdd).pipe(
+  addForm(form: FormNew): Observable<Form> {
+    return this.http.post<Form>(`${this.baseUrl}form/add`, form).pipe(
       map((addedForm: Form) => {
         this.forms.push(addedForm);
         return addedForm;
@@ -109,31 +113,55 @@ export class FormService {
     );
   }
 
+  addControl(controlNew: FormControlNew): Observable<FormControl> {
+    return this.http
+      .post<FormControl>(`${this.baseUrl}control/add`, controlNew)
+      .pipe(
+        map((addedControl: FormControl) => {
+          const forms = this.forms.slice();
+          const form = forms.find((f) => f.id == controlNew.formId);
+          if (form) {
+            form.controls.push(addedControl);
+          }
+          this.forms = forms;
+
+          return addedControl;
+        })
+      );
+  }
+
   updateControl(formId: number, control: FormControl) {
     return this.http
       .put<FormControl>(`${this.baseUrl}form/control/update`, control)
       .pipe(
         map(() => {
-          const formIndex = this.forms.findIndex((f) => f.id == formId);
-          const controlIndex = this.forms[formIndex].controls.findIndex(
+          const forms = this.forms.slice();
+          const formIndex = forms.findIndex((f) => f.id == formId);
+          const controlIndex = forms[formIndex].controls.findIndex(
             (c) => c.id == control.id
           );
           const updatedControl = {
-            ...this.forms[formIndex].controls[controlIndex],
+            ...forms[formIndex].controls[controlIndex],
             ...control,
           };
 
-          this.forms[formIndex].controls[controlIndex] = updatedControl;
-          return this.forms[formIndex].controls[controlIndex];
+          forms[formIndex].controls[controlIndex] = updatedControl;
+          this.forms = forms;
+
+          return updatedControl;
         })
       );
   }
 
-  controlSelected(index: number): void {
-    this.selectedControlSubject.next(index);
+  setSelectedControl(control: FormControl): void {
+    this.selectedControlSubject.next(control);
   }
 
   setReportForm(form: Form): void {
     this.reportFormSubject.next(form);
+  }
+
+  setControlMode(mode: ControlMode) {
+    this.controlModeSubject.next(mode);
   }
 }

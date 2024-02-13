@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { User } from '../_models/user';
 import { FormNew } from '../_models/formNew';
+import { FormControl } from '../_models/formControl';
+import { ControlMode } from '../_models/controlMode';
 
 @Component({
   selector: 'app-form',
@@ -17,9 +19,9 @@ import { FormNew } from '../_models/formNew';
 export class FormComponent implements OnInit, OnDestroy {
   formConfig: FormGroup;
   form: Form | undefined;
-  formSubscription: Subscription = new Subscription();
-  addMode: boolean = false;
-  controlClicked: boolean = false;
+  formSubscription: Subscription;
+  addMode: boolean;
+  showControlConfig: boolean;
   user: User | undefined;
 
   constructor(
@@ -33,6 +35,9 @@ export class FormComponent implements OnInit, OnDestroy {
       name: [''],
       description: [''],
     });
+    this.addMode = false;
+    this.showControlConfig = false;
+    this.formSubscription = new Subscription();
   }
 
   ngOnInit(): void {
@@ -40,7 +45,7 @@ export class FormComponent implements OnInit, OnDestroy {
       this.addMode = params['addMode'];
 
       if (!this.addMode) {
-        this.getForm();
+        this.formSubscription = this.getForm();
       }
     });
 
@@ -54,7 +59,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   getForm() {
-    this.formSubscription = this.formService.getForms().subscribe({
+    return this.formService.getForms().subscribe({
       next: (forms: Form[] | null) => {
         if (forms) {
           let formId = Number(this.route.snapshot.paramMap.get('formId'));
@@ -71,11 +76,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.formSubscription.unsubscribe();
   }
 
-  onControlClicked(id: number): void {
-    this.controlClicked = true;
-    this.formService.controlSelected(id);
-  }
-
   addForm() {
     if (this.user) {
       const formToAdd: FormNew = {
@@ -86,7 +86,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
       this.formService.addForm(formToAdd).subscribe({
         next: (addedForm: Form) => {
-          console.log(addedForm);
           this.toastr.success('Report layout added successfully.');
         },
       });
@@ -113,5 +112,16 @@ export class FormComponent implements OnInit, OnDestroy {
     } else {
       this.updateForm();
     }
+  }
+
+  selectControl(control: FormControl) {
+    this.formService.setSelectedControl(control);
+    this.formService.setControlMode(ControlMode.Edit);
+    this.showControlConfig = true;
+  }
+
+  addControl() {
+    this.formService.setControlMode(ControlMode.Add);
+    this.showControlConfig = true;
   }
 }

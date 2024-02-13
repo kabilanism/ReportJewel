@@ -10,8 +10,6 @@ namespace SimpleBookAPI.Entities
     public ICollection<FormControlOption> FormControlOptions { get; set; }
     public ICollection<FormControlValue> FormControlValues { get; set; }
     [Required]
-    public string Type { get; set; }
-    [Required]
     public string Name { get; set; }
     public string Description { get; set; }
     public string Placeholder { get; set; }

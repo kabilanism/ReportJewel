@@ -1,8 +1,8 @@
 ﻿namespace SimpleBookAPI.Data.DTOs
 {
-  public class FormControlDto
+  public class FormControlAddDto
   {
-    public int Id { get; set; }
+    public int FormId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string Placeholder { get; set; }

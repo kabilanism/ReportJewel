@@ -28,6 +28,4 @@ export class FormsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.formsSubscription?.unsubscribe();
   }
-
-  addForm(): void {}
 }

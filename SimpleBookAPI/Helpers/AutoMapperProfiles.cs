@@ -14,6 +14,7 @@ namespace SimpleBookAPI.Helpers
       CreateMap<FormUpdateDto, Form>();
       CreateMap<FormControl, FormControlDto>();
       CreateMap<FormControlDto, FormControl>();
+      CreateMap<FormControlAddDto, FormControl>();
       CreateMap<Client, ClientDto>();
     }
   }

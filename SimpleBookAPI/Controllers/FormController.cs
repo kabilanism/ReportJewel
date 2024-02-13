@@ -79,6 +79,21 @@ namespace SimpleBookAPI.Controllers
       return BadRequest("Failed to add new report.");
     }
 
+    [HttpPost("control/add")]
+    public async Task<ActionResult<FormControlDto>> AddControl(FormControlAddDto controlAddDto)
+    {
+      var newControl = _mapper.Map<FormControl>(controlAddDto);
+      await _formRepository.AddControlAsync(newControl);
+
+      if (await _formRepository.SaveChangesAsync())
+      {
+        var newControlDto = _mapper.Map<FormControlDto>(newControl);
+        return Ok(newControlDto);
+      }
+
+      return BadRequest("Failed to add new control");
+    }
+
     [HttpPut("control/update")]
     public async Task<ActionResult> UpdateControl(FormControlDto controlUpdateDto)
     {

@@ -55,32 +55,37 @@
   <div class="row" *ngIf="!addMode">
     <div class="col">
       <h2>
-        Fields<i class="bi bi-card-list ms-3"></i
-        ><span><button class="btn btn-success btn-sm ms-3">ADD</button></span>
+        Controls<i class="bi bi-card-list ms-3"></i
+        ><span
+          ><button
+            type="button"
+            class="btn btn-success btn-sm ms-3"
+            (click)="addControl()"
+          >
+            ADD
+          </button></span
+        >
       </h2>
       <table class="table table-striped table-hover table-responsive">
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Type</th>
             <th scope="col">Description</th>
+            <th scope="col">Cell Source</th>
           </tr>
         </thead>
         <tbody>
           <tr
             *ngFor="let control of form?.controls; let i = index"
-            (click)="onControlClicked(i)"
+            (click)="selectControl(control)"
           >
             <td>{{ control.name }}</td>
-            <td>{{ control.type }}</td>
             <td>{{ control.description }}</td>
+            <td>{{ control.cellSource }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </form>
-<app-form-control *ngIf="controlClicked" [parentForm]="form"></app-form-control>
-<!-- <ng-container *ngIf="controlClicked">
-  <app-form-control [parentForm]="form"></app-form-control>
-</ng-container> -->
+<app-form-control *ngIf="showControlConfig"></app-form-control>

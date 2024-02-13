@@ -36,6 +36,11 @@ namespace SimpleBookAPI.Data.Repositories
       await _context.Form.AddAsync(form);
       return form;
     }
+    public async Task<FormControl> AddControlAsync(FormControl control)
+    {
+      await _context.FormControl.AddAsync(control);
+      return control;
+    }
 
     public async Task<bool> SaveChangesAsync()
     {
