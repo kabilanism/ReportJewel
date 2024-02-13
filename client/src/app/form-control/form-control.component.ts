@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl } from '../_models/formControl';
 import { FormService } from '../_services/form.service';
 import { Subscription } from 'rxjs';
@@ -21,6 +27,7 @@ export class FormControlComponent implements OnInit, OnDestroy {
   private selectedControlSubscription: Subscription;
   private controlModeSubscription: Subscription;
   private formId: number | undefined;
+  @Output() controlDeleted: EventEmitter<void>;
 
   constructor(
     private formService: FormService,
@@ -42,6 +49,7 @@ export class FormControlComponent implements OnInit, OnDestroy {
 
     this.selectedControlSubscription = new Subscription();
     this.controlModeSubscription = new Subscription();
+    this.controlDeleted = new EventEmitter<void>();
   }
 
   ngOnInit(): void {
@@ -126,6 +134,21 @@ export class FormControlComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error(error);
           this.toastr.error('An error occurred while adding the control.');
+        },
+      });
+    }
+  }
+
+  deleteControl(): void {
+    if (this.formId && this.control) {
+      this.formService.deleteControl(this.formId, this.control.id).subscribe({
+        next: (_) => {
+          this.controlDeleted.emit();
+          this.toastr.success('Control deleted successfully.');
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error('An error occurred while deleting the control.');
         },
       });
     }

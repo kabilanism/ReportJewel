@@ -25,7 +25,7 @@ export class ReportComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.reportFormSubscription = this.formService.reportForm$.subscribe({
+    this.formService.reportForm$.pipe(take(1)).subscribe({
       next: (reportForm: Form | null) => {
         if (reportForm) {
           this.reportForm = reportForm;

@@ -7,9 +7,9 @@
   <div class="row mb-2" *ngFor="let section of reportSections">
     <div class="row" *ngFor="let row of section.rows">
       <div class="col-3" *ngFor="let control of row.controls">
-        <label class="form-label" for="{{ control.id }}">{{
-          control.label
-        }}</label>
+        <label class="form-label" for="{{ control.id }}"
+          >{{ control.label }}<i class="bi bi-book ms-3"></i
+        ></label>
         <input
           class="form-control"
           type="text"

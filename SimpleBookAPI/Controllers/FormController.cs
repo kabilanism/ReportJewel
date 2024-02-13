@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SimpleBookAPI.Data.DTOs;
 using SimpleBookAPI.Data.Repositories.Interfaces;
@@ -111,6 +112,25 @@ namespace SimpleBookAPI.Controllers
       }
 
       return BadRequest("Failed to update control");
+    }
+
+    [HttpDelete("control/delete/{controlId}")]
+    public async Task<ActionResult> DeleteControl(int controlId)
+    {
+      var control = await _formRepository.GetControlByIdAsync(controlId);
+      if (control == null)
+      {
+        return NotFound();
+      }
+
+      _formRepository.RemoveControl(control);
+
+      if (await _formRepository.SaveChangesAsync())
+      {
+        return NoContent();
+      }
+
+      return BadRequest("Failed to delete control");
     }
   }
 }

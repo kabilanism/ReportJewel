@@ -19,6 +19,16 @@
           SAVE
         </button></span
       >
+      <span
+        ><button
+          type="button"
+          class="btn btn-danger btn-sm ms-2"
+          (click)="deleteControl()"
+          *ngIf="!addMode"
+        >
+          DELETE
+        </button></span
+      >
     </h1>
   </div>
 </div>
@@ -77,16 +87,18 @@
           />
         </div>
         <div class="col">
-          <label for="order" class="mb-2"
-            >Order<i class="bi bi-123 ms-2"></i
+          <label class="form-check-label" for="required"
+            >Required<i class="bi bi-check2-square ms-2"></i
           ></label>
-          <input
-            id="order"
-            type="number"
-            class="form-control"
-            [value]="control?.order"
-            formControlName="order"
-          />
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input mt-2"
+              type="checkbox"
+              id="required"
+              [checked]="control?.required"
+              formControlName="required"
+            />
+          </div>
         </div>
       </div>
       <div class="row mb-4 align-items-center">
@@ -115,18 +127,16 @@
           />
         </div>
         <div class="col">
-          <label class="form-check-label" for="required"
-            >Required<i class="bi bi-check2-square ms-2"></i
+          <label for="order" class="mb-2"
+            >Order<i class="bi bi-123 ms-2"></i
           ></label>
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input mt-2"
-              type="checkbox"
-              id="required"
-              [checked]="control?.required"
-              formControlName="required"
-            />
-          </div>
+          <input
+            id="order"
+            type="number"
+            class="form-control"
+            [value]="control?.order"
+            formControlName="order"
+          />
         </div>
         <div class="row mb-4 align-items-center">
           <div class="col-4"></div>

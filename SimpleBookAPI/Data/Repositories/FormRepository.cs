@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Runtime.CompilerServices;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SimpleBookAPI.Data.Repositories.Interfaces;
 using SimpleBookAPI.Entities;
@@ -45,6 +46,11 @@ namespace SimpleBookAPI.Data.Repositories
     public async Task<bool> SaveChangesAsync()
     {
       return await _context.SaveChangesAsync() > 0;
+    }
+
+    public void RemoveControl(FormControl control)
+    {
+      _context.FormControl.Remove(control);
     }
   }
 }

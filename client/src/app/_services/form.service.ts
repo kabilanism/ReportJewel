@@ -18,6 +18,9 @@ export class FormService {
   baseUrl: string = environment.apiUrl;
   user: User | undefined;
 
+  private formsSubject: BehaviorSubject<Form[] | null> = new BehaviorSubject<
+    Form[] | null
+  >(null);
   private reportFormSubject: BehaviorSubject<Form | null> =
     new BehaviorSubject<Form | null>(null);
   private selectedControlSubject: BehaviorSubject<FormControl | null> =
@@ -25,6 +28,7 @@ export class FormService {
   private controlModeSubject: BehaviorSubject<ControlMode | null> =
     new BehaviorSubject<ControlMode | null>(null);
 
+  forms$ = this.formsSubject.asObservable();
   reportForm$ = this.reportFormSubject.asObservable();
   selectedControl$ = this.selectedControlSubject.asObservable();
   controlMode$ = this.controlModeSubject.asObservable();
@@ -42,7 +46,8 @@ export class FormService {
   getForms(): Observable<Form[] | null> {
     if (this.user) {
       if (this.forms.length > 0) {
-        return of(this.forms.slice());
+        // return of(this.forms.slice());
+        this.formsSubject.next(this.forms.slice());
       }
 
       const params = new HttpParams().set('userId', this.user.id);
@@ -53,6 +58,7 @@ export class FormService {
         .pipe(
           map((forms: Form[]) => {
             this.forms = forms;
+
             return this.forms.slice();
           })
         );
@@ -149,6 +155,23 @@ export class FormService {
           this.forms = forms;
 
           return updatedControl;
+        })
+      );
+  }
+
+  deleteControl(formId: number, controlId: number) {
+    return this.http
+      .delete(`${this.baseUrl}form/control/delete/${controlId}`)
+      .pipe(
+        map(() => {
+          let forms = this.forms.slice();
+          const formIndex = forms.findIndex((f) => f.id == formId);
+          const controlIndex = forms[formIndex].controls.findIndex(
+            (c) => c.id == controlId
+          );
+
+          forms[formIndex].controls.splice(controlIndex, 1);
+          this.forms = forms;
         })
       );
   }

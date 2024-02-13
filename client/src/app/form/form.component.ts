@@ -124,4 +124,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.formService.setControlMode(ControlMode.Add);
     this.showControlConfig = true;
   }
+
+  onControlDeleted() {
+    this.showControlConfig = false;
+  }
 }

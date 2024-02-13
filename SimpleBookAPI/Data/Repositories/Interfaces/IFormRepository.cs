@@ -6,6 +6,7 @@ namespace SimpleBookAPI.Data.Repositories.Interfaces
   {
     Task<Form> AddFormAsync(Form form);
     Task<FormControl> AddControlAsync(FormControl control);
+    void RemoveControl(FormControl control);
     Task<IEnumerable<Form>> GetFormsByUserIdAsync(int userId);
     Task<Form> GetFormByIdAsync(int id);
     Task<FormControl> GetControlByIdAsync(int id);
