@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ControlMode } from '../_models/controlMode';
+import { FormControlNew } from '../_models/formControlNew';
 
 @Component({
   selector: 'app-form-control',
@@ -54,7 +55,7 @@ export class FormControlComponent implements OnInit, OnDestroy {
           this.selectedControlSubscription = this.getSelectedControl();
         } else if (this.mode == ControlMode.Add) {
           this.addMode = true;
-          this.setControlValuesInForm();
+          this.controlForm.reset();
         }
       },
     });
@@ -91,9 +92,12 @@ export class FormControlComponent implements OnInit, OnDestroy {
   }
 
   updateControl(): void {
-    const updatedControl = { id: this.control?.id, ...this.controlForm?.value };
+    const updatedControl: FormControl = {
+      id: this.control?.id,
+      ...this.controlForm?.value,
+    };
 
-    if (this.control && this.mode == ControlMode.Edit && this.formId) {
+    if (this.control && this.formId) {
       this.formService.updateControl(this.formId, updatedControl).subscribe({
         next: (updatedControl: FormControl) => {
           this.control = updatedControl;
@@ -106,9 +110,32 @@ export class FormControlComponent implements OnInit, OnDestroy {
     }
   }
 
-  addControl(): void {}
+  addControl(): void {
+    if (this.formId) {
+      const newControl: FormControlNew = {
+        formId: this.formId,
+        ...this.controlForm?.value,
+      };
+
+      this.formService.addControl(newControl).subscribe({
+        next: (addedControl: FormControl) => {
+          this.control = addedControl;
+          this.toastr.success('Control added successfully.');
+          this.addMode = false;
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error('An error occurred while adding the control.');
+        },
+      });
+    }
+  }
 
   saveControl(): void {
-    console.log(this.controlForm.value);
+    if (this.mode === ControlMode.Add) {
+      this.addControl();
+    } else if (this.mode === ControlMode.Edit) {
+      this.updateControl();
+    }
   }
 }

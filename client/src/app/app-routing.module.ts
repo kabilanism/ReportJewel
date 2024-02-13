@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { authGuard } from './_guards/auth.guard';
 import { FormsComponent } from './forms/forms.component';
@@ -9,6 +9,11 @@ import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
 import { ReportComponent } from './report/report.component';
 
+const routerOptions: ExtraOptions = {
+  useHash: false,
+  anchorScrolling: 'enabled',
+  onSameUrlNavigation: 'reload',
+};
 const routes: Routes = [
   { path: '', component: RegisterComponent },
   {
@@ -49,7 +54,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

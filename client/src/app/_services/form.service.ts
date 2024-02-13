@@ -115,7 +115,7 @@ export class FormService {
 
   addControl(controlNew: FormControlNew): Observable<FormControl> {
     return this.http
-      .post<FormControl>(`${this.baseUrl}control/add`, controlNew)
+      .post<FormControl>(`${this.baseUrl}form/control/add`, controlNew)
       .pipe(
         map((addedControl: FormControl) => {
           const forms = this.forms.slice();

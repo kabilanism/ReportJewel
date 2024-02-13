@@ -1,7 +1,7 @@
 <div class="row mb-2">
   <div class="col">
     <h1 class="mb-3">
-      Report Setting -<span class="ms-2" *ngIf="addMode; else formName"
+      Report Setting -<span class="ms-2 fw-bold" *ngIf="addMode; else formName"
         >New</span
       >
       <ng-template #formName>
@@ -78,6 +78,8 @@
           <tr
             *ngFor="let control of form?.controls; let i = index"
             (click)="selectControl(control)"
+            [routerLink]="['.']"
+            fragment="controlConfig"
           >
             <td>{{ control.name }}</td>
             <td>{{ control.description }}</td>
@@ -88,4 +90,6 @@
     </div>
   </div>
 </form>
-<app-form-control *ngIf="showControlConfig"></app-form-control>
+<section id="controlConfig">
+  <app-form-control *ngIf="showControlConfig"></app-form-control>
+</section>

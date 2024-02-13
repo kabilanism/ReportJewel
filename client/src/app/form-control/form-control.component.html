@@ -1,8 +1,11 @@
-<div class="row mb-2">
+<div class="row mb-2" id="controlConfig">
   <div class="col">
     <h1 class="mb-3">
-      Control Setting -
-      <span class="ms-2" *ngIf="addMode; else controlName">New</span>
+      Control Setting -<span
+        class="ms-2 fw-bold"
+        *ngIf="addMode; else controlName"
+        >New</span
+      >
       <ng-template #controlName>
         <span class="ms-2 fw-bold">{{ control?.name }}</span>
       </ng-template>
@@ -21,7 +24,7 @@
 </div>
 <div class="row">
   <div class="col">
-    <form [formGroup]="controlForm">
+    <form class="w-75" [formGroup]="controlForm">
       <div class="row mb-4 align-items-center">
         <div class="col">
           <label for="name" class="mb-2"
