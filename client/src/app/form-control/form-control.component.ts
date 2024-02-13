@@ -23,11 +23,11 @@ export class FormControlComponent implements OnInit, OnDestroy {
   controlForm: FormGroup;
   control: FormControl | undefined;
   mode: ControlMode | undefined;
-  addMode: boolean = false;
   private selectedControlSubscription: Subscription;
   private controlModeSubscription: Subscription;
   private formId: number | undefined;
   @Output() controlDeleted: EventEmitter<void>;
+  readonly ControlMode = ControlMode;
 
   constructor(
     private formService: FormService,
@@ -62,7 +62,6 @@ export class FormControlComponent implements OnInit, OnDestroy {
         if (this.mode == ControlMode.Edit) {
           this.selectedControlSubscription = this.getSelectedControl();
         } else if (this.mode == ControlMode.Add) {
-          this.addMode = true;
           this.controlForm.reset();
         }
       },
@@ -129,7 +128,6 @@ export class FormControlComponent implements OnInit, OnDestroy {
         next: (addedControl: FormControl) => {
           this.control = addedControl;
           this.toastr.success('Control added successfully.');
-          this.addMode = false;
         },
         error: (error) => {
           console.error(error);

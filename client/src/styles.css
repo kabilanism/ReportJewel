@@ -8,5 +8,10 @@ td {
 }
 
 button {
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+}
+
+table {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
 }

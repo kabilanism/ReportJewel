@@ -49,8 +49,8 @@ export class ReportComponent implements OnInit {
         let section: FormSection | undefined;
         let row: FormRow | undefined;
 
-        section = this.reportSections.find((section) => {
-          section.sectionNumber == control.section;
+        section = this.reportSections.find((reportSection) => {
+          return reportSection.sectionNumber === control.section;
         });
 
         if (!section) {
@@ -58,8 +58,8 @@ export class ReportComponent implements OnInit {
           this.reportSections.push(section);
         }
 
-        row = section.rows.find((row) => {
-          row.rowNumber == control.row;
+        row = section.rows.find((sectionRow) => {
+          return sectionRow.rowNumber == control.row;
         });
 
         if (!row) {

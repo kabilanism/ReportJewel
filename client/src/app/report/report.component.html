@@ -3,12 +3,13 @@
     <h1>{{ reportForm?.name }} - {{ reportClient?.name }}</h1>
   </div>
 </div>
-<form #generatedReport="ngForm" class="w-75">
-  <div class="row mb-2" *ngFor="let section of reportSections">
+<form #generatedReport="ngForm" class="w-100">
+  <div class="row mb-5" *ngFor="let section of reportSections">
     <div class="row" *ngFor="let row of section.rows">
       <div class="col-3" *ngFor="let control of row.controls">
         <label class="form-label" for="{{ control.id }}"
-          >{{ control.label }}<i class="bi bi-book ms-3"></i
+          >{{ control.label
+          }}<i class="bi bi-book ms-2" [tooltip]="control.description"></i
         ></label>
         <input
           class="form-control"

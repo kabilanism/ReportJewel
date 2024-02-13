@@ -27,7 +27,7 @@
     id="formConfig"
     [formGroup]="formConfig"
     (ngSubmit)="saveForm()"
-    class="w-75 mb-3"
+    class="mb-3"
   >
     <div class="row mb-4">
       <div class="col-6">
@@ -73,8 +73,10 @@
           <thead>
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Description</th>
               <th scope="col">Cell Source</th>
+              <th scope="col">Section</th>
+              <th scope="col">Row</th>
+              <th scope="col">Order</th>
             </tr>
           </thead>
           <tbody>
@@ -85,8 +87,10 @@
               fragment="controlConfig"
             >
               <td>{{ control.name }}</td>
-              <td>{{ control.description }}</td>
               <td>{{ control.cellSource }}</td>
+              <td>{{ control.section }}</td>
+              <td>{{ control.row }}</td>
+              <td>{{ control.order }}</td>
             </tr>
           </tbody>
         </table>
