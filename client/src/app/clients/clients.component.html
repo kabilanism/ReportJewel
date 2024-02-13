@@ -1,18 +1,20 @@
 <h1>Clients</h1>
-<table class="table table-striped table-hover table-responsive">
-  <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Address</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let client of clients; let i = index"
-      routerLink="/client/{{ client.id }}"
-    >
-      <td>{{ client?.name }}</td>
-      <td>{{ client?.address }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-container">
+  <table class="table table-striped table-hover table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let client of clients; let i = index"
+        routerLink="/client/{{ client.id }}"
+      >
+        <td>{{ client?.name }}</td>
+        <td>{{ client?.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
