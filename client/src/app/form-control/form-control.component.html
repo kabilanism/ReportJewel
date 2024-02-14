@@ -3,7 +3,7 @@
     <h1 class="mb-3">
       Control Setting -<span
         class="ms-2 fw-bold"
-        *ngIf="mode === ControlMode.Add; else controlName"
+        *ngIf="mode === Mode.Add; else controlName"
         >New</span
       >
       <ng-template #controlName>
@@ -24,7 +24,7 @@
           type="button"
           class="btn btn-danger btn-sm ms-2"
           (click)="deleteControl()"
-          *ngIf="!(mode === ControlMode.Add)"
+          *ngIf="!(mode === Mode.Add)"
         >
           DELETE
         </button></span

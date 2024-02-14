@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ControlMode } from '../_models/controlMode';
+import { Mode } from '../_models/mode';
 import { FormControlNew } from '../_models/formControlNew';
 
 @Component({
@@ -22,12 +22,12 @@ import { FormControlNew } from '../_models/formControlNew';
 export class FormControlComponent implements OnInit, OnDestroy {
   controlForm: FormGroup;
   control: FormControl | undefined;
-  mode: ControlMode | undefined;
+  mode: Mode | undefined;
   private selectedControlSubscription: Subscription;
   private controlModeSubscription: Subscription;
   private formId: number | undefined;
   @Output() controlDeleted: EventEmitter<void>;
-  readonly ControlMode = ControlMode;
+  readonly Mode = Mode;
 
   constructor(
     private formService: FormService,
@@ -54,14 +54,14 @@ export class FormControlComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formService.controlMode$.subscribe({
-      next: (mode: ControlMode | null) => {
+      next: (mode: Mode | null) => {
         if (mode) {
           this.mode = mode;
         }
 
-        if (this.mode == ControlMode.Edit) {
+        if (this.mode == Mode.Edit) {
           this.selectedControlSubscription = this.getSelectedControl();
-        } else if (this.mode == ControlMode.Add) {
+        } else if (this.mode == Mode.Add) {
           this.controlForm.reset();
         }
       },
@@ -153,9 +153,9 @@ export class FormControlComponent implements OnInit, OnDestroy {
   }
 
   saveControl(): void {
-    if (this.mode === ControlMode.Add) {
+    if (this.mode === Mode.Add) {
       this.addControl();
-    } else if (this.mode === ControlMode.Edit) {
+    } else if (this.mode === Mode.Edit) {
       this.updateControl();
     }
   }
