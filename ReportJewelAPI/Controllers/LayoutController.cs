@@ -25,7 +25,7 @@ namespace ReportJewelAPI.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("layouts")]
+    [HttpGet("list")]
     public async Task<ActionResult<List<LayoutDto>>> GetLayouts([FromQuery] int userId)
     {
       var layouts = await _layoutRepository.GetLayoutsByUserIdAsync(userId);
@@ -80,10 +80,10 @@ namespace ReportJewelAPI.Controllers
       return BadRequest("Failed to add new layout.");
     }
 
-    [HttpDelete("delete/{layoutId}")]
-    public async Task<ActionResult> DeleteLayout(int layoutId)
+    [HttpDelete("delete/{id}")]
+    public async Task<ActionResult> DeleteLayout(int id)
     {
-      var layout = await _layoutRepository.GetLayoutByIdAsync(layoutId);
+      var layout = await _layoutRepository.GetLayoutByIdAsync(id);
       if (layout == null)
       {
         return NotFound();

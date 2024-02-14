@@ -3,8 +3,8 @@ import { ClientService } from '../_services/client.service';
 import { Client } from '../_models/client';
 import { Subscription, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Form } from '../_models/form';
-import { FormService } from '../_services/form.service';
+import { Layout } from '../_models/layout';
+import { LayoutService } from '../_services/layout.service';
 import { ExcelService } from '../_services/excel.service';
 import { NgForm } from '@angular/forms';
 
@@ -16,16 +16,16 @@ import { NgForm } from '@angular/forms';
 export class ClientComponent implements OnInit, OnDestroy {
   client: Client | undefined;
   clientsSubscription: Subscription = new Subscription();
-  forms: Form[] | undefined;
-  formsSubscription: Subscription = new Subscription();
-  loadingForms: boolean = true;
+  layouts: Layout[] | undefined;
+  layoutsSubscription: Subscription = new Subscription();
+  loadingLayouts: boolean = true;
   sourceFile: File | undefined;
-  selectedTemplate: string = '';
+  selectedLayout: string = '';
   @ViewChild('generateReportForm') generateReportForm: NgForm | undefined;
 
   constructor(
     private clientService: ClientService,
-    public formService: FormService,
+    public layoutService: LayoutService,
     private route: ActivatedRoute,
     private excelService: ExcelService,
     private router: Router
@@ -41,18 +41,18 @@ export class ClientComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.formsSubscription = this.formService.getForms().subscribe({
-      next: (forms: Form[] | null) => {
-        this.loadingForms = false;
-        if (forms) {
-          this.forms = forms;
+    this.layoutsSubscription = this.layoutService.getLayouts().subscribe({
+      next: (layouts: Layout[] | null) => {
+        this.loadingLayouts = false;
+        if (layouts) {
+          this.layouts = layouts;
         }
       },
     });
   }
 
   ngOnDestroy(): void {
-    this.formsSubscription.unsubscribe();
+    this.layoutsSubscription.unsubscribe();
     this.clientsSubscription.unsubscribe();
   }
 
@@ -65,15 +65,15 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   generateReport() {
     if (this.generateReportForm) {
-      const templateId = this.generateReportForm.value.selectedTemplate;
-      let selectedForm = this.forms?.find((f) => f.id == templateId);
-      if (this.sourceFile && selectedForm) {
+      const templateId = this.generateReportForm.value.selectedLayout;
+      let selectedLayout = this.layouts?.find((f) => f.id == templateId);
+      if (this.sourceFile && selectedLayout) {
         this.excelService
-          .readFile(this.sourceFile, selectedForm.controls)
+          .readFile(this.sourceFile, selectedLayout.controls)
           .subscribe({
             next: () => {
-              if (selectedForm) {
-                this.formService.setReportForm(selectedForm);
+              if (selectedLayout) {
+                this.layoutService.setReportLayout(selectedLayout);
                 if (this.client) {
                   this.clientService.entitySelected(this.client);
                 }

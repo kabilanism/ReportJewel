@@ -5,32 +5,32 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '../_models/formControl';
-import { FormService } from '../_services/form.service';
+import { LayoutControl } from '../_models/layoutControl';
+import { LayoutService } from '../_services/layout.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Mode } from '../_models/mode';
-import { FormControlNew } from '../_models/formControlNew';
+import { LayoutControlNew } from '../_models/layoutControlNew';
 
 @Component({
-  selector: 'app-form-control',
-  templateUrl: './form-control.component.html',
-  styleUrls: ['./form-control.component.css', '../_styles/form.styles.css'],
+  selector: 'app-layout-control',
+  templateUrl: './layout-control.component.html',
+  styleUrls: ['./layout-control.component.css', '../_styles/form.styles.css'],
 })
-export class FormControlComponent implements OnInit, OnDestroy {
+export class LayoutControlComponent implements OnInit, OnDestroy {
   controlForm: FormGroup;
-  control: FormControl | undefined;
+  control: LayoutControl | undefined;
   mode: Mode | undefined;
   private selectedControlSubscription: Subscription;
   private controlModeSubscription: Subscription;
-  private formId: number | undefined;
+  private layoutId: number | undefined;
   @Output() controlDeleted: EventEmitter<void>;
   readonly Mode = Mode;
 
   constructor(
-    private formService: FormService,
+    private layoutService: LayoutService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private formBuilder: FormBuilder
@@ -53,7 +53,7 @@ export class FormControlComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.formService.controlMode$.subscribe({
+    this.layoutService.controlMode$.subscribe({
       next: (mode: Mode | null) => {
         if (mode) {
           this.mode = mode;
@@ -67,15 +67,15 @@ export class FormControlComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.formId = Number(this.route.snapshot.paramMap.get('formId'));
+    this.layoutId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
   getSelectedControl() {
-    return this.formService.selectedControl$.subscribe({
-      next: (control: FormControl | null) => {
+    return this.layoutService.selectedControl$.subscribe({
+      next: (control: LayoutControl | null) => {
         if (control) {
           this.control = control;
-          this.setControlValuesInForm();
+          this.setControlValuesInLayout();
         }
       },
     });
@@ -86,7 +86,7 @@ export class FormControlComponent implements OnInit, OnDestroy {
     this.controlModeSubscription.unsubscribe();
   }
 
-  setControlValuesInForm(): void {
+  setControlValuesInLayout(): void {
     this.controlForm.get('name')?.setValue(this.control?.name);
     this.controlForm.get('description')?.setValue(this.control?.description);
     this.controlForm.get('placeholder')?.setValue(this.control?.placeholder);
@@ -99,33 +99,35 @@ export class FormControlComponent implements OnInit, OnDestroy {
   }
 
   updateControl(): void {
-    const updatedControl: FormControl = {
+    const updatedControl: LayoutControl = {
       id: this.control?.id,
       ...this.controlForm?.value,
     };
 
-    if (this.control && this.formId) {
-      this.formService.updateControl(this.formId, updatedControl).subscribe({
-        next: (updatedControl: FormControl) => {
-          this.control = updatedControl;
-          this.toastr.success('Control updated successfully.');
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+    if (this.control && this.layoutId) {
+      this.layoutService
+        .updateControl(this.layoutId, updatedControl)
+        .subscribe({
+          next: (updatedControl: LayoutControl) => {
+            this.control = updatedControl;
+            this.toastr.success('Control updated successfully.');
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
     }
   }
 
   addControl(): void {
-    if (this.formId) {
-      const newControl: FormControlNew = {
-        formId: this.formId,
+    if (this.layoutId) {
+      const newControl: LayoutControlNew = {
+        layoutId: this.layoutId,
         ...this.controlForm?.value,
       };
 
-      this.formService.addControl(newControl).subscribe({
-        next: (addedControl: FormControl) => {
+      this.layoutService.addControl(newControl).subscribe({
+        next: (addedControl: LayoutControl) => {
           this.control = addedControl;
           this.toastr.success('Control added successfully.');
         },
@@ -138,17 +140,19 @@ export class FormControlComponent implements OnInit, OnDestroy {
   }
 
   deleteControl(): void {
-    if (this.formId && this.control) {
-      this.formService.deleteControl(this.formId, this.control.id).subscribe({
-        next: (_) => {
-          this.controlDeleted.emit();
-          this.toastr.success('Control deleted successfully.');
-        },
-        error: (error) => {
-          console.error(error);
-          this.toastr.error('An error occurred while deleting the control.');
-        },
-      });
+    if (this.layoutId && this.control) {
+      this.layoutService
+        .deleteControl(this.layoutId, this.control.id)
+        .subscribe({
+          next: (_) => {
+            this.controlDeleted.emit();
+            this.toastr.success('Control deleted successfully.');
+          },
+          error: (error) => {
+            console.error(error);
+            this.toastr.error('An error occurred while deleting the control.');
+          },
+        });
     }
   }
 

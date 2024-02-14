@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { authGuard } from './_guards/auth.guard';
-import { FormsComponent } from './forms/forms.component';
+import { LayoutsComponent } from './layouts/layouts.component';
 import { RegisterComponent } from './register/register.component';
-import { FormComponent } from './form/form.component';
+import { LayoutComponent } from './layout/layout.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
 import { ReportComponent } from './report/report.component';
@@ -22,16 +22,16 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'forms',
-        component: FormsComponent,
+        path: 'layouts',
+        component: LayoutsComponent,
       },
       {
-        path: 'form/:formId',
-        component: FormComponent,
+        path: 'layout/:id',
+        component: LayoutComponent,
       },
       {
-        path: 'form',
-        component: FormComponent,
+        path: 'layout',
+        component: LayoutComponent,
       },
       {
         path: 'home',

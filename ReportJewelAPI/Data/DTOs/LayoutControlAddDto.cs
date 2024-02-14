@@ -2,7 +2,7 @@
 {
   public class LayoutControlAddDto
   {
-    public int FormId { get; set; }
+    public int LayoutId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string Placeholder { get; set; }

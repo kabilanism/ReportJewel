@@ -1,4 +1,4 @@
-export interface FormControl {
+export interface LayoutControl {
   id: number;
   name: string;
   description: string;
@@ -12,12 +12,12 @@ export interface FormControl {
   value: string | number | Date | boolean | undefined;
 }
 
-export interface FormSection {
+export interface LayoutSection {
   sectionNumber: number;
-  rows: FormRow[];
+  rows: LayoutRow[];
 }
 
-export interface FormRow {
+export interface LayoutRow {
   rowNumber: number;
-  controls: FormControl[];
+  controls: LayoutControl[];
 }

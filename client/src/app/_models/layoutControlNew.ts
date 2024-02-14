@@ -1,5 +1,5 @@
-export interface FormControlNew {
-  formId: number;
+export interface LayoutControlNew {
+  layoutId: number;
   name: string;
   description: string;
   placeholder: string | null;

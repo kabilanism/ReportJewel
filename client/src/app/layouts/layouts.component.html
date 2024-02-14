@@ -1,10 +1,10 @@
 <div class="row mb-2">
   <div class="col">
     <h1>
-      Reports<span
+      Layouts<span
         ><button
           class="btn btn-success ms-3"
-          routerLink="/form"
+          routerLink="/layout"
           [queryParams]="{ addMode: true }"
         >
           ADD
@@ -32,9 +32,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let form of forms" routerLink="/form/{{ form.id }}">
-            <td>{{ form.name }}</td>
-            <td>{{ form.description }}</td>
+          <tr
+            *ngFor="let layout of layouts"
+            routerLink="/layout/{{ layout.id }}"
+          >
+            <td>{{ layout.name }}</td>
+            <td>{{ layout.description }}</td>
           </tr>
         </tbody>
       </table>

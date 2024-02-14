@@ -2,18 +2,18 @@
 <form #generateReportForm="ngForm" class="w-75">
   <div class="row mb-4">
     <div class="col-4">
-      <label for="template" class="mb-2"> Template</label>
+      <label for="template" class="mb-2"> Layout</label>
       <select
-        id="selectedTemplate"
+        id="selectedLayout"
         class="form-control"
         required
-        name="selectedTemplate"
-        [(ngModel)]="selectedTemplate"
+        name="selectedLayout"
+        [(ngModel)]="selectedLayout"
       >
-        <option *ngFor="let form of forms" [value]="form.id">
-          <div *ngIf="loadingForms; else formDetail">Loading ...</div>
-          <ng-template #formDetail>
-            {{ form.name }} - {{ form.description }}
+        <option *ngFor="let layout of layouts" [value]="layout.id">
+          <div *ngIf="loadingLayouts; else layoutDetail">Loading ...</div>
+          <ng-template #layoutDetail>
+            {{ layout.name }} - {{ layout.description }}
           </ng-template>
         </option>
       </select>
@@ -38,7 +38,7 @@
           class="btn btn-info"
           (click)="generateReport()"
           type="submit"
-          [disabled]="!sourceFile || selectedTemplate.length === 0"
+          [disabled]="!sourceFile || selectedLayout.length === 0"
         >
           CREATE REPORT
         </button></span

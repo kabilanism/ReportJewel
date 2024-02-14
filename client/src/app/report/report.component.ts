@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormService } from '../_services/form.service';
+import { LayoutService } from '../_services/layout.service';
 import { Subscription, take } from 'rxjs';
-import { Form } from '../_models/form';
-import { FormRow, FormSection } from '../_models/formControl';
+import { Layout } from '../_models/layout';
+import { LayoutRow, LayoutSection } from '../_models/layoutControl';
 import { ClientService } from '../_services/client.service';
 import { Client } from '../_models/client';
 
@@ -12,23 +12,23 @@ import { Client } from '../_models/client';
   styleUrls: ['./report.component.css', '../_styles/form.styles.css'],
 })
 export class ReportComponent implements OnInit {
-  reportForm: Form | undefined;
+  reportLayout: Layout | undefined;
   reportClient: Client | undefined;
-  reportSections: FormSection[] = [];
+  reportSections: LayoutSection[] = [];
   reportGenerationComplete: boolean = false;
-  reportFormSubscription: Subscription = new Subscription();
+  reportLayoutSubscription: Subscription = new Subscription();
   selectedClientSubscription: Subscription = new Subscription();
 
   constructor(
-    private formService: FormService,
+    private layoutService: LayoutService,
     private clientService: ClientService
   ) {}
 
   ngOnInit(): void {
-    this.formService.reportForm$.pipe(take(1)).subscribe({
-      next: (reportForm: Form | null) => {
-        if (reportForm) {
-          this.reportForm = reportForm;
+    this.layoutService.reportLayout$.pipe(take(1)).subscribe({
+      next: (reportLayout: Layout | null) => {
+        if (reportLayout) {
+          this.reportLayout = reportLayout;
           this.buildReport();
         }
       },
@@ -44,10 +44,10 @@ export class ReportComponent implements OnInit {
   }
 
   buildReport() {
-    if (this.reportForm) {
-      this.reportForm.controls.forEach((control) => {
-        let section: FormSection | undefined;
-        let row: FormRow | undefined;
+    if (this.reportLayout) {
+      this.reportLayout.controls.forEach((control) => {
+        let section: LayoutSection | undefined;
+        let row: LayoutRow | undefined;
 
         section = this.reportSections.find((reportSection) => {
           return reportSection.sectionNumber === control.section;

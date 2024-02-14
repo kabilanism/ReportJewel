@@ -11,10 +11,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { ToastrModule } from 'ngx-toastr';
-import { FormsComponent } from './forms/forms.component';
+import { LayoutsComponent } from './layouts/layouts.component';
 import { RegisterComponent } from './register/register.component';
-import { FormComponent } from './form/form.component';
-import { FormControlComponent } from './form-control/form-control.component';
+import { LayoutComponent } from './layout/layout.component';
+import { LayoutControlComponent } from './layout-control/layout-control.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientComponent } from './client/client.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -25,10 +25,10 @@ import { ReportComponent } from './report/report.component';
     AppComponent,
     NavComponent,
     HomeComponent,
-    FormsComponent,
+    LayoutsComponent,
     RegisterComponent,
-    FormComponent,
-    FormControlComponent,
+    LayoutComponent,
+    LayoutControlComponent,
     ClientsComponent,
     ClientComponent,
     ReportComponent,

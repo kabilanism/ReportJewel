@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import * as XLSX from 'xlsx';
-import { FormControl } from '../_models/formControl';
+import { LayoutControl } from '../_models/layoutControl';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { FormControl } from '../_models/formControl';
 export class ExcelService {
   constructor() {}
 
-  readFile(file: File, controls: FormControl[]): Observable<void> {
+  readFile(file: File, controls: LayoutControl[]): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       const fileReader = new FileReader();
       fileReader.onload = (e: any) => {
