@@ -9,7 +9,7 @@ import { UserService } from '../_services/user.service';
 import { User } from '../_models/user';
 import { FormNew } from '../_models/formNew';
 import { FormControl } from '../_models/formControl';
-import { ControlMode } from '../_models/controlMode';
+import { Mode } from '../_models/mode';
 
 @Component({
   selector: 'app-form',
@@ -23,13 +23,16 @@ export class FormComponent implements OnInit, OnDestroy {
   addMode: boolean;
   showControlConfig: boolean;
   user: User | undefined;
+  mode: Mode | undefined;
+  readonly Mode = Mode;
 
   constructor(
     private formService: FormService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.formConfig = this.formBuilder.group({
       name: [''],
@@ -93,16 +96,28 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    if (this.user) {
+    if (this.user && this.form) {
       let updatedForm = { id: this.form?.id, ...this.formConfig?.value };
-      if (this.form) {
-        this.formService.updateForm(updatedForm).subscribe({
-          next: (updatedForm: Form) => {
-            this.form = updatedForm;
-            this.toastr.success('Report layout updated successfully.');
-          },
-        });
-      }
+      this.formService.updateForm(updatedForm).subscribe({
+        next: (updatedForm: Form) => {
+          this.form = updatedForm;
+          this.toastr.success('Report layout updated successfully.');
+        },
+      });
+    }
+  }
+
+  deleteForm() {
+    if (this.user && this.form) {
+      this.formService.deleteForm(this.form).subscribe({
+        next: (_) => {
+          this.toastr.success('Form deleted successfully.');
+          this.router.navigateByUrl('/forms');
+        },
+        error: (error) => {
+          this.toastr.error('An error occurred while deleting the form.');
+        },
+      });
     }
   }
 
@@ -116,12 +131,12 @@ export class FormComponent implements OnInit, OnDestroy {
 
   selectControl(control: FormControl) {
     this.formService.setSelectedControl(control);
-    this.formService.setControlMode(ControlMode.Edit);
+    this.formService.setControlMode(Mode.Edit);
     this.showControlConfig = true;
   }
 
   addControl() {
-    this.formService.setControlMode(ControlMode.Add);
+    this.formService.setControlMode(Mode.Add);
     this.showControlConfig = true;
   }
 

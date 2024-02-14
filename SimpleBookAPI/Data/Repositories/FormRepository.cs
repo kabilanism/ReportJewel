@@ -52,6 +52,11 @@ namespace SimpleBookAPI.Data.Repositories
     {
       _context.FormControl.Remove(control);
     }
+
+    public void RemoveForm(Form form)
+    {
+      _context.Form.Remove(form);
+    }
   }
 }
 

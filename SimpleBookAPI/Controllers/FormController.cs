@@ -59,7 +59,7 @@ namespace SimpleBookAPI.Controllers
       var user = await _userRepository.GetUserByIdAsync(formAddDto.UserId);
       if (user == null)
       {
-        return BadRequest("User does not exist");
+        return BadRequest("User does not exist.");
       }
 
       var newForm = new Form
@@ -80,6 +80,25 @@ namespace SimpleBookAPI.Controllers
       return BadRequest("Failed to add new report.");
     }
 
+    [HttpDelete("delete/{formId}")]
+    public async Task<ActionResult> DeleteForm(int formId)
+    {
+      var form = await _formRepository.GetFormByIdAsync(formId);
+      if (form == null)
+      {
+        return NotFound();
+      }
+
+      _formRepository.RemoveForm(form);
+
+      if (await _formRepository.SaveChangesAsync())
+      {
+        return NoContent();
+      }
+
+      return BadRequest("Failed to delete form.");
+    }
+
     [HttpPost("control/add")]
     public async Task<ActionResult<FormControlDto>> AddControl(FormControlAddDto controlAddDto)
     {
@@ -92,7 +111,7 @@ namespace SimpleBookAPI.Controllers
         return Ok(newControlDto);
       }
 
-      return BadRequest("Failed to add new control");
+      return BadRequest("Failed to add new control.");
     }
 
     [HttpPut("control/update")]
@@ -111,7 +130,7 @@ namespace SimpleBookAPI.Controllers
         return NoContent();
       }
 
-      return BadRequest("Failed to update control");
+      return BadRequest("Failed to update control.");
     }
 
     [HttpDelete("control/delete/{controlId}")]
@@ -130,7 +149,7 @@ namespace SimpleBookAPI.Controllers
         return NoContent();
       }
 
-      return BadRequest("Failed to delete control");
+      return BadRequest("Failed to delete control.");
     }
   }
 }

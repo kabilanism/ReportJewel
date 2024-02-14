@@ -7,7 +7,7 @@ import { User } from '../_models/user';
 import { BehaviorSubject, Observable, Subject, map, of, take } from 'rxjs';
 import { FormControl } from '../_models/formControl';
 import { FormNew } from '../_models/formNew';
-import { ControlMode } from '../_models/controlMode';
+import { Mode } from '../_models/mode';
 import { FormControlNew } from '../_models/formControlNew';
 
 @Injectable({
@@ -25,8 +25,8 @@ export class FormService {
     new BehaviorSubject<Form | null>(null);
   private selectedControlSubject: BehaviorSubject<FormControl | null> =
     new BehaviorSubject<FormControl | null>(null);
-  private controlModeSubject: BehaviorSubject<ControlMode | null> =
-    new BehaviorSubject<ControlMode | null>(null);
+  private controlModeSubject: BehaviorSubject<Mode | null> =
+    new BehaviorSubject<Mode | null>(null);
 
   forms$ = this.formsSubject.asObservable();
   reportForm$ = this.reportFormSubject.asObservable();
@@ -46,8 +46,7 @@ export class FormService {
   getForms(): Observable<Form[] | null> {
     if (this.user) {
       if (this.forms.length > 0) {
-        // return of(this.forms.slice());
-        this.formsSubject.next(this.forms.slice());
+        return of(this.forms.slice());
       }
 
       const params = new HttpParams().set('userId', this.user.id);
@@ -119,6 +118,18 @@ export class FormService {
     );
   }
 
+  deleteForm(form: Form): Observable<void> {
+    return this.http.delete(`${this.baseUrl}form/delete/${form.id}`).pipe(
+      map(() => {
+        let forms = this.forms.slice();
+        const formIndex = this.forms.indexOf(form);
+        forms.splice(formIndex, 1);
+
+        this.forms = forms;
+      })
+    );
+  }
+
   addControl(controlNew: FormControlNew): Observable<FormControl> {
     return this.http
       .post<FormControl>(`${this.baseUrl}form/control/add`, controlNew)
@@ -184,7 +195,7 @@ export class FormService {
     this.reportFormSubject.next(form);
   }
 
-  setControlMode(mode: ControlMode) {
+  setControlMode(mode: Mode) {
     this.controlModeSubject.next(mode);
   }
 }

@@ -20,6 +20,16 @@
             SAVE
           </button></span
         >
+        <span
+          ><button
+            type="button"
+            class="btn btn-danger btn-sm ms-2"
+            (click)="deleteForm()"
+            *ngIf="!addMode"
+          >
+            DELETE
+          </button></span
+        >
       </h1>
     </div>
   </div>
