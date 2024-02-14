@@ -8,7 +8,7 @@ td {
 }
 
 button {
-  letter-spacing: 1px;
+  font-family: inherit;
 }
 
 table {
