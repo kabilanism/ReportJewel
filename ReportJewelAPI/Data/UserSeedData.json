@@ -1,0 +1,26 @@
+[
+  {
+    "UserName": "mross",
+    "FirstName": "Maxwell",
+    "LastName": "Ross",
+    "DateOfBirth": "2000-06-10"
+  },
+  {
+    "UserName": "wmagnus",
+    "FirstName": "Magnus",
+    "LastName": "Winkle",
+    "DateOfBirth": "1986-07-11"
+  },
+  {
+    "UserName": "arose",
+    "FirstName": "Amber",
+    "LastName": "Rose",
+    "DateOfBirth": "1999-05-09"
+  },
+  {
+    "UserName": "smriti",
+    "FirstName": "Smriti",
+    "LastName": "Shrijita",
+    "DateOfBirth": "1973-03-22"
+  }
+]

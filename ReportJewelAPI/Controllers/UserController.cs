@@ -78,11 +78,19 @@ namespace ReportJewelAPI.Controllers
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-      var user = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
+      var user = await _userManager.Users
+        .SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
       if (user == null)
       {
-        return Unauthorized("Invalid username");
+        return Unauthorized("Invalid username.");
+      }
+
+      var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+      if (!result)
+      {
+        return Unauthorized("Invalid password.");
       }
 
       return new UserDto
@@ -90,6 +98,7 @@ namespace ReportJewelAPI.Controllers
         Username = user.UserName,
         FirstName = user.FirstName,
         LastName = user.LastName,
+        Token = await _tokenService.CreateToken(user),
         DateOfBirth = user.DateOfBirth,
         Email = user.Email
       };
