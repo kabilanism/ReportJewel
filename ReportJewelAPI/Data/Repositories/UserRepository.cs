@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using ReportJewelAPI.Data.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
 using ReportJewelAPI.Data.Repositories.Interfaces;
 using ReportJewelAPI.Entities;
 

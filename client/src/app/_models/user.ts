@@ -5,4 +5,6 @@ export interface User {
   lastName: string;
   dateOfBirth: Date;
   email: string;
+  token: string;
+  roles: string[];
 }

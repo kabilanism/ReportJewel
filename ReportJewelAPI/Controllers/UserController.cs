@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -95,6 +96,7 @@ namespace ReportJewelAPI.Controllers
 
       return new UserDto
       {
+        Id = user.Id,
         Username = user.UserName,
         FirstName = user.FirstName,
         LastName = user.LastName,

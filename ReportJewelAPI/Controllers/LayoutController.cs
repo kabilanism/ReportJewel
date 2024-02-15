@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReportJewelAPI.Data.DTOs;
 using ReportJewelAPI.Data.Repositories.Interfaces;
@@ -8,6 +8,7 @@ using ReportJewelAPI.Entities;
 
 namespace ReportJewelAPI.Controllers
 {
+  [Authorize]
   public class LayoutController : BaseApiController
   {
     private readonly ILayoutRepository _layoutRepository;

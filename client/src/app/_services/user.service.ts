@@ -19,6 +19,7 @@ export class UserService {
     return this.http.post<User>(`${this.baseUrl}user/login`, model).pipe(
       map((user: User) => {
         if (user) {
+          console.log(user);
           this.setCurrentUser(user);
         }
       })

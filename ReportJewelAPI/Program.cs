@@ -1,35 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReportJewelAPI.Data;
-using ReportJewelAPI.Data.Repositories;
-using ReportJewelAPI.Data.Repositories.Interfaces;
 using ReportJewelAPI.Entities;
-using ReportJewelAPI.Interfaces;
-using ReportJewelAPI.Services;
+using ReportJewelAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-builder.Services.AddDbContext<DataContext>(opt =>
-{
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-builder.Services.AddIdentityCore<User>(opt =>
-{
-    opt.Password.RequireNonAlphanumeric = false;
-})
-.AddRoles<Role>()
-.AddRoleManager<RoleManager<Role>>()
-.AddEntityFrameworkStores<DataContext>();
-
-builder.Services.AddCors();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ILayoutRepository, LayoutRepository>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -38,8 +17,9 @@ app.UseCors(builder => builder
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials()
-    .WithOrigins("http://localhost:4200"));
+    .WithOrigins("https://localhost:4200"));
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

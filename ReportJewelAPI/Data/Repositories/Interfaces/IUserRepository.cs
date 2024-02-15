@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ReportJewelAPI.Entities;
+﻿using ReportJewelAPI.Entities;
 
 namespace ReportJewelAPI.Data.Repositories.Interfaces
 {
