@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ReportJewelAPI.Data.DTOs;
 using ReportJewelAPI.Data.Repositories.Interfaces;
+using ReportJewelAPI.Entities;
+using ReportJewelAPI.Interfaces;
 
 namespace ReportJewelAPI.Controllers
 {
@@ -9,14 +13,20 @@ namespace ReportJewelAPI.Controllers
   {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly ITokenService _tokenService;
+    private readonly UserManager<User> _userManager;
 
     public UserController(
+      UserManager<User> userManager,
       IUserRepository userRepository,
-      IMapper mapper
+      IMapper mapper,
+      ITokenService tokenService
     )
     {
+      _userManager = userManager;
       _userRepository = userRepository;
       _mapper = mapper;
+      _tokenService = tokenService;
     }
 
     [HttpGet("{id}")]
@@ -26,6 +36,43 @@ namespace ReportJewelAPI.Controllers
       var userDto = _mapper.Map<UserDto>(user);
 
       return userDto;
+    }
+
+    [HttpPost("register")]
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+    {
+      if (await UserExists(registerDto.UserName))
+      {
+        return BadRequest("Username is taken.");
+      }
+
+      var user = _mapper.Map<User>(registerDto);
+
+      user.UserName = registerDto.UserName.ToLower();
+
+      var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+      if (!result.Succeeded)
+      {
+        return BadRequest(result.Errors);
+      }
+
+      var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+
+      if (!roleResult.Succeeded)
+      {
+        return BadRequest(result.Errors);
+      }
+
+      return new UserDto
+      {
+        Username = user.UserName,
+        Token = await _tokenService.CreateToken(user),
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        DateOfBirth = user.DateOfBirth,
+        Email = user.Email
+      };
     }
 
     [HttpPost("login")]
@@ -40,13 +87,17 @@ namespace ReportJewelAPI.Controllers
 
       return new UserDto
       {
-        Id = user.Id,
-        Username = user.Username,
+        Username = user.UserName,
         FirstName = user.FirstName,
         LastName = user.LastName,
         DateOfBirth = user.DateOfBirth,
         Email = user.Email
       };
+    }
+
+    private async Task<bool> UserExists(string username)
+    {
+      return await _userManager.Users.AnyAsync(user => user.UserName == username.ToLower());
     }
   }
 }

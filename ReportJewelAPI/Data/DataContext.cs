@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ReportJewelAPI.Entities;
 
 namespace ReportJewelAPI.Data
 {
-  public class DataContext : DbContext
+  public class DataContext : IdentityDbContext<User, Role, int,
+    IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
+    IdentityRoleClaim<int>, IdentityUserToken<int>>
   {
     public DataContext(DbContextOptions options) : base(options)
     {
@@ -21,9 +25,21 @@ namespace ReportJewelAPI.Data
       modelBuilder.UseIdentityAlwaysColumns();
 
       modelBuilder.Entity<User>()
+        .HasMany(ur => ur.UserRoles)
+        .WithOne(u => u.User)
+        .HasForeignKey(ur => ur.UserId)
+        .IsRequired();
+
+      modelBuilder.Entity<Role>()
+        .HasMany(ur => ur.UserRoles)
+        .WithOne(u => u.Role)
+        .HasForeignKey(ur => ur.RoleId)
+        .IsRequired();
+
+      modelBuilder.Entity<User>()
         .HasMany(u => u.Layouts)
-        .WithOne(f => f.User)
-        .HasForeignKey(f => f.UserId)
+        .WithOne(l => l.User)
+        .HasForeignKey(l => l.UserId)
         .HasPrincipalKey(u => u.Id);
 
       modelBuilder.Entity<User>()
@@ -36,17 +52,17 @@ namespace ReportJewelAPI.Data
         .ValueGeneratedOnAdd();
 
       modelBuilder.Entity<Layout>()
-        .HasMany(f => f.LayoutControls)
-        .WithOne(fc => fc.Layout)
-        .HasForeignKey(fc => fc.LayoutId)
-        .HasPrincipalKey(f => f.Id);
+        .HasMany(l => l.LayoutControls)
+        .WithOne(lc => lc.Layout)
+        .HasForeignKey(lc => lc.LayoutId)
+        .HasPrincipalKey(l => l.Id);
 
       modelBuilder.Entity<Layout>()
-        .Property(f => f.Id)
+        .Property(l => l.Id)
         .ValueGeneratedOnAdd();
 
       modelBuilder.Entity<LayoutControl>()
-        .Property(fc => fc.Id)
+        .Property(lc => lc.Id)
         .ValueGeneratedOnAdd();
     }
   }

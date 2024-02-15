@@ -16,6 +16,7 @@ namespace ReportJewelAPI.Helpers
       CreateMap<LayoutControlDto, LayoutControl>();
       CreateMap<LayoutControlAddDto, LayoutControl>();
       CreateMap<Client, ClientDto>();
+      CreateMap<RegisterDto, User>();
     }
   }
 }

@@ -28,7 +28,7 @@ namespace ReportJewelAPI.Data.Repositories
     public async Task<User> GetUserByUsernameAsync(string username)
     {
       return await _context.User
-        .SingleOrDefaultAsync(u => u.Username == username);
+        .SingleOrDefaultAsync(u => u.UserName == username);
     }
 
     public async Task<bool> SaveChangesAsync()
