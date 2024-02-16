@@ -32,6 +32,7 @@ e2e/*.map
 
 # System Files
 .DS_Store/
+.DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/angular
 
@@ -311,3 +312,5 @@ __pycache__/
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore
 datingapp.db*
 DatingApp/API/datingapp.db
+verifysimply.db-shm
+verifysimply.db-wal
