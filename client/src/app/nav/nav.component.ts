@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { LayoutService } from '../_services/layout.service';
 
 @Component({
   selector: 'app-nav',
@@ -14,7 +15,8 @@ export class NavComponent {
   constructor(
     public userService: UserService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private layoutService: LayoutService
   ) {}
 
   login(): void {
@@ -30,6 +32,7 @@ export class NavComponent {
   }
 
   logout() {
+    this.layoutService.resetLayouts();
     this.userService.logout();
     this.router.navigateByUrl('/');
   }

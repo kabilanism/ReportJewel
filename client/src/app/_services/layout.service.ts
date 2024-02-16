@@ -42,6 +42,7 @@ export class LayoutService {
   }
 
   getLayouts(): Observable<Layout[] | null> {
+    console.log('this.user is .. ', this.user);
     if (this.user) {
       if (this.layouts.length > 0) {
         return of(this.layouts.slice());
@@ -197,5 +198,9 @@ export class LayoutService {
 
   setControlMode(mode: Mode) {
     this.controlModeSubject.next(mode);
+  }
+
+  resetLayouts() {
+    this.layouts = [];
   }
 }

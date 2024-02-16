@@ -19,6 +19,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ReportComponent } from './report/report.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { GenerateComponent } from './generate/generate.component';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -45,9 +47,13 @@ import { GenerateComponent } from './generate/generate.component';
       positionClass: 'toast-bottom-right',
     }),
     TooltipModule.forRoot(),
+    NgxSpinnerModule.forRoot({
+      type: 'line-spin-clockwise-fade',
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

@@ -3,6 +3,7 @@
     <h1>{{ reportLayout?.name }}</h1>
   </div>
 </div>
+<hr />
 <form #generatedReport="ngForm" class="w-100">
   <div class="row mb-5" *ngFor="let section of reportSections">
     <div class="row" *ngFor="let row of section.rows">
