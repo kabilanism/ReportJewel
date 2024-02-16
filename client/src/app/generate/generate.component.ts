@@ -7,7 +7,7 @@ import { ExcelService } from '../_services/excel.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-genereate',
+  selector: 'app-generate',
   templateUrl: './generate.component.html',
   styleUrls: ['./generate.component.css', '../_styles/form.styles.css'],
 })
