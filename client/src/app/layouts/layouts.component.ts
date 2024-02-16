@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LayoutsComponent implements OnInit, OnDestroy {
   layouts: Layout[] = [];
   layoutsSubscription: Subscription | undefined;
+  showNoLayouts: boolean = false;
 
   constructor(private layoutService: LayoutService) {}
 
@@ -19,6 +20,10 @@ export class LayoutsComponent implements OnInit, OnDestroy {
     this.layoutsSubscription = this.layoutService.getLayouts().subscribe({
       next: (layouts: Layout[] | null) => {
         if (layouts) {
+          if (layouts.length === 0) {
+            this.showNoLayouts = true;
+          }
+
           this.layouts = layouts;
         }
       },
