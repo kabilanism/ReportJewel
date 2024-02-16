@@ -1,5 +1,116 @@
-<div class="row mb-3">
-  <div class="col"><h3>Register</h3></div>
-  <hr style="color: rgba(171, 183, 183)" />
-  <div>Create a new account and start creating your templates.</div>
+<div class="row register-row d-flex" (click)="openModal(registerModal)">
+  <div class="col mb-2">
+    <h3>Register</h3>
+    <hr />
+    <p class="lead">Create a new account and start creating your templates.</p>
+  </div>
 </div>
+<ng-template #registerModal>
+  <div class="row">
+    <div class="col">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100">Register New User</h4>
+        <button
+          type="button"
+          class="btn-close close pull-right"
+          aria-label="Close"
+          (click)="registerModalRef?.hide()"
+        >
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ms-3">
+        <form
+          id="registerForm"
+          [formGroup]="registerForm"
+          (ngSubmit)="register()"
+        >
+          <div class="row mb-2">
+            <div class="col-4">
+              <label for="username" class="mb-2 fw-bold">Username:</label>
+            </div>
+            <div class="col-6">
+              <input
+                id="username"
+                type="text"
+                class="form-control-sm rounded"
+                placeholder="e.g. jklebitz"
+                formControlName="username"
+              />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4">
+              <label for="password" class="mb-2 fw-bold">Password:</label>
+            </div>
+            <div class="col-6">
+              <input
+                id="password"
+                type="password"
+                class="form-control-sm rounded"
+                formControlName="password"
+              />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4">
+              <label for="firstName" class="mb-2 fw-bold">First Name:</label>
+            </div>
+            <div class="col-6">
+              <input
+                id="firstName"
+                type="text"
+                class="form-control-sm rounded"
+                placeholder="e.g. Johnny"
+                formControlName="firstName"
+              />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4">
+              <label for="lastName" class="mb-2 fw-bold">Last Name:</label>
+            </div>
+            <div class="col-6">
+              <input
+                id="lastName"
+                type="text"
+                class="form-control-sm rounded"
+                placeholder="e.g. Klebitz"
+                formControlName="lastName"
+              />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4">
+              <label for="dateOfBirth" class="mb-2 fw-bold"
+                >Date of Birth:</label
+              >
+            </div>
+            <div class="col-6">
+              <input
+                id="dateOfBirth"
+                type="text"
+                placeholder="e.g. June 10, 1994"
+                class="form-control-sm rounded"
+                formControlName="dateOfBirth"
+                bsDatepicker
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center mb-4">
+    <div class="col-4">
+      <button
+        class="btn btn-success"
+        type="submit"
+        form="registerForm"
+        [disabled]="!registerForm.valid"
+      >
+        REGISTER
+      </button>
+    </div>
+  </div>
+</ng-template>
