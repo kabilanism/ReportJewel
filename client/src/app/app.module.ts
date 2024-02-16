@@ -15,11 +15,10 @@ import { LayoutsComponent } from './layouts/layouts.component';
 import { RegisterComponent } from './register/register.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LayoutControlComponent } from './layout-control/layout-control.component';
-import { ClientsComponent } from './clients/clients.component';
-import { ClientComponent } from './client/client.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ReportComponent } from './report/report.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { GenerateComponent } from './generate/generate.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +29,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     RegisterComponent,
     LayoutComponent,
     LayoutControlComponent,
-    ClientsComponent,
-    ClientComponent,
     ReportComponent,
+    GenerateComponent,
   ],
   imports: [
     BrowserModule,

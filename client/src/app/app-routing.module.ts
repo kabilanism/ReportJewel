@@ -5,9 +5,8 @@ import { authGuard } from './_guards/auth.guard';
 import { LayoutsComponent } from './layouts/layouts.component';
 import { RegisterComponent } from './register/register.component';
 import { LayoutComponent } from './layout/layout.component';
-import { ClientsComponent } from './clients/clients.component';
-import { ClientComponent } from './client/client.component';
 import { ReportComponent } from './report/report.component';
+import { GenerateComponent } from './generate/generate.component';
 
 const routerOptions: ExtraOptions = {
   useHash: false,
@@ -38,12 +37,8 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'clients',
-        component: ClientsComponent,
-      },
-      {
-        path: 'client/:id',
-        component: ClientComponent,
+        path: 'generate',
+        component: GenerateComponent,
       },
       {
         path: 'report',

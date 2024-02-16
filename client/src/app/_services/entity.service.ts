@@ -16,7 +16,7 @@ export class EntityService<T> {
   fetchUrl: string | undefined;
 
   constructor(private http: HttpClient, private userService: UserService) {
-    this.userService.currentUser$.pipe(take(1)).subscribe({
+    this.userService.currentUser$.subscribe({
       next: (user: User | null) => {
         if (user) {
           this.user = user;

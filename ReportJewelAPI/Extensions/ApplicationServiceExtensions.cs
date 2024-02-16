@@ -19,7 +19,6 @@ namespace ReportJewelAPI.Extensions
       services.AddCors();
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<ILayoutRepository, LayoutRepository>();
-      services.AddScoped<IClientRepository, ClientRepository>();
       services.AddScoped<ITokenService, TokenService>();
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

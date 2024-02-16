@@ -3,8 +3,6 @@ import { LayoutService } from '../_services/layout.service';
 import { Subscription, take } from 'rxjs';
 import { Layout } from '../_models/layout';
 import { LayoutRow, LayoutSection } from '../_models/layoutControl';
-import { ClientService } from '../_services/client.service';
-import { Client } from '../_models/client';
 
 @Component({
   selector: 'app-report',
@@ -13,16 +11,12 @@ import { Client } from '../_models/client';
 })
 export class ReportComponent implements OnInit {
   reportLayout: Layout | undefined;
-  reportClient: Client | undefined;
   reportSections: LayoutSection[] = [];
   reportGenerationComplete: boolean = false;
   reportLayoutSubscription: Subscription = new Subscription();
   selectedClientSubscription: Subscription = new Subscription();
 
-  constructor(
-    private layoutService: LayoutService,
-    private clientService: ClientService
-  ) {}
+  constructor(private layoutService: LayoutService) {}
 
   ngOnInit(): void {
     this.layoutService.reportLayout$.pipe(take(1)).subscribe({
@@ -30,14 +24,6 @@ export class ReportComponent implements OnInit {
         if (reportLayout) {
           this.reportLayout = reportLayout;
           this.buildReport();
-        }
-      },
-    });
-
-    this.clientService.selectedEntity$.pipe(take(1)).subscribe({
-      next: (client: Client | null) => {
-        if (client) {
-          this.reportClient = client;
         }
       },
     });

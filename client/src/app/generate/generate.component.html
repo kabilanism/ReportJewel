@@ -1,7 +1,18 @@
-<h1>Client - {{ client?.name }}</h1>
+<h1>Generate Report From Excel</h1>
+<div class="row mb-2">
+  <div class="col">
+    <p class="lead">
+      To generate a report from Excel, begin by selecting a
+      <strong>layout</strong> for the report. Then enter the
+      <strong>client name</strong> which will appear in the report header.
+      Finally, select the source file which contains the data to be displayed in
+      the selected layout.
+    </p>
+  </div>
+</div>
 <form #generateReportForm="ngForm" class="w-75">
-  <div class="row mb-4">
-    <div class="col-4">
+  <div class="row mb-3">
+    <div class="col-6">
       <label for="template" class="mb-2"> Layout</label>
       <select
         id="selectedLayout"
@@ -18,7 +29,13 @@
         </option>
       </select>
     </div>
-    <div class="col-4">
+    <div class="col-6">
+      <label for="client" class="mb-2"> Client Name</label>
+      <input type="text" name="client" class="form-control" id="client" />
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-6">
       <label for="sourceFile" class="mb-2">Source File</label>
       <input
         id="sourceFile"
@@ -30,7 +47,7 @@
       />
     </div>
   </div>
-  <div class="row mt-4 d-flex justify-content-left">
+  <div class="row d-flex justify-content-center">
     <div class="col-4">
       <span>
         <button

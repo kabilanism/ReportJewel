@@ -14,7 +14,6 @@ namespace ReportJewelAPI.Data
     }
 
     public DbSet<User> User { get; set; }
-    public DbSet<Client> Client { get; set; }
     public DbSet<Layout> Layout { get; set; }
     public DbSet<LayoutControl> LayoutControl { get; set; }
 
@@ -41,15 +40,6 @@ namespace ReportJewelAPI.Data
         .WithOne(l => l.User)
         .HasForeignKey(l => l.UserId)
         .HasPrincipalKey(u => u.Id);
-
-      modelBuilder.Entity<User>()
-        .HasMany(u => u.Clients)
-        .WithOne(c => c.User)
-        .HasForeignKey(c => c.UserId);
-
-      modelBuilder.Entity<Client>()
-        .Property(c => c.Id)
-        .ValueGeneratedOnAdd();
 
       modelBuilder.Entity<Layout>()
         .HasMany(l => l.LayoutControls)

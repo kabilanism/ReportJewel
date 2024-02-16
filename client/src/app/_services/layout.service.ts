@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Layout } from '../_models/layout';
 import { UserService } from './user.service';
 import { User } from '../_models/user';
-import { BehaviorSubject, Observable, Subject, map, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { LayoutControl } from '../_models/layoutControl';
 import { LayoutNew } from '../_models/layoutNew';
 import { Mode } from '../_models/mode';
@@ -14,10 +14,9 @@ import { LayoutControlNew } from '../_models/layoutControlNew';
   providedIn: 'root',
 })
 export class LayoutService {
-  layouts: Layout[] = [];
-  baseUrl: string = environment.apiUrl;
-  user: User | undefined;
-
+  public layouts: Layout[] = [];
+  private baseUrl: string = environment.apiUrl;
+  private user: User | undefined;
   private layoutsSubject: BehaviorSubject<Layout[] | null> =
     new BehaviorSubject<Layout[] | null>(null);
   private reportLayoutSubject: BehaviorSubject<Layout | null> =
@@ -33,7 +32,7 @@ export class LayoutService {
   controlMode$ = this.controlModeSubject.asObservable();
 
   constructor(private http: HttpClient, private userService: UserService) {
-    this.userService.currentUser$.pipe(take(1)).subscribe({
+    this.userService.currentUser$.subscribe({
       next: (user: User | null) => {
         if (user) {
           this.user = user;
