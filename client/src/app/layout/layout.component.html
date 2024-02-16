@@ -52,7 +52,7 @@
     <div class="row mb-4">
       <div class="col-6">
         <label for="name" class="mb-2"
-          >Name<i class="bi bi-card-text ms-2"></i
+          >Name<i class="bi bi-info-circle ms-2"></i
         ></label>
         <input
           id="name"
@@ -64,7 +64,7 @@
       </div>
       <div class="col-6">
         <label for="description" class="mb-2"
-          >Description<i class="bi bi-card-text ms-2"></i
+          >Description<i class="bi bi-info-circle ms-2"></i
         ></label>
         <input
           id="description"
@@ -78,7 +78,7 @@
     <div class="row" *ngIf="!addMode">
       <div class="col">
         <h2>
-          Controls<i class="bi bi-card-list ms-3"></i
+          Controls<i class="bi bi-card-list ms-2"></i
           ><span
             ><button
               type="button"
@@ -94,11 +94,13 @@
         <table class="table table-striped table-hover table-responsive">
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Cell Source</th>
-              <th scope="col">Section</th>
-              <th scope="col">Row</th>
-              <th scope="col">Order</th>
+              <th scope="col">Name<i class="bi bi-info-circle ms-2"></i></th>
+              <th scope="col">
+                Cell Source<i class="bi bi-info-circle ms-2"></i>
+              </th>
+              <th scope="col">Section<i class="bi bi-info-circle ms-2"></i></th>
+              <th scope="col">Row<i class="bi bi-info-circle ms-2"></i></th>
+              <th scope="col">Order<i class="bi bi-info-circle ms-2"></i></th>
             </tr>
           </thead>
           <tbody>

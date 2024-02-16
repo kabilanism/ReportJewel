@@ -44,7 +44,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('hi');
     this.route.queryParams.subscribe((params) => {
       this.addMode = params['addMode'];
 
