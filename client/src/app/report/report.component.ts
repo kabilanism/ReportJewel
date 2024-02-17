@@ -1,8 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from '../_services/layout.service';
-import { Subscription, take } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  flatMap,
+  mergeMap,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
 import { Layout } from '../_models/layout';
 import { LayoutRow, LayoutSection } from '../_models/layoutControl';
+import { ReportParams } from '../_models/reportParams';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-report',
@@ -10,28 +22,65 @@ import { LayoutRow, LayoutSection } from '../_models/layoutControl';
   styleUrls: ['./report.component.css', '../_styles/form.styles.css'],
 })
 export class ReportComponent implements OnInit {
-  reportLayout: Layout | undefined;
+  reportParams: ReportParams | undefined;
   reportSections: LayoutSection[] = [];
   reportGenerationComplete: boolean = false;
   reportLayoutSubscription: Subscription = new Subscription();
   selectedClientSubscription: Subscription = new Subscription();
+  buildReportObs: Observable<void>;
 
-  constructor(private layoutService: LayoutService) {}
+  constructor(
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) {
+    this.buildReportObs = this.createBuildReportObservable();
+  }
 
   ngOnInit(): void {
-    this.layoutService.reportLayout$.pipe(take(1)).subscribe({
-      next: (reportLayout: Layout | null) => {
-        if (reportLayout) {
-          this.reportLayout = reportLayout;
-          this.buildReport();
-        }
-      },
+    this.spinner.show();
+
+    this.layoutService.reportParams$
+      .pipe(
+        take(1),
+        switchMap((reportParams: ReportParams | null) => {
+          if (reportParams) {
+            this.reportParams = reportParams;
+            return this.buildReportObs;
+          } else {
+            return of(null);
+          }
+        })
+      )
+      .subscribe({
+        next: (_) => {
+          this.reportGenerationComplete = true;
+        },
+        error: (error) => {
+          this.toastr.error(error);
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  }
+
+  createBuildReportObservable(): Observable<void> {
+    return new Observable((observer) => {
+      try {
+        this.buildReport();
+
+        observer.next();
+        observer.complete();
+      } catch (error) {
+        observer.error(error);
+      }
     });
   }
 
   buildReport() {
-    if (this.reportLayout) {
-      this.reportLayout.controls.forEach((control) => {
+    if (this.reportParams) {
+      this.reportParams.layout.controls.forEach((control) => {
         let section: LayoutSection | undefined;
         let row: LayoutRow | undefined;
 
@@ -71,8 +120,6 @@ export class ReportComponent implements OnInit {
       this.reportSections = this.reportSections.sort((a, b) => {
         return a.sectionNumber - b.sectionNumber;
       });
-
-      this.reportGenerationComplete = true;
     }
   }
 }

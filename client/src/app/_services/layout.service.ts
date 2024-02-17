@@ -9,6 +9,7 @@ import { LayoutControl } from '../_models/layoutControl';
 import { LayoutNew } from '../_models/layoutNew';
 import { Mode } from '../_models/mode';
 import { LayoutControlNew } from '../_models/layoutControlNew';
+import { ReportParams } from '../_models/reportParams';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +20,15 @@ export class LayoutService {
   private user: User | undefined;
   private layoutsSubject: BehaviorSubject<Layout[] | null> =
     new BehaviorSubject<Layout[] | null>(null);
-  private reportLayoutSubject: BehaviorSubject<Layout | null> =
-    new BehaviorSubject<Layout | null>(null);
+  private reportParamsSubject: BehaviorSubject<ReportParams | null> =
+    new BehaviorSubject<ReportParams | null>(null);
   private selectedControlSubject: BehaviorSubject<LayoutControl | null> =
     new BehaviorSubject<LayoutControl | null>(null);
   private controlModeSubject: BehaviorSubject<Mode | null> =
     new BehaviorSubject<Mode | null>(null);
 
   layouts$ = this.layoutsSubject.asObservable();
-  reportLayout$ = this.reportLayoutSubject.asObservable();
+  reportParams$ = this.reportParamsSubject.asObservable();
   selectedControl$ = this.selectedControlSubject.asObservable();
   controlMode$ = this.controlModeSubject.asObservable();
 
@@ -192,8 +193,8 @@ export class LayoutService {
     this.selectedControlSubject.next(control);
   }
 
-  setReportLayout(layout: Layout): void {
-    this.reportLayoutSubject.next(layout);
+  setReportReportParams(reportParams: ReportParams): void {
+    this.reportParamsSubject.next(reportParams);
   }
 
   setControlMode(mode: Mode) {

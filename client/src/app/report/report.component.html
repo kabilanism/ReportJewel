@@ -1,24 +1,26 @@
-<div class="row mb-2 d-flex justify-content-center">
-  <div class="col">
-    <h1>{{ reportLayout?.name }}</h1>
-  </div>
-</div>
-<hr />
-<form #generatedReport="ngForm" class="w-100">
-  <div class="row mb-5" *ngFor="let section of reportSections">
-    <div class="row" *ngFor="let row of section.rows">
-      <div class="col-3" *ngFor="let control of row.controls">
-        <label class="form-label" for="{{ control.id }}"
-          >{{ control.label
-          }}<i class="bi bi-book ms-2" [tooltip]="control.description"></i
-        ></label>
-        <input
-          class="form-control"
-          type="text"
-          readonly
-          [value]="control.value"
-        />
-      </div>
+<ng-container *ngIf="reportGenerationComplete"
+  ><div class="row mb-2 d-flex justify-content-center">
+    <div class="col">
+      <h1>{{ reportParams?.layout?.name }} - {{ reportParams?.clientName }}</h1>
     </div>
   </div>
-</form>
+  <hr />
+  <form #generatedReport="ngForm" class="w-100">
+    <div class="row mb-5" *ngFor="let section of reportSections">
+      <div class="row" *ngFor="let row of section.rows">
+        <div class="col-3" *ngFor="let control of row.controls">
+          <label class="form-label" for="{{ control.id }}"
+            >{{ control.label
+            }}<i class="bi bi-book ms-2" [tooltip]="control.description"></i
+          ></label>
+          <input
+            class="form-control"
+            type="text"
+            readonly
+            [value]="control.value"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

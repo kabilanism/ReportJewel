@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, generate } from 'rxjs';
 import { Router } from '@angular/router';
 import { Layout } from '../_models/layout';
 import { LayoutService } from '../_services/layout.service';
 import { ExcelService } from '../_services/excel.service';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-generate',
@@ -17,14 +17,20 @@ export class GenerateComponent implements OnInit, OnDestroy {
   loadingLayouts: boolean = true;
   sourceFile: File | undefined;
   selectedLayout: string = '';
-  clientName: string = '';
-  @ViewChild('generateReportForm') generateReportForm: NgForm | undefined;
+  generateForm: FormGroup;
+  // @ViewChild('generateReportForm') generateReportForm: NgForm | undefined;
 
   constructor(
     public layoutService: LayoutService,
     private excelService: ExcelService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {
+    this.generateForm = this.formBuilder.group({
+      layout: ['', Validators.required],
+      clientName: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.layoutsSubscription = this.layoutService.getLayouts().subscribe({
@@ -49,16 +55,25 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   generateReport() {
-    if (this.generateReportForm) {
-      const templateId = this.generateReportForm.value.selectedLayout;
-      let selectedLayout = this.layouts?.find((f) => f.id == templateId);
+    if (this.generateForm.valid) {
+      const generateForm: { layout: number; clientName: string } = {
+        layout: this.generateForm.get('layout')?.value.toString(),
+        clientName: this.generateForm.get('clientName')?.value.toString(),
+      };
+
+      let selectedLayout = this.layouts?.find(
+        (f) => f.id == generateForm.layout
+      );
       if (this.sourceFile && selectedLayout) {
         this.excelService
           .readFile(this.sourceFile, selectedLayout.controls)
           .subscribe({
             next: () => {
               if (selectedLayout) {
-                this.layoutService.setReportLayout(selectedLayout);
+                this.layoutService.setReportReportParams({
+                  layout: selectedLayout,
+                  clientName: generateForm.clientName,
+                });
                 this.router.navigateByUrl('/report');
               }
             },

@@ -11,18 +11,18 @@
   </div>
 </div>
 <hr />
-<form #generateReportForm="ngForm" class="w-75">
+<form [formGroup]="generateForm" class="w-75">
   <div class="row mb-3">
     <div class="col-6">
       <label for="template" class="mb-2">
         Layout<i class="bi bi-info-circle ms-2"></i
       ></label>
       <select
-        id="selectedLayout"
+        id="layout"
         class="form-control"
         required
-        name="selectedLayout"
-        [(ngModel)]="selectedLayout"
+        name="layout"
+        formControlName="layout"
       >
         <option *ngFor="let layout of layouts" [value]="layout.id">
           <div *ngIf="loadingLayouts; else layoutDetail">Loading ...</div>
@@ -33,10 +33,16 @@
       </select>
     </div>
     <div class="col-6">
-      <label for="client" class="mb-2">
+      <label for="clientName" class="mb-2">
         Client Name<i class="bi bi-info-circle ms-2"></i
       ></label>
-      <input type="text" name="client" class="form-control" id="client" />
+      <input
+        type="text"
+        name="clientName"
+        class="form-control"
+        id="clientName"
+        formControlName="clientName"
+      />
     </div>
   </div>
   <div class="row mb-5">
@@ -50,7 +56,6 @@
         type="file"
         (change)="onFileChange($event)"
         name="sourceFile"
-        ngModel
       />
     </div>
   </div>
@@ -62,7 +67,7 @@
           class="btn btn-success"
           (click)="generateReport()"
           type="submit"
-          [disabled]="!sourceFile || selectedLayout.length === 0"
+          [disabled]="!generateForm.valid"
         >
           CREATE REPORT
         </button></span
