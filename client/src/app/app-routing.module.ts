@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ReportComponent } from './report/report.component';
 import { GenerateComponent } from './generate/generate.component';
+import { GuideComponent } from './guide/guide.component';
 
 const routerOptions: ExtraOptions = {
   useHash: false,
@@ -43,6 +44,10 @@ const routes: Routes = [
       {
         path: 'report',
         component: ReportComponent,
+      },
+      {
+        path: 'guide',
+        component: GuideComponent,
       },
     ],
   },

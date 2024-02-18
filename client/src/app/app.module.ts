@@ -22,6 +22,7 @@ import { GenerateComponent } from './generate/generate.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { GuideComponent } from './guide/guide.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     LayoutControlComponent,
     ReportComponent,
     GenerateComponent,
+    GuideComponent,
   ],
   imports: [
     BrowserModule,
