@@ -21,7 +21,9 @@ namespace ReportJewelAPI.Data.Repositories
 
     public async Task<Layout> GetLayoutByIdAsync(int id)
     {
-      return await _context.Layout.SingleOrDefaultAsync(f => f.Id == id);
+      return await _context.Layout
+        .Include(l => l.LayoutControls)
+        .SingleOrDefaultAsync(f => f.Id == id);
     }
 
     public async Task<PagedList<LayoutDto>> GetLayoutsAsync(UserParams userParams)

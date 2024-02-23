@@ -20,7 +20,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   layoutConfig: FormGroup;
   layout: Layout | undefined;
   layoutSubscription: Subscription;
-  addMode: boolean;
   showControlConfig: boolean;
   user: User | undefined;
   mode: Mode | undefined;
@@ -38,18 +37,29 @@ export class LayoutComponent implements OnInit, OnDestroy {
       name: [''],
       description: [''],
     });
-    this.addMode = false;
     this.showControlConfig = false;
     this.layoutSubscription = new Subscription();
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.addMode = params['addMode'];
-
-      if (!this.addMode) {
-        // this.layoutSubscription = this.getLayout();
-      }
+    this.layoutService.layoutMode$.pipe(take(1)).subscribe({
+      next: (mode: Mode) => {
+        this.mode = mode;
+        if (this.mode === Mode.Edit) {
+          const layoutId: number = Number(
+            this.route.snapshot.paramMap.get('id')
+          );
+          this.layoutService.getLayout(layoutId).subscribe({
+            next: (layout: Layout) => {
+              this.layout = layout;
+              this.layoutConfig.get('name')?.setValue(this.layout?.name);
+              this.layoutConfig
+                .get('description')
+                ?.setValue(this.layout?.description);
+            },
+          });
+        }
+      },
     });
 
     this.userService.currentUser$.pipe(take(1)).subscribe({
@@ -61,41 +71,17 @@ export class LayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  getLayout() {
-    // return this.layoutService.getLayouts().subscribe({
-    //   next: (layouts: Layout[] | null) => {
-    //     if (layouts) {
-    //       console.log(layouts);
-    //       console.log(this.route.snapshot.paramMap);
-    //       let layoutId = Number(this.route.snapshot.paramMap.get('id'));
-    //       this.layout = layouts.find((f) => f.id == layoutId);
-    //       this.layoutConfig.get('name')?.setValue(this.layout?.name);
-    //       this.layoutConfig
-    //         .get('description')
-    //         ?.setValue(this.layout?.description);
-    //     }
-    //   },
-    // });
-  }
-
   ngOnDestroy(): void {
     this.layoutSubscription.unsubscribe();
   }
 
   addLayout() {
-    if (this.user) {
-      const layoutToAdd: LayoutNew = {
-        userId: this.user.id,
-        name: this.layoutConfig.get('name')?.value.toString(),
-        description: this.layoutConfig.get('description')?.value.toString(),
-      };
+    const layoutToAdd: LayoutNew = {
+      name: this.layoutConfig.get('name')?.value.toString(),
+      description: this.layoutConfig.get('description')?.value.toString(),
+    };
 
-      this.layoutService.addLayout(layoutToAdd).subscribe({
-        next: (addedLayout: Layout) => {
-          this.toastr.success('Report layout added successfully.');
-        },
-      });
-    }
+    return this.layoutService.addLayout(layoutToAdd);
   }
 
   updateLayout() {
@@ -125,8 +111,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   saveLayout() {
-    if (this.addMode) {
-      this.addLayout();
+    if (this.mode === Mode.Add) {
+      this.addLayout().subscribe({
+        next: (layout: Layout) => {
+          this.toastr.success(`Layout '${layout.name}' added successfully.`);
+          this.router.navigateByUrl('/layouts');
+        },
+      });
     } else {
       this.updateLayout();
     }
@@ -143,7 +134,28 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.showControlConfig = true;
   }
 
-  onControlDeleted() {
-    this.showControlConfig = false;
+  onControlDeleted(control: LayoutControl) {
+    if (this.layout) {
+      this.showControlConfig = false;
+
+      const controls = this.layout.controls.slice();
+      const deletedControlIndex = controls.indexOf(control);
+      controls.splice(deletedControlIndex, 1);
+
+      this.layout.controls = controls;
+    }
+  }
+
+  onControlSaved(control: LayoutControl) {
+    if (this.layout) {
+      const savedControls = this.layout.controls;
+      const savedControl = savedControls.find((c) => c.id === control.id);
+      if (savedControl) {
+        const savedControlIndex = this.layout.controls.indexOf(savedControl);
+        savedControls[savedControlIndex] = control;
+      } else {
+        savedControls.push(control);
+      }
+    }
   }
 }

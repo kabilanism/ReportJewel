@@ -10,7 +10,6 @@ import { LayoutNew } from '../_models/layoutNew';
 import { Mode } from '../_models/mode';
 import { LayoutControlNew } from '../_models/layoutControlNew';
 import { ReportParams } from '../_models/reportParams';
-import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import {
   getPaginatedResult,
@@ -24,21 +23,21 @@ export class LayoutService {
   public layouts: Layout[] = [];
   private layoutCache = new Map();
   private baseUrl: string = environment.apiUrl;
-  private user: User | undefined;
-  private paginatedResult: PaginatedResult<Layout[]> = new PaginatedResult<
-    Layout[]
-  >();
   private userParams: UserParams | undefined;
 
   private reportParamsSubject: BehaviorSubject<ReportParams | null> =
     new BehaviorSubject<ReportParams | null>(null);
   private selectedControlSubject: BehaviorSubject<LayoutControl | null> =
     new BehaviorSubject<LayoutControl | null>(null);
+  private layoutModeSubject: BehaviorSubject<Mode> = new BehaviorSubject<Mode>(
+    Mode.Edit
+  );
   private controlModeSubject: BehaviorSubject<Mode | null> =
     new BehaviorSubject<Mode | null>(null);
 
   reportParams$ = this.reportParamsSubject.asObservable();
   selectedControl$ = this.selectedControlSubject.asObservable();
+  layoutMode$ = this.layoutModeSubject.asObservable();
   controlMode$ = this.controlModeSubject.asObservable();
 
   constructor(private http: HttpClient, private userService: UserService) {
@@ -46,7 +45,6 @@ export class LayoutService {
       next: (user: User | null) => {
         if (user) {
           this.userParams = new UserParams();
-          this.user = user;
         }
       },
     });
@@ -63,15 +61,12 @@ export class LayoutService {
       userParams.pageSize
     );
 
-    console.log(params);
-
     return getPaginatedResult<Layout[]>(
       `${this.baseUrl}layout/list`,
       params,
       this.http
     ).pipe(
       map((response) => {
-        console.log('the paginated result is..', response);
         this.layoutCache.set(Object.values(userParams).join('-'), response);
         return response;
       })
@@ -131,60 +126,23 @@ export class LayoutService {
   }
 
   addControl(controlNew: LayoutControlNew): Observable<LayoutControl> {
-    return this.http
-      .post<LayoutControl>(`${this.baseUrl}layout/control/add`, controlNew)
-      .pipe(
-        map((addedControl: LayoutControl) => {
-          const layouts = this.layouts.slice();
-          const layout = layouts.find((f) => f.id == controlNew.layoutId);
-          if (layout) {
-            layout.controls.push(addedControl);
-          }
-          this.layouts = layouts;
-
-          return addedControl;
-        })
-      );
+    return this.http.post<LayoutControl>(
+      `${this.baseUrl}layout/control/add`,
+      controlNew
+    );
   }
 
-  updateControl(layoutId: number, control: LayoutControl) {
-    return this.http
-      .put<LayoutControl>(`${this.baseUrl}layout/control/update`, control)
-      .pipe(
-        map(() => {
-          const layouts = this.layouts.slice();
-          const layoutIndex = layouts.findIndex((f) => f.id == layoutId);
-          const controlIndex = layouts[layoutIndex].controls.findIndex(
-            (c) => c.id == control.id
-          );
-          const updatedControl = {
-            ...layouts[layoutIndex].controls[controlIndex],
-            ...control,
-          };
-
-          layouts[layoutIndex].controls[controlIndex] = updatedControl;
-          this.layouts = layouts;
-
-          return updatedControl;
-        })
-      );
+  updateControl(control: LayoutControl) {
+    return this.http.put<LayoutControl>(
+      `${this.baseUrl}layout/control/update`,
+      control
+    );
   }
 
-  deleteControl(layoutId: number, controlId: number) {
-    return this.http
-      .delete(`${this.baseUrl}layout/control/delete/${controlId}`)
-      .pipe(
-        map(() => {
-          let layouts = this.layouts.slice();
-          const layoutIndex = layouts.findIndex((f) => f.id == layoutId);
-          const controlIndex = layouts[layoutIndex].controls.findIndex(
-            (c) => c.id == controlId
-          );
-
-          layouts[layoutIndex].controls.splice(controlIndex, 1);
-          this.layouts = layouts;
-        })
-      );
+  deleteControl(controlId: number) {
+    return this.http.delete(
+      `${this.baseUrl}layout/control/delete/${controlId}`
+    );
   }
 
   setSelectedControl(control: LayoutControl): void {
@@ -197,6 +155,10 @@ export class LayoutService {
 
   setControlMode(mode: Mode) {
     this.controlModeSubject.next(mode);
+  }
+
+  setLayoutMode(mode: Mode) {
+    this.layoutModeSubject.next(mode);
   }
 
   resetLayouts() {

@@ -4,7 +4,7 @@
       <h1 class="mb-3">
         Layout Setting -<span
           class="ms-2 fw-bold"
-          *ngIf="addMode; else layoutName"
+          *ngIf="mode === Mode.Add; else layoutName"
           >New</span
         >
         <ng-template #layoutName>
@@ -25,7 +25,7 @@
             type="button"
             class="btn btn-danger btn-sm ms-2"
             (click)="deleteLayout()"
-            *ngIf="!addMode"
+            *ngIf="mode === Mode.Edit"
           >
             DELETE
           </button></span
@@ -75,7 +75,7 @@
         />
       </div>
     </div>
-    <div class="row" *ngIf="!addMode">
+    <div class="row" *ngIf="!(mode === Mode.Add)">
       <div class="col">
         <h2>
           Controls<i class="bi bi-card-list ms-2"></i
@@ -125,6 +125,7 @@
 <section id="controlConfig">
   <app-layout-control
     *ngIf="showControlConfig"
-    (controlDeleted)="onControlDeleted()"
+    (controlSaved)="onControlSaved($event)"
+    (controlDeleted)="onControlDeleted($event)"
   ></app-layout-control>
 </section>

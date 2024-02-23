@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { LayoutControl } from '../_models/layoutControl';
 import { LayoutService } from '../_services/layout.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -26,7 +26,8 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
   private selectedControlSubscription: Subscription;
   private controlModeSubscription: Subscription;
   private layoutId: number | undefined;
-  @Output() controlDeleted: EventEmitter<void>;
+  @Output() controlDeleted: EventEmitter<LayoutControl>;
+  @Output() controlSaved: EventEmitter<LayoutControl>;
   readonly Mode = Mode;
 
   constructor(
@@ -49,36 +50,37 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
 
     this.selectedControlSubscription = new Subscription();
     this.controlModeSubscription = new Subscription();
-    this.controlDeleted = new EventEmitter<void>();
+    this.controlDeleted = new EventEmitter<LayoutControl>();
+    this.controlSaved = new EventEmitter<LayoutControl>();
   }
 
   ngOnInit(): void {
-    this.layoutService.controlMode$.subscribe({
-      next: (mode: Mode | null) => {
-        if (mode) {
-          this.mode = mode;
-        }
+    this.layoutService.controlMode$
+      .pipe(
+        switchMap((mode: Mode | null) => {
+          if (mode) {
+            this.mode = mode;
+          }
 
-        if (this.mode == Mode.Edit) {
-          this.selectedControlSubscription = this.getSelectedControl();
-        } else if (this.mode == Mode.Add) {
-          this.controlForm.reset();
-        }
-      },
-    });
+          if (mode === Mode.Add) {
+            this.controlForm.reset();
+          } else if (mode === Mode.Edit) {
+            return this.layoutService.selectedControl$;
+          }
+
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (control: LayoutControl | null) => {
+          if (control) {
+            this.control = control;
+            this.setControlValuesInLayout();
+          }
+        },
+      });
 
     this.layoutId = Number(this.route.snapshot.paramMap.get('id'));
-  }
-
-  getSelectedControl() {
-    return this.layoutService.selectedControl$.subscribe({
-      next: (control: LayoutControl | null) => {
-        if (control) {
-          this.control = control;
-          this.setControlValuesInLayout();
-        }
-      },
-    });
   }
 
   ngOnDestroy(): void {
@@ -105,17 +107,17 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
     };
 
     if (this.control && this.layoutId) {
-      this.layoutService
-        .updateControl(this.layoutId, updatedControl)
-        .subscribe({
-          next: (updatedControl: LayoutControl) => {
-            this.control = updatedControl;
-            this.toastr.success('Control updated successfully.');
-          },
-          error: (error) => {
-            console.log(error);
-          },
-        });
+      this.layoutService.updateControl(updatedControl).subscribe({
+        next: (_) => {
+          this.control = updatedControl;
+          this.controlSaved.emit(updatedControl);
+          this.toastr.success('Control updated successfully.');
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error(error);
+        },
+      });
     }
   }
 
@@ -128,8 +130,10 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
 
       this.layoutService.addControl(newControl).subscribe({
         next: (addedControl: LayoutControl) => {
-          this.control = addedControl;
+          this.controlSaved.emit(addedControl);
           this.toastr.success('Control added successfully.');
+
+          this.controlForm.reset();
         },
         error: (error) => {
           console.error(error);
@@ -141,18 +145,16 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
 
   deleteControl(): void {
     if (this.layoutId && this.control) {
-      this.layoutService
-        .deleteControl(this.layoutId, this.control.id)
-        .subscribe({
-          next: (_) => {
-            this.controlDeleted.emit();
-            this.toastr.success('Control deleted successfully.');
-          },
-          error: (error) => {
-            console.error(error);
-            this.toastr.error('An error occurred while deleting the control.');
-          },
-        });
+      this.layoutService.deleteControl(this.control.id).subscribe({
+        next: (_) => {
+          this.controlDeleted.emit(this.control);
+          this.toastr.success('Control deleted successfully.');
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error('An error occurred while deleting the control.');
+        },
+      });
     }
   }
 

@@ -5,6 +5,7 @@ import { Subscription, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
+import { Mode } from '../_models/mode';
 
 @Component({
   selector: 'app-layouts',
@@ -20,9 +21,8 @@ export class LayoutsComponent implements OnInit, OnDestroy {
   pageSize = 5;
   userParams: UserParams | undefined;
 
-  constructor(private layoutService: LayoutService) {
+  constructor(private layoutService: LayoutService, private router: Router) {
     this.userParams = this.layoutService.getUserParams();
-    console.log('user params is:', this.userParams);
   }
 
   ngOnInit(): void {
@@ -39,7 +39,6 @@ export class LayoutsComponent implements OnInit, OnDestroy {
         .getLayouts(this.userParams)
         .subscribe({
           next: (response) => {
-            console.log('the response is:', response);
             if (response.result && response.pagination) {
               this.layouts = response.result;
               this.pagination = response.pagination;
@@ -54,5 +53,15 @@ export class LayoutsComponent implements OnInit, OnDestroy {
       this.userParams.pageNumber = event.page;
       this.loadLayouts();
     }
+  }
+
+  onAddLayout() {
+    this.layoutService.setLayoutMode(Mode.Add);
+    this.router.navigateByUrl('/layout');
+  }
+
+  selectLayout(id: number) {
+    this.layoutService.setLayoutMode(Mode.Edit);
+    this.router.navigateByUrl(`/layout/${id}`);
   }
 }

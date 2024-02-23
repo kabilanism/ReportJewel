@@ -7,10 +7,6 @@ export function getPaginatedResult<T>(
   params: HttpParams,
   http: HttpClient
 ) {
-  console.log('url is:', url);
-  console.log('params is:', params);
-  console.log('http client is:', http);
-
   const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
   return http
     .get<T>(url, {

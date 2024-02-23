@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using ReportJewelAPI.Data.DTOs;
 using ReportJewelAPI.Data.Repositories.Interfaces;
 using ReportJewelAPI.Entities;
@@ -29,7 +30,7 @@ namespace ReportJewelAPI.Controllers
     }
 
     [HttpGet("list")]
-    public async Task<ActionResult<PagedList<Layout>>> GetLayouts([FromQuery] UserParams userParams)
+    public async Task<ActionResult<PagedList<LayoutDto>>> GetLayouts([FromQuery] UserParams userParams)
     {
       userParams.UserId = User.GetUserId();
 
@@ -37,6 +38,13 @@ namespace ReportJewelAPI.Controllers
       Response.AddPaginationHeader(new PaginationHeader(layouts.CurrentPage, layouts.PageSize, layouts.TotalCount, layouts.TotalPages));
 
       return Ok(layouts);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<LayoutDto>> GetLayout(int id)
+    {
+      var layout = await _layoutRepository.GetLayoutByIdAsync(id);
+      return _mapper.Map<LayoutDto>(layout);
     }
 
     [HttpPut("update")]
@@ -61,7 +69,8 @@ namespace ReportJewelAPI.Controllers
     [HttpPost("add")]
     public async Task<ActionResult<LayoutDto>> AddLayout(LayoutAddDto layoutAddDto)
     {
-      var user = await _userRepository.GetUserByIdAsync(layoutAddDto.UserId);
+      var userId = User.GetUserId();
+      var user = await _userRepository.GetUserByIdAsync(userId);
       if (user == null)
       {
         return BadRequest("User does not exist.");
@@ -69,7 +78,7 @@ namespace ReportJewelAPI.Controllers
 
       var newLayout = new Layout
       {
-        UserId = layoutAddDto.UserId,
+        UserId = userId,
         Name = layoutAddDto.Name,
         Description = layoutAddDto.Description
       };

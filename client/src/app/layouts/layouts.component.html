@@ -2,11 +2,7 @@
   <div class="col">
     <h1>
       Layouts<span
-        ><button
-          class="btn btn-success btn-sm ms-3"
-          routerLink="/layout"
-          [queryParams]="{ addMode: true }"
-        >
+        ><button class="btn btn-success btn-sm ms-3" (click)="onAddLayout()">
           ADD
         </button></span
       >
@@ -33,10 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            *ngFor="let layout of layouts"
-            routerLink="/layout/{{ layout.id }}"
-          >
+          <tr *ngFor="let layout of layouts" (click)="selectLayout(layout.id)">
             <td>{{ layout.name }}</td>
             <td>{{ layout.description }}</td>
           </tr>
