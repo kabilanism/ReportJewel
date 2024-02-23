@@ -88,20 +88,7 @@ export class LayoutService {
   }
 
   updateLayout(updatedLayout: Layout): Observable<Layout> {
-    return this.http
-      .put<Layout>(`${this.baseUrl}layout/update`, updatedLayout)
-      .pipe(
-        map(() => {
-          const layouts = this.layouts.slice();
-          const index = layouts.findIndex((f) => f.id == updatedLayout.id);
-          const layout = { ...layouts[index], ...updatedLayout };
-
-          layouts[index] = layout;
-          this.layouts = layouts;
-
-          return layout;
-        })
-      );
+    return this.http.put<Layout>(`${this.baseUrl}layout/update`, updatedLayout);
   }
 
   addLayout(layout: LayoutNew): Observable<Layout> {

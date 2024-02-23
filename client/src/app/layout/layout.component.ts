@@ -111,6 +111,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   saveLayout() {
+    console.log(this.mode);
     if (this.mode === Mode.Add) {
       this.addLayout().subscribe({
         next: (layout: Layout) => {

@@ -48,7 +48,7 @@ namespace ReportJewelAPI.Controllers
     }
 
     [HttpPut("update")]
-    public async Task<ActionResult> UpdateLayout(LayoutUpdateDto layoutUpdateDto)
+    public async Task<ActionResult<LayoutDto>> UpdateLayout(LayoutUpdateDto layoutUpdateDto)
     {
       var layout = await _layoutRepository.GetLayoutByIdAsync(layoutUpdateDto.Id);
       if (layout == null)
@@ -60,7 +60,7 @@ namespace ReportJewelAPI.Controllers
 
       if (await _layoutRepository.SaveChangesAsync())
       {
-        return NoContent();
+        return _mapper.Map<LayoutDto>(layout);
       }
 
       return BadRequest("Failed to update layout.");
