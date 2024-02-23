@@ -1,4 +1,6 @@
-﻿using ReportJewelAPI.Entities;
+﻿using ReportJewelAPI.Data.DTOs;
+using ReportJewelAPI.Entities;
+using ReportJewelAPI.Helpers;
 
 namespace ReportJewelAPI.Data.Repositories.Interfaces
 {
@@ -8,7 +10,7 @@ namespace ReportJewelAPI.Data.Repositories.Interfaces
     void RemoveLayout(Layout layout);
     Task<LayoutControl> AddControlAsync(LayoutControl control);
     void RemoveControl(LayoutControl control);
-    Task<IEnumerable<Layout>> GetLayoutsByUserIdAsync(int userId);
+    Task<PagedList<LayoutDto>> GetLayoutsAsync(UserParams userParams);
     Task<Layout> GetLayoutByIdAsync(int id);
     Task<LayoutControl> GetControlByIdAsync(int id);
     Task<bool> SaveChangesAsync();

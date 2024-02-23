@@ -48,7 +48,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.addMode = params['addMode'];
 
       if (!this.addMode) {
-        this.layoutSubscription = this.getLayout();
+        // this.layoutSubscription = this.getLayout();
       }
     });
 
@@ -62,21 +62,20 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   getLayout() {
-    return this.layoutService.getLayouts().subscribe({
-      next: (layouts: Layout[] | null) => {
-        if (layouts) {
-          console.log(layouts);
-          console.log(this.route.snapshot.paramMap);
-          let layoutId = Number(this.route.snapshot.paramMap.get('id'));
-          this.layout = layouts.find((f) => f.id == layoutId);
-
-          this.layoutConfig.get('name')?.setValue(this.layout?.name);
-          this.layoutConfig
-            .get('description')
-            ?.setValue(this.layout?.description);
-        }
-      },
-    });
+    // return this.layoutService.getLayouts().subscribe({
+    //   next: (layouts: Layout[] | null) => {
+    //     if (layouts) {
+    //       console.log(layouts);
+    //       console.log(this.route.snapshot.paramMap);
+    //       let layoutId = Number(this.route.snapshot.paramMap.get('id'));
+    //       this.layout = layouts.find((f) => f.id == layoutId);
+    //       this.layoutConfig.get('name')?.setValue(this.layout?.name);
+    //       this.layoutConfig
+    //         .get('description')
+    //         ?.setValue(this.layout?.description);
+    //     }
+    //   },
+    // });
   }
 
   ngOnDestroy(): void {

@@ -23,6 +23,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { GuideComponent } from './guide/guide.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { GuideComponent } from './guide/guide.component';
       type: 'line-spin-clockwise-fade',
     }),
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

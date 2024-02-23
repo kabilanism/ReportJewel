@@ -33,14 +33,14 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.layoutsSubscription = this.layoutService.getLayouts().subscribe({
-      next: (layouts: Layout[] | null) => {
-        this.loadingLayouts = false;
-        if (layouts) {
-          this.layouts = layouts;
-        }
-      },
-    });
+    // this.layoutsSubscription = this.layoutService.getLayouts().subscribe({
+    //   next: (layouts: Layout[] | null) => {
+    //     this.loadingLayouts = false;
+    //     if (layouts) {
+    //       this.layouts = layouts;
+    //     }
+    //   },
+    // });
   }
 
   ngOnDestroy(): void {

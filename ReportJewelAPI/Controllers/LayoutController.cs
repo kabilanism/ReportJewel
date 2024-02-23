@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using ReportJewelAPI.Data.DTOs;
 using ReportJewelAPI.Data.Repositories.Interfaces;
 using ReportJewelAPI.Entities;
+using ReportJewelAPI.Extensions;
+using ReportJewelAPI.Helpers;
 
 namespace ReportJewelAPI.Controllers
 {
@@ -27,12 +29,14 @@ namespace ReportJewelAPI.Controllers
     }
 
     [HttpGet("list")]
-    public async Task<ActionResult<List<LayoutDto>>> GetLayouts([FromQuery] int userId)
+    public async Task<ActionResult<PagedList<Layout>>> GetLayouts([FromQuery] UserParams userParams)
     {
-      var layouts = await _layoutRepository.GetLayoutsByUserIdAsync(userId);
-      var layoutsDto = _mapper.Map<List<LayoutDto>>(layouts);
+      userParams.UserId = User.GetUserId();
 
-      return layoutsDto;
+      var layouts = await _layoutRepository.GetLayoutsAsync(userParams);
+      Response.AddPaginationHeader(new PaginationHeader(layouts.CurrentPage, layouts.PageSize, layouts.TotalCount, layouts.TotalPages));
+
+      return Ok(layouts);
     }
 
     [HttpPut("update")]

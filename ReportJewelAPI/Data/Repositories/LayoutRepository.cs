@@ -1,15 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using ReportJewelAPI.Data.DTOs;
 using ReportJewelAPI.Data.Repositories.Interfaces;
 using ReportJewelAPI.Entities;
+using ReportJewelAPI.Helpers;
+using System.Security.Claims;
 
 namespace ReportJewelAPI.Data.Repositories
 {
   public class LayoutRepository : ILayoutRepository
   {
     private readonly DataContext _context;
-    public LayoutRepository(DataContext context)
+    private readonly IMapper _mapper;
+    public LayoutRepository(DataContext context, IMapper mapper)
     {
       _context = context;
+      _mapper = mapper;
     }
 
     public async Task<Layout> GetLayoutByIdAsync(int id)
@@ -17,12 +24,14 @@ namespace ReportJewelAPI.Data.Repositories
       return await _context.Layout.SingleOrDefaultAsync(f => f.Id == id);
     }
 
-    public async Task<IEnumerable<Layout>> GetLayoutsByUserIdAsync(int userId)
+    public async Task<PagedList<LayoutDto>> GetLayoutsAsync(UserParams userParams)
     {
-      return await _context.Layout
-        .Where(f => f.UserId == userId)
+      var query = _context.Layout
+        .Where(f => f.UserId == userParams.UserId)
         .Include(f => f.LayoutControls)
-        .ToListAsync();
+        .AsNoTracking();
+
+      return await PagedList<LayoutDto>.CreateAsync(query.AsNoTracking().ProjectTo<LayoutDto>(_mapper.ConfigurationProvider), userParams.PageNumber, userParams.PageSize);
     }
 
     public async Task<LayoutControl> GetControlByIdAsync(int id)

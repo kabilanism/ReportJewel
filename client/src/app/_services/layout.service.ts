@@ -10,16 +10,26 @@ import { LayoutNew } from '../_models/layoutNew';
 import { Mode } from '../_models/mode';
 import { LayoutControlNew } from '../_models/layoutControlNew';
 import { ReportParams } from '../_models/reportParams';
+import { PaginatedResult } from '../_models/pagination';
+import { UserParams } from '../_models/userParams';
+import {
+  getPaginatedResult,
+  getPaginationHeaders,
+} from '../_helpers/paginationHelper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayoutService {
   public layouts: Layout[] = [];
+  private layoutCache = new Map();
   private baseUrl: string = environment.apiUrl;
   private user: User | undefined;
-  private layoutsSubject: BehaviorSubject<Layout[] | null> =
-    new BehaviorSubject<Layout[] | null>(null);
+  private paginatedResult: PaginatedResult<Layout[]> = new PaginatedResult<
+    Layout[]
+  >();
+  private userParams: UserParams | undefined;
+
   private reportParamsSubject: BehaviorSubject<ReportParams | null> =
     new BehaviorSubject<ReportParams | null>(null);
   private selectedControlSubject: BehaviorSubject<LayoutControl | null> =
@@ -27,7 +37,6 @@ export class LayoutService {
   private controlModeSubject: BehaviorSubject<Mode | null> =
     new BehaviorSubject<Mode | null>(null);
 
-  layouts$ = this.layoutsSubject.asObservable();
   reportParams$ = this.reportParamsSubject.asObservable();
   selectedControl$ = this.selectedControlSubject.asObservable();
   controlMode$ = this.controlModeSubject.asObservable();
@@ -36,62 +45,51 @@ export class LayoutService {
     this.userService.currentUser$.subscribe({
       next: (user: User | null) => {
         if (user) {
+          this.userParams = new UserParams();
           this.user = user;
         }
       },
     });
   }
 
-  getLayouts(): Observable<Layout[] | null> {
-    console.log('this.user is .. ', this.user);
-    if (this.user) {
-      if (this.layouts.length > 0) {
-        return of(this.layouts.slice());
-      }
-
-      const params = new HttpParams().set('userId', this.user.id);
-      return this.http
-        .get<Layout[]>(`${this.baseUrl}layout/list/`, {
-          params,
-        })
-        .pipe(
-          map((layouts: Layout[]) => {
-            this.layouts = layouts;
-
-            return this.layouts.slice();
-          })
-        );
-    } else {
-      return of(null);
-    }
-  }
-
-  getLayout(layoutId: number): Observable<Layout | null> {
-    if (this.user && this.layouts) {
-      if (this.layouts.length > 0) {
-        const layout: Layout | undefined = this.layouts.find(
-          (layout) => layout.id == layoutId
-        );
-        if (layout) {
-          return of(layout);
-        }
-      }
-      return this.fetchLayout(layoutId);
+  getLayouts(userParams: UserParams) {
+    const response = this.layoutCache.get(Object.values(userParams).join('-'));
+    if (response) {
+      return of(response);
     }
 
-    return of(null);
-  }
+    let params = getPaginationHeaders(
+      userParams.pageNumber,
+      userParams.pageSize
+    );
 
-  fetchLayout(layoutId: number): Observable<Layout> {
-    return this.http.get<Layout>(`${this.baseUrl}layout/${layoutId}`).pipe(
-      map((layout: Layout) => {
-        const index = this.layouts.indexOf(layout);
-        if (index == -1) {
-          this.layouts.push(layout);
-        }
-        return layout;
+    console.log(params);
+
+    return getPaginatedResult<Layout[]>(
+      `${this.baseUrl}layout/list`,
+      params,
+      this.http
+    ).pipe(
+      map((response) => {
+        console.log('the paginated result is..', response);
+        this.layoutCache.set(Object.values(userParams).join('-'), response);
+        return response;
       })
     );
+  }
+
+  getLayout(layoutId: number) {
+    const layout = [...this.layoutCache.values()]
+      .reduce((arr, elem) => arr.concat(elem.result), [])
+      .find((layout: Layout) => {
+        return layout.id === layoutId;
+      });
+
+    if (layout) {
+      return of(layout);
+    }
+
+    return this.http.get<Layout>(`${this.baseUrl}layout/${layoutId}`);
   }
 
   updateLayout(updatedLayout: Layout): Observable<Layout> {
@@ -203,5 +201,9 @@ export class LayoutService {
 
   resetLayouts() {
     this.layouts = [];
+  }
+
+  getUserParams() {
+    return this.userParams;
   }
 }
