@@ -12,8 +12,6 @@ namespace ReportJewelAPI.Data
     public DataContext(DbContextOptions options) : base(options)
     {
     }
-
-    public DbSet<User> User { get; set; }
     public DbSet<Layout> Layout { get; set; }
     public DbSet<LayoutControl> LayoutControl { get; set; }
 
