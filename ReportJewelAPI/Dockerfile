@@ -1,6 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app 
+EXPOSE 8080
 
+ENV DOTNET_EnableWriteXorExecute=0
 
 COPY *.csproj ./
 RUN dotnet restore
