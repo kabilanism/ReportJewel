@@ -7,8 +7,6 @@ EXPOSE 8080
 COPY *.csproj ./
 RUN dotnet restore
 
-COPY wwwroot ./
-
 COPY . ./
 RUN dotnet publish -c Release -o out
 
