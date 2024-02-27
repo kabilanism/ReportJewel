@@ -6,6 +6,7 @@ import { LayoutService } from '../_services/layout.service';
 import { ExcelService } from '../_services/excel.service';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserParams } from '../_models/userParams';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-generate',
@@ -25,7 +26,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
     public layoutService: LayoutService,
     private excelService: ExcelService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {
     this.generateForm = this.formBuilder.group({
       layout: ['', Validators.required],
@@ -36,16 +38,19 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('in generate component ..');
+    this.toastr.success('in generate component ..');
     this.layoutsSubscription = this.layoutService
       .getLayouts(this.userParams)
       .subscribe({
         next: (response) => {
-          console.log('got layouts. here they are:', response.result);
+          this.toastr.success('in generate component ..');
           this.loadingLayouts = false;
           if (response.result) {
             this.layouts = response.result;
           }
+        },
+        error: (error) => {
+          this.toastr.error(`Error occurred fetching layouts. ${error}`);
         },
       });
   }
