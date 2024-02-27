@@ -5,6 +5,7 @@ import { Layout } from '../_models/layout';
 import { LayoutService } from '../_services/layout.service';
 import { ExcelService } from '../_services/excel.service';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UserParams } from '../_models/userParams';
 
 @Component({
   selector: 'app-generate',
@@ -18,7 +19,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   sourceFile: File | undefined;
   selectedLayout: string = '';
   generateForm: FormGroup;
-  // @ViewChild('generateReportForm') generateReportForm: NgForm | undefined;
+  userParams: UserParams;
 
   constructor(
     public layoutService: LayoutService,
@@ -30,17 +31,21 @@ export class GenerateComponent implements OnInit, OnDestroy {
       layout: ['', Validators.required],
       clientName: ['', Validators.required],
     });
+
+    this.userParams = { pageNumber: 1, pageSize: 1000 };
   }
 
   ngOnInit(): void {
-    // this.layoutsSubscription = this.layoutService.getLayouts().subscribe({
-    //   next: (layouts: Layout[] | null) => {
-    //     this.loadingLayouts = false;
-    //     if (layouts) {
-    //       this.layouts = layouts;
-    //     }
-    //   },
-    // });
+    this.layoutsSubscription = this.layoutService
+      .getLayouts(this.userParams)
+      .subscribe({
+        next: (response) => {
+          this.loadingLayouts = false;
+          if (response.result) {
+            this.layouts = response.result;
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {
