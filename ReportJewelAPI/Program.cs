@@ -15,8 +15,8 @@ if (builder.Environment.IsDevelopment())
     connString = builder.Configuration.GetConnectionString("DefaultConnection");
 else
 {
-    // Use connection string provided at runtime by Heroku.
-    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    // var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    var connUrl = "postgres://reportjewelapi:qwh6HS7UrdSpNYe@reportjeweldb.flycast:5432/reportjewelapi?sslmode=disable";
 
     // Parse connection URL to connection string for Npgsql
     connUrl = connUrl.Replace("postgres://", string.Empty);
