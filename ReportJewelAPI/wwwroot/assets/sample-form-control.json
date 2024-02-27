@@ -1,0 +1,51 @@
+[
+  {
+    "id": "exampleControlId1",
+    "type": "text",
+    "formControlName": "firstName",
+    "placeholder": "e.g. John",
+    "label": "First Name",
+    "order": 1,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId3",
+    "type": "text",
+    "formControlName": "lastName",
+    "placeholder": "e.g. Doe",
+    "label": "Last Name",
+    "order": 2,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId6",
+    "type": "email",
+    "formControlName": "email",
+    "placeholder": "e.g. John.Doe@gmail.com",
+    "label": "E-mail",
+    "order": 3,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId2",
+    "type": "password",
+    "formControlName": "password",
+    "label": "Password",
+    "order": 3,
+    "value": null,
+    "options": null
+  },
+  {
+    "id": "exampleControlId5",
+    "type": "tel",
+    "formControlName": "telephone",
+    "placeholder": "e.g. 416-614-9147",
+    "label": "Phone Number",
+    "order": 3,
+    "value": null,
+    "options": null
+  }
+]

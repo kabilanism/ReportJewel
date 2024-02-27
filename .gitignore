@@ -314,5 +314,4 @@ datingapp.db*
 DatingApp/API/datingapp.db
 verifysimply.db-shm
 verifysimply.db-wal
-wwwroot/
 ReportJewelAPI/Data/Migrations
