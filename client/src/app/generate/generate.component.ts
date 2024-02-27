@@ -36,10 +36,12 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('in generate component ..');
     this.layoutsSubscription = this.layoutService
       .getLayouts(this.userParams)
       .subscribe({
         next: (response) => {
+          console.log('got layouts. here they are:', response.result);
           this.loadingLayouts = false;
           if (response.result) {
             this.layouts = response.result;
