@@ -8,7 +8,7 @@ import { UserService } from './_services/user.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title: string = 'VerifySimply';
+  title: string = 'ReportJewel';
 
   constructor(private userService: UserService) {}
 
