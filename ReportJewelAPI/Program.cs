@@ -15,8 +15,7 @@ if (builder.Environment.IsDevelopment())
     connString = builder.Configuration.GetConnectionString("DefaultConnection");
 else
 {
-    // var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-    var connUrl = "postgres://reportjewelapi:qwh6HS7UrdSpNYe@reportjeweldb.flycast:5432/reportjewelapi?sslmode=disable";
+    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
     // Parse connection URL to connection string for Npgsql
     connUrl = connUrl.Replace("postgres://", string.Empty);
