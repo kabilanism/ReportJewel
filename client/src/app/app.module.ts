@@ -24,6 +24,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { GuideComponent } from './guide/guide.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     PaginationModule.forRoot(),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],

@@ -114,10 +114,6 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
           this.layoutService.resetCache();
           this.toastr.success('Control updated successfully.');
         },
-        error: (error) => {
-          console.error(error);
-          this.toastr.error(error);
-        },
       });
     }
   }
@@ -137,10 +133,6 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
 
           this.controlForm.reset();
         },
-        error: (error) => {
-          console.error(error);
-          this.toastr.error('An error occurred while adding the control.');
-        },
       });
     }
   }
@@ -152,10 +144,6 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
           this.controlDeleted.emit(this.control);
           this.layoutService.resetCache();
           this.toastr.success('Control deleted successfully.');
-        },
-        error: (error) => {
-          console.error(error);
-          this.toastr.error('An error occurred while deleting the control.');
         },
       });
     }

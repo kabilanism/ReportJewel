@@ -32,9 +32,6 @@ export class NavComponent {
         this.router.navigateByUrl('/home');
         this.loginForm.reset();
       },
-      error: (error) => {
-        this.toastr.error(error.error);
-      },
     });
   }
 

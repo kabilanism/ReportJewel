@@ -47,9 +47,6 @@ export class GenerateComponent implements OnInit, OnDestroy {
             this.layouts = response.result;
           }
         },
-        error: (error) => {
-          this.toastr.error(`Error occurred fetching layouts. ${error}`);
-        },
       });
   }
 
@@ -86,12 +83,6 @@ export class GenerateComponent implements OnInit, OnDestroy {
                 });
                 this.router.navigateByUrl('/report');
               }
-            },
-            error: (error) => {
-              console.error(
-                'An error occurred while reading the Excel file.',
-                error
-              );
             },
           });
       }

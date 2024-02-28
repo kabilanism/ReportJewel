@@ -56,9 +56,6 @@ export class ReportComponent implements OnInit {
         next: (_) => {
           this.reportGenerationComplete = true;
         },
-        error: (error) => {
-          this.toastr.error(error);
-        },
         complete: () => {
           this.spinner.hide();
         },

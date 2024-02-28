@@ -105,11 +105,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
           this.router.navigateByUrl('/layouts');
         },
-        error: (error) => {
-          this.toastr.error(
-            `An error occurred while deleting the layout. ${error}`
-          );
-        },
       });
     }
   }
