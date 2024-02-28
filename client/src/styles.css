@@ -17,3 +17,8 @@ button {
   border-radius: 1rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+p {
+  font-weight: lighter;
+  font-size: 160%;
+}
