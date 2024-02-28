@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UserService } from '../_services/user.service';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerModalRef?: BsModalRef;
   registerForm: FormGroup;
 
@@ -31,6 +31,16 @@ export class RegisterComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
+    });
+  }
+
+  ngOnInit(): void {
+    this.userService.currentUser$.pipe(take(1)).subscribe({
+      next: (user) => {
+        if (user) {
+          this.router.navigateByUrl('/home');
+        }
+      },
     });
   }
 
