@@ -148,11 +148,11 @@ export class LayoutService {
     this.layoutModeSubject.next(mode);
   }
 
-  resetLayouts() {
-    this.layouts = [];
-  }
-
   getUserParams() {
     return this.userParams;
+  }
+
+  resetCache() {
+    this.layoutCache.clear();
   }
 }

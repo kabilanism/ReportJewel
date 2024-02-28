@@ -111,6 +111,7 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
         next: (_) => {
           this.control = updatedControl;
           this.controlSaved.emit(updatedControl);
+          this.layoutService.resetCache();
           this.toastr.success('Control updated successfully.');
         },
         error: (error) => {
@@ -131,6 +132,7 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
       this.layoutService.addControl(newControl).subscribe({
         next: (addedControl: LayoutControl) => {
           this.controlSaved.emit(addedControl);
+          this.layoutService.resetCache();
           this.toastr.success('Control added successfully.');
 
           this.controlForm.reset();
@@ -148,6 +150,7 @@ export class LayoutControlComponent implements OnInit, OnDestroy {
       this.layoutService.deleteControl(this.control.id).subscribe({
         next: (_) => {
           this.controlDeleted.emit(this.control);
+          this.layoutService.resetCache();
           this.toastr.success('Control deleted successfully.');
         },
         error: (error) => {

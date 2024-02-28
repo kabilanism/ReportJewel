@@ -15,7 +15,6 @@ import { Mode } from '../_models/mode';
 export class LayoutsComponent implements OnInit, OnDestroy {
   layouts: Layout[] | undefined;
   layoutsSubscription: Subscription;
-  showNoLayouts: boolean = false;
   pagination: Pagination | undefined;
   pageNumber = 1;
   pageSize = 5;

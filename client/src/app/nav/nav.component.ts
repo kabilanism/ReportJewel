@@ -39,7 +39,6 @@ export class NavComponent {
   }
 
   logout() {
-    this.layoutService.resetLayouts();
     this.userService.logout();
     this.router.navigateByUrl('/');
   }

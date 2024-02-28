@@ -90,6 +90,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.layoutService.updateLayout(updatedLayout).subscribe({
         next: (updatedLayout: Layout) => {
           this.layout = updatedLayout;
+          this.layoutService.resetCache();
           this.toastr.success('Report layout updated successfully.');
         },
       });
@@ -101,21 +102,25 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.layoutService.deleteLayout(this.layout).subscribe({
         next: (_) => {
           this.toastr.success('Layout deleted successfully.');
+
           this.router.navigateByUrl('/layouts');
         },
         error: (error) => {
-          this.toastr.error('An error occurred while deleting the layout.');
+          this.toastr.error(
+            `An error occurred while deleting the layout. ${error}`
+          );
         },
       });
     }
   }
 
   saveLayout() {
-    console.log(this.mode);
     if (this.mode === Mode.Add) {
       this.addLayout().subscribe({
         next: (layout: Layout) => {
+          this.layoutService.resetCache();
           this.toastr.success(`Layout '${layout.name}' added successfully.`);
+
           this.router.navigateByUrl('/layouts');
         },
       });
