@@ -36,7 +36,20 @@ export class ErrorInterceptor implements HttpInterceptor {
                 });
                 throw errors;
               } else {
-                this.toastr.error(error.error, error.status.toString());
+                if (error.error) {
+                  if (error.error.length > 0) {
+                    error.error.map(
+                      (currentError: { code: string; description: string }) => {
+                        this.toastr.error(
+                          currentError.description,
+                          error.status.toString()
+                        );
+                      }
+                    );
+                  } else {
+                    this.toastr.error(error.error, error.status.toString());
+                  }
+                }
               }
               break;
             case 401:
