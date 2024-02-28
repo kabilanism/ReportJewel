@@ -13,8 +13,8 @@ import { Mode } from '../_models/mode';
   styleUrls: ['./layouts.component.css'],
 })
 export class LayoutsComponent implements OnInit, OnDestroy {
-  layouts: Layout[] = [];
-  layoutsSubscription: Subscription | undefined;
+  layouts: Layout[] | undefined;
+  layoutsSubscription: Subscription;
   showNoLayouts: boolean = false;
   pagination: Pagination | undefined;
   pageNumber = 1;
@@ -23,6 +23,7 @@ export class LayoutsComponent implements OnInit, OnDestroy {
 
   constructor(private layoutService: LayoutService, private router: Router) {
     this.userParams = this.layoutService.getUserParams();
+    this.layoutsSubscription = new Subscription();
   }
 
   ngOnInit(): void {
@@ -39,9 +40,12 @@ export class LayoutsComponent implements OnInit, OnDestroy {
         .getLayouts(this.userParams)
         .subscribe({
           next: (response) => {
+            const layouts: Layout[] = response.result;
             if (response.result && response.pagination) {
-              this.layouts = response.result;
-              this.pagination = response.pagination;
+              this.layouts = layouts;
+              if (response.pagination && layouts.length > 0) {
+                this.pagination = response.pagination;
+              }
             }
           },
         });
