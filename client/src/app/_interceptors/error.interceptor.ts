@@ -34,6 +34,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 errors.map((error) => {
                   this.toastr.error(error);
                 });
+                throw errors;
               } else {
                 this.toastr.error(error.error, error.status.toString());
               }
@@ -52,7 +53,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             default:
               this.toastr.error('Something unexpected went wrong.');
-              console.log(error);
+              console.error(error);
               break;
           }
         }

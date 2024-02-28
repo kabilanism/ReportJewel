@@ -8,6 +8,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { ReportComponent } from './report/report.component';
 import { GenerateComponent } from './generate/generate.component';
 import { GuideComponent } from './guide/guide.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ServerErrorComponent } from './server-error/server-error.component';
 
 const routerOptions: ExtraOptions = {
   useHash: false,
@@ -51,6 +53,9 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'server-error', component: ServerErrorComponent },
+  { path: '**', component: NotFoundComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

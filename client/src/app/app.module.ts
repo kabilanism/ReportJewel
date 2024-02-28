@@ -25,6 +25,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { GuideComponent } from './guide/guide.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ServerErrorComponent } from './server-error/server-error.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     ReportComponent,
     GenerateComponent,
     GuideComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
   ],
   imports: [
     BrowserModule,
