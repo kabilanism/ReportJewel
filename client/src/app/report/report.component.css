@@ -1,0 +1,24 @@
+i {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.icon-container i {
+  font-size: 2.5rem;
+}
+
+.bi-filetype-pdf:hover {
+  color: #ff0000;
+}
+
+.bi-envelope:hover {
+  color: #ffffff;
+}
+
+#reportContainer {
+  background-color: #343a40;
+}
+
+.bi-circle-fill {
+  font-size: 0.5rem;
+}

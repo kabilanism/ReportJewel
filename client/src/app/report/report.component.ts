@@ -1,20 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LayoutService } from '../_services/layout.service';
+import { Observable, Subscription, of, switchMap, take } from 'rxjs';
 import {
-  Observable,
-  Subject,
-  Subscription,
-  flatMap,
-  mergeMap,
-  of,
-  switchMap,
-  take,
-} from 'rxjs';
-import { Layout } from '../_models/layout';
-import { LayoutRow, LayoutSection } from '../_models/layoutControl';
+  LayoutControl,
+  LayoutRow,
+  LayoutSection,
+} from '../_models/layoutControl';
 import { ReportParams } from '../_models/reportParams';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { GlossaryItem } from '../_models/glossayItem';
 
 @Component({
   selector: 'app-report',
@@ -28,6 +25,8 @@ export class ReportComponent implements OnInit {
   reportLayoutSubscription: Subscription = new Subscription();
   selectedClientSubscription: Subscription = new Subscription();
   buildReportObs: Observable<void>;
+  @ViewChild('reportContainer') reportContainerRef: ElementRef | undefined;
+  glossaryItems: GlossaryItem[] = [];
 
   constructor(
     private layoutService: LayoutService,
@@ -99,6 +98,7 @@ export class ReportComponent implements OnInit {
           section.rows.push(row);
         }
 
+        this.addToGlossary(control);
         row.controls.push(control);
       });
 
@@ -118,5 +118,54 @@ export class ReportComponent implements OnInit {
         return a.sectionNumber - b.sectionNumber;
       });
     }
+  }
+
+  addToGlossary(control: LayoutControl) {
+    const glossaryItem: GlossaryItem | undefined = this.glossaryItems.find(
+      (g) => g.name === control.name
+    );
+
+    if (!glossaryItem) {
+      const newGlossaryItem: GlossaryItem = {
+        name: control.name,
+        label: control.label,
+        description: control.description,
+      };
+      this.glossaryItems.push(newGlossaryItem);
+    }
+  }
+
+  exportReportToPDF() {
+    const reportContainerElement: HTMLElement =
+      this.reportContainerRef?.nativeElement;
+
+    this.spinner.show();
+
+    html2canvas(reportContainerElement)
+      .then((canvas) => {
+        const currentDateTime = new Date();
+        const year = currentDateTime.getUTCFullYear();
+        const month = currentDateTime.getUTCMonth();
+        const day = currentDateTime.getUTCDay();
+        const hour = currentDateTime.getUTCHours();
+        const minute = currentDateTime.getUTCMinutes();
+        const second = currentDateTime.getUTCSeconds();
+
+        const fileNameSuffixDateTime: string = `${year}${month}${day}${hour}${minute}${second}`;
+
+        const contentDataURL = canvas.toDataURL('image/jpeg');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const width = pdf.internal.pageSize.getWidth();
+        const height = (canvas.height * width) / canvas.width;
+        pdf.addImage(contentDataURL, 'JPEG', 0, 0, width, height);
+        pdf.save(
+          `${this.reportParams?.layout}_${this.reportParams?.clientName}_${fileNameSuffixDateTime}.pdf`
+        );
+
+        this.toastr.success('Report generation complete!');
+      })
+      .finally(() => {
+        this.spinner.hide();
+      });
   }
 }
