@@ -47,7 +47,7 @@
     id="formConfig"
     [formGroup]="layoutConfig"
     (ngSubmit)="saveLayout()"
-    class="mt-4"
+    class="mt-5"
   >
     <div class="row mb-4">
       <div class="col-6">
@@ -140,10 +140,9 @@
     </div>
   </form>
 </section>
-<hr />
-<section id="controlConfig">
+<section id="controlConfig" *ngIf="showControlConfig">
+  <hr />
   <app-layout-control
-    *ngIf="showControlConfig"
     (controlSaved)="onControlSaved($event)"
     (controlDeleted)="onControlDeleted($event)"
   ></app-layout-control>
