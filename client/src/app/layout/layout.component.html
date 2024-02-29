@@ -52,7 +52,10 @@
     <div class="row mb-4">
       <div class="col-6">
         <label for="name" class="mb-2"
-          >Name<i class="bi bi-info-circle ms-2"></i
+          >Name<i
+            class="bi bi-info-circle ms-2"
+            tooltip="The name of the layout. Appears on the final generated report."
+          ></i
         ></label>
         <input
           id="name"
@@ -64,7 +67,10 @@
       </div>
       <div class="col-6">
         <label for="description" class="mb-2"
-          >Description<i class="bi bi-info-circle ms-2"></i
+          >Description<i
+            class="bi bi-info-circle ms-2"
+            tooltip="Describe what the layout represents/is used for."
+          ></i
         ></label>
         <input
           id="description"
@@ -101,15 +107,36 @@
           >
             <thead>
               <tr>
-                <th scope="col">Name<i class="bi bi-info-circle ms-2"></i></th>
                 <th scope="col">
-                  Cell Source<i class="bi bi-info-circle ms-2"></i>
+                  Name<i
+                    class="bi bi-info-circle ms-2"
+                    tooltip="Name of the control. Used to uniquely identify the control for the given layout."
+                  ></i>
                 </th>
                 <th scope="col">
-                  Section<i class="bi bi-info-circle ms-2"></i>
+                  Cell Source<i
+                    class="bi bi-info-circle ms-2"
+                    tooltip="Where the data will be pulled from the Excel workbook."
+                  ></i>
                 </th>
-                <th scope="col">Row<i class="bi bi-info-circle ms-2"></i></th>
-                <th scope="col">Order<i class="bi bi-info-circle ms-2"></i></th>
+                <th scope="col">
+                  Section<i
+                    class="bi bi-info-circle ms-2"
+                    tooltip="Section that the control will appear in."
+                  ></i>
+                </th>
+                <th scope="col">
+                  Row<i
+                    class="bi bi-info-circle ms-2"
+                    tooltip="Row that the control will appear in."
+                  ></i>
+                </th>
+                <th scope="col">
+                  Order<i
+                    class="bi bi-info-circle ms-2"
+                    tooltip="Order that the control will appear in, ascending."
+                  ></i>
+                </th>
               </tr>
             </thead>
             <tbody>
