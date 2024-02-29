@@ -47,12 +47,9 @@ const routes: Routes = [
         path: 'report',
         component: ReportComponent,
       },
-      {
-        path: 'guide',
-        component: GuideComponent,
-      },
     ],
   },
+  { path: 'guide', component: GuideComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'server-error', component: ServerErrorComponent },
   { path: '**', component: NotFoundComponent, pathMatch: 'full' },
