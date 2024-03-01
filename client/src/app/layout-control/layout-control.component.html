@@ -53,7 +53,10 @@
         </div>
         <div class="col">
           <label for="description" class="mb-2"
-            >Description<i class="bi bi-info-circle ms-2"></i
+            >Description<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Describe what value the control represents. These descriptions appear in the generated report when a user hovers over a book icon next to the control label."
+            ></i
           ></label>
           <input
             id="description"
@@ -67,7 +70,10 @@
       <div class="row mb-4 align-items-center">
         <div class="col">
           <label for="cellSource" class="mb-2"
-            >Cell Source<i class="bi bi-info-circle ms-2"></i
+            >Cell Source<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Indicates where in the Excel workbook values will be pulled from for this field. E.g. If this is set to D5, then it pulls the value from D5 in the provided workbook during report creation."
+            ></i
           ></label>
           <input
             id="cellSource"
@@ -79,7 +85,10 @@
         </div>
         <div class="col">
           <label for="label" class="mb-2"
-            >Label<i class="bi bi-info-circle ms-2"></i
+            >Label<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Determines what the field appears as in the generated report."
+            ></i
           ></label>
           <input
             id="label"
@@ -91,7 +100,10 @@
         </div>
         <div class="col">
           <label class="form-check-label" for="required"
-            >Required<i class="bi bi-info-circle ms-2"></i
+            >Required<i
+              class="bi bi-info-circle ms-2"
+              tooltip="When the 'Required' flag is turned on, during report creation if there is no value provided based on the cell source, the process will not continue. Turned off by default."
+            ></i
           ></label>
           <div class="form-check form-switch">
             <input
@@ -107,7 +119,10 @@
       <div class="row mb-4 align-items-center">
         <div class="col">
           <label for="section" class="mb-2"
-            >Section<i class="bi bi-info-circle ms-2"></i
+            >Section<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Identifies the section this control will appear in."
+            ></i
           ></label>
           <input
             id="section"
@@ -119,7 +134,10 @@
         </div>
         <div class="col">
           <label for="row" class="mb-2"
-            >Row<i class="bi bi-info-circle ms-2"></i
+            >Row<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Identifies the row this control will appear in."
+            ></i
           ></label>
           <input
             id="row"
@@ -131,7 +149,10 @@
         </div>
         <div class="col">
           <label for="order" class="mb-2"
-            >Order<i class="bi bi-info-circle ms-2"></i
+            >Order<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Identifies the order the control will appear in. While controls can share the same order value, in these cases the order cannot be guaranteed. Recommended to set unique values for order per control."
+            ></i
           ></label>
           <input
             id="order"
