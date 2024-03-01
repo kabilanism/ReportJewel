@@ -1,50 +1,48 @@
 <ng-container *ngIf="reportGenerationComplete">
-  <div class="row mb-2">
-    <div class="col d-flex justify-content-end icon-container">
-      <i
-        class="bi bi-filetype-pdf me-3"
-        [tooltip]="'Download report to PDF.'"
-        (click)="exportReportToPDF()"
-      ></i>
-    </div>
-  </div>
-  <div id="reportContainer" #reportContainer class="p-5 rounded">
-    <div class="row mb-2 align-items-center">
-      <div class="col-10 d-flex justify-content-start">
-        <h1>
-          {{ reportParams?.layout?.name }} - {{ reportParams?.clientName }}
-        </h1>
+  <div [@fadeIn]>
+    <div class="row mb-2">
+      <div class="col d-flex justify-content-end icon-container">
+        <i class="bi bi-filetype-pdf me-3" (click)="exportReportToPDF()"></i>
       </div>
     </div>
-    <hr />
-    <form #generatedReport="ngForm" class="w-100 mb-4 mt-4">
-      <div class="row mb-5" *ngFor="let section of reportSections">
-        <div class="row" *ngFor="let row of section.rows">
-          <div class="col-3" *ngFor="let control of row.controls">
-            <label class="form-label" for="{{ control.id }}"
-              >{{ control.label
-              }}<i class="bi bi-book ms-3" [tooltip]="control.description"></i
-            ></label>
-            <input
-              class="form-control"
-              type="text"
-              readonly
-              [value]="control.value"
-            />
-          </div>
+    <div class="report-container p-5 rounded">
+      <div class="row mb-2 align-items-center">
+        <div class="col-10 d-flex justify-content-start">
+          <h1>
+            {{ reportParams?.layout?.name }} - {{ reportParams?.clientName }}
+          </h1>
         </div>
       </div>
-    </form>
-    <hr />
-    <div class="row">
-      <div class="col">
-        <h1>Glossary</h1>
+      <hr />
+      <form #generatedReport="ngForm" class="w-100 mb-4 mt-4">
+        <div class="row mb-5" *ngFor="let section of reportSections">
+          <div class="row" *ngFor="let row of section.rows">
+            <div class="col-3" *ngFor="let control of row.controls">
+              <label class="form-label" for="{{ control.id }}"
+                >{{ control.label
+                }}<i class="bi bi-book ms-3" [tooltip]="control.description"></i
+              ></label>
+              <input
+                class="form-control"
+                type="text"
+                readonly
+                [value]="control.value"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr />
+      <div class="row">
+        <div class="col">
+          <h1>Glossary</h1>
+        </div>
       </div>
-    </div>
-    <div class="row" *ngFor="let glossaryItem of glossaryItems">
-      <div class="d-flex align-items-center">
-        <i class="bi bi-circle-fill me-2"></i>
-        <span>{{ glossaryItem.label }}: {{ glossaryItem.description }}</span>
+      <div class="row" *ngFor="let glossaryItem of glossaryItems">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-circle-fill me-2"></i>
+          <span>{{ glossaryItem.label }}: {{ glossaryItem.description }}</span>
+        </div>
       </div>
     </div>
   </div>

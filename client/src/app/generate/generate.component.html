@@ -1,85 +1,87 @@
-<h1>Generate Report From Excel</h1>
-<div class="row mb-2">
-  <div class="col">
-    <p>
-      To generate a report from Excel, begin by selecting a layout for the
-      report. Then enter the client name which will appear in the generated
-      report header. Finally, select the source file which contains the data to
-      be displayed in the selected layout.
-    </p>
-  </div>
-</div>
-<hr />
-<form [formGroup]="generateForm" class="w-75 mt-5">
-  <div class="row mb-3">
-    <div class="col-6">
-      <label for="template" class="mb-2">
-        Layout<i
-          class="bi bi-info-circle ms-2"
-          tooltip="The layout containing the controls which will map to the workbook supplied in 'Source File'."
-        ></i
-      ></label>
-      <select
-        id="layout"
-        class="form-control"
-        required
-        name="layout"
-        formControlName="layout"
-      >
-        <option *ngFor="let layout of layouts" [value]="layout.id">
-          <div *ngIf="loadingLayouts; else layoutDetail">Loading ...</div>
-          <ng-template #layoutDetail>
-            {{ layout.name }} - {{ layout.description }}
-          </ng-template>
-        </option>
-      </select>
-    </div>
-    <div class="col-6">
-      <label for="clientName" class="mb-2">
-        Client Name<i
-          class="bi bi-info-circle ms-2"
-          tooltip="Name of the client the report is being created for. Will appear in the final generated report."
-        ></i
-      ></label>
-      <input
-        type="text"
-        name="clientName"
-        class="form-control"
-        id="clientName"
-        formControlName="clientName"
-      />
+<div class="generate-container" [@fadeIn]>
+  <h1>Generate Report From Excel</h1>
+  <div class="row mb-2">
+    <div class="col">
+      <p>
+        To generate a report from Excel, begin by selecting a layout for the
+        report. Then enter the client name which will appear in the generated
+        report header. Finally, select the source file which contains the data
+        to be displayed in the selected layout.
+      </p>
     </div>
   </div>
-  <div class="row mb-5">
-    <div class="col-6">
-      <label for="sourceFile" class="mb-2"
-        >Source File<i
-          class="bi bi-info-circle ms-2"
-          tooltip="Excel file containing the source data to be presented in the report."
-        ></i
-      ></label>
-      <input
-        id="sourceFile"
-        class="form-control"
-        type="file"
-        (change)="onFileChange($event)"
-        name="sourceFile"
-      />
-    </div>
-  </div>
-  <div class="row d-flex justify-content-center">
-    <div class="col-4">
-      <span>
-        <button
-          id="generateReport"
-          class="btn btn-success"
-          (click)="generateReport()"
-          type="submit"
-          [disabled]="!generateForm.valid"
+  <hr />
+  <form [formGroup]="generateForm" class="w-75 mt-5">
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="template" class="mb-2">
+          Layout<i
+            class="bi bi-info-circle ms-2"
+            tooltip="The layout containing the controls which will map to the workbook supplied in 'Source File'."
+          ></i
+        ></label>
+        <select
+          id="layout"
+          class="form-control"
+          required
+          name="layout"
+          formControlName="layout"
         >
-          CREATE REPORT
-        </button></span
-      >
+          <option *ngFor="let layout of layouts" [value]="layout.id">
+            <div *ngIf="loadingLayouts; else layoutDetail">Loading ...</div>
+            <ng-template #layoutDetail>
+              {{ layout.name }} - {{ layout.description }}
+            </ng-template>
+          </option>
+        </select>
+      </div>
+      <div class="col-6">
+        <label for="clientName" class="mb-2">
+          Client Name<i
+            class="bi bi-info-circle ms-2"
+            tooltip="Name of the client the report is being created for. Will appear in the final generated report."
+          ></i
+        ></label>
+        <input
+          type="text"
+          name="clientName"
+          class="form-control"
+          id="clientName"
+          formControlName="clientName"
+        />
+      </div>
     </div>
-  </div>
-</form>
+    <div class="row mb-5">
+      <div class="col-6">
+        <label for="sourceFile" class="mb-2"
+          >Source File<i
+            class="bi bi-info-circle ms-2"
+            tooltip="Excel file containing the source data to be presented in the report."
+          ></i
+        ></label>
+        <input
+          id="sourceFile"
+          class="form-control"
+          type="file"
+          (change)="onFileChange($event)"
+          name="sourceFile"
+        />
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-4">
+        <span>
+          <button
+            id="generateReport"
+            class="btn btn-success"
+            (click)="generateReport()"
+            type="submit"
+            [disabled]="!generateForm.valid"
+          >
+            <span class="button-label">create report</span>
+          </button></span
+        >
+      </div>
+    </div>
+  </form>
+</div>

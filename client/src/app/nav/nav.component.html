@@ -15,7 +15,6 @@
       >Welcome {{ user.username }}</a
     >
     <div class="dropdown-menu" *dropdownMenu>
-      <a routerLink="/member/edit" class="dropdown-item">Edit Profile</a>
       <a class="dropdown-item" (click)="logout()">Logout</a>
     </div>
   </div>
@@ -41,11 +40,11 @@
       formControlName="password"
     />
     <button
-      class="btn btn-success me-5"
+      class="btn btn-success btn-sm me-5"
       type="submit"
       [disabled]="!loginForm.valid"
     >
-      Login
+      <span class="button-label">login</span>
     </button>
   </form>
 </nav>

@@ -5,3 +5,9 @@ hr {
 form label {
   font-size: 120%;
 }
+
+form .row {
+  border-style: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}

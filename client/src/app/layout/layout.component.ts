@@ -10,11 +10,13 @@ import { User } from '../_models/user';
 import { LayoutNew } from '../_models/layoutNew';
 import { LayoutControl } from '../_models/layoutControl';
 import { Mode } from '../_models/mode';
+import { FadeIn } from '../_helpers/animations';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css', '../_styles/form.styles.css'],
+  animations: [FadeIn(200, true)],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   layoutConfig: FormGroup;

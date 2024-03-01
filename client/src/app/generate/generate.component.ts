@@ -7,11 +7,13 @@ import { ExcelService } from '../_services/excel.service';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserParams } from '../_models/userParams';
 import { ToastrService } from 'ngx-toastr';
+import { FadeIn } from '../_helpers/animations';
 
 @Component({
   selector: 'app-generate',
   templateUrl: './generate.component.html',
   styleUrls: ['./generate.component.css', '../_styles/form.styles.css'],
+  animations: [FadeIn(300, true)],
 })
 export class GenerateComponent implements OnInit, OnDestroy {
   layouts: Layout[] | undefined;

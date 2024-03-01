@@ -8,7 +8,14 @@ td {
 }
 
 button {
+  background-color: red;
+}
+
+.button-label {
   font-family: inherit;
+  font-weight: 200;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
 }
 
 .table-container {
@@ -21,4 +28,11 @@ button {
 p {
   font-weight: lighter;
   font-size: 160%;
+}
+
+input[type="text"],
+input[type="password"] {
+  background-color: #dee2e6;
+  font-family: inherit;
+  font-weight: 200;
 }

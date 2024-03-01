@@ -12,11 +12,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { GlossaryItem } from '../_models/glossayItem';
+import { FadeIn } from '../_helpers/animations';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css', '../_styles/form.styles.css'],
+  animations: [FadeIn(200, true)],
 })
 export class ReportComponent implements OnInit {
   reportParams: ReportParams | undefined;
@@ -25,7 +27,6 @@ export class ReportComponent implements OnInit {
   reportLayoutSubscription: Subscription = new Subscription();
   selectedClientSubscription: Subscription = new Subscription();
   buildReportObs: Observable<void>;
-  @ViewChild('reportContainer') reportContainerRef: ElementRef | undefined;
   glossaryItems: GlossaryItem[] = [];
 
   constructor(
@@ -136,30 +137,18 @@ export class ReportComponent implements OnInit {
   }
 
   exportReportToPDF() {
-    const reportContainerElement: HTMLElement =
-      this.reportContainerRef?.nativeElement;
-
     this.spinner.show();
 
-    html2canvas(reportContainerElement)
+    html2canvas(document.body)
       .then((canvas) => {
-        const currentDateTime = new Date();
-        const year = currentDateTime.getUTCFullYear();
-        const month = currentDateTime.getUTCMonth();
-        const day = currentDateTime.getUTCDay();
-        const hour = currentDateTime.getUTCHours();
-        const minute = currentDateTime.getUTCMinutes();
-        const second = currentDateTime.getUTCSeconds();
-
-        const fileNameSuffixDateTime: string = `${year}${month}${day}${hour}${minute}${second}`;
-
+        const fileNameSuffix = this.getFileNameSuffixDateTime();
         const contentDataURL = canvas.toDataURL('image/jpeg');
         const pdf = new jsPDF('p', 'mm', 'a4');
         const width = pdf.internal.pageSize.getWidth();
         const height = (canvas.height * width) / canvas.width;
         pdf.addImage(contentDataURL, 'JPEG', 0, 0, width, height);
         pdf.save(
-          `${this.reportParams?.layout}_${this.reportParams?.clientName}_${fileNameSuffixDateTime}.pdf`
+          `${this.reportParams?.layout.name}_${this.reportParams?.clientName}_${fileNameSuffix}.pdf`
         );
 
         this.toastr.success('Report generation complete!');
@@ -167,5 +156,19 @@ export class ReportComponent implements OnInit {
       .finally(() => {
         this.spinner.hide();
       });
+  }
+
+  getFileNameSuffixDateTime(): string {
+    const currentDateTime = new Date();
+    const year = currentDateTime.getUTCFullYear();
+    const month = currentDateTime.getUTCMonth();
+    const day = currentDateTime.getUTCDay();
+    const hour = currentDateTime.getUTCHours();
+    const minute = currentDateTime.getUTCMinutes();
+    const second = currentDateTime.getUTCSeconds();
+
+    const fileNameSuffixDateTime: string = `${year}${month}${day}${hour}${minute}${second}`;
+
+    return fileNameSuffixDateTime;
   }
 }

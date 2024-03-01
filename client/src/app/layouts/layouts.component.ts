@@ -6,11 +6,13 @@ import { Router } from '@angular/router';
 import { Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { Mode } from '../_models/mode';
+import { FadeIn } from '../_helpers/animations';
 
 @Component({
   selector: 'app-layouts',
   templateUrl: './layouts.component.html',
   styleUrls: ['./layouts.component.css'],
+  animations: [FadeIn(200, true)],
 })
 export class LayoutsComponent implements OnInit, OnDestroy {
   layouts: Layout[] | undefined;

@@ -16,7 +16,7 @@
           (click)="saveControl()"
           [disabled]="!controlForm.dirty"
         >
-          SAVE
+          <span class="button-label">save</span>
         </button></span
       >
       <span
@@ -26,7 +26,7 @@
           (click)="deleteControl()"
           *ngIf="!(mode === Mode.Add)"
         >
-          DELETE
+          <span class="button-label">delete</span>
         </button></span
       >
     </h1>

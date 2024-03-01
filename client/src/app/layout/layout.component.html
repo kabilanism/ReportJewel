@@ -1,176 +1,178 @@
-<section id="reportConfig" class="mb-5">
-  <div class="row mb-2">
-    <div class="col">
-      <h1 class="mb-3">
-        Layout Setting -<span
-          class="ms-2 fw-bold"
-          *ngIf="mode === Mode.Add; else layoutName"
-          >New</span
-        >
-        <ng-template #layoutName>
-          <span class="ms-2 fw-bold">{{ layout?.name }}</span>
-        </ng-template>
-        <span
-          ><button
-            class="btn btn-success btn-sm ms-3"
-            type="submit"
-            form="formConfig"
-            [disabled]="!layoutConfig.dirty"
-          >
-            SAVE
-          </button></span
-        >
-        <span
-          ><button
-            type="button"
-            class="btn btn-danger btn-sm ms-2"
-            (click)="deleteLayout()"
-            *ngIf="mode === Mode.Edit"
-          >
-            DELETE
-          </button></span
-        >
-      </h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <p>
-        Set configuration to describe the structure of a given layout. Layouts
-        are comprised of individual controls that appear on created reports
-        based on the Excel source data provided by you.
-      </p>
-    </div>
-  </div>
-  <hr />
-  <form
-    id="formConfig"
-    [formGroup]="layoutConfig"
-    (ngSubmit)="saveLayout()"
-    class="mt-5"
-  >
-    <div class="row mb-4">
-      <div class="col-6">
-        <label for="name" class="mb-2"
-          >Name<i
-            class="bi bi-info-circle ms-2"
-            tooltip="The name of the layout. Appears on the final generated report."
-          ></i
-        ></label>
-        <input
-          id="name"
-          type="text"
-          class="form-control"
-          placeholder="Name"
-          formControlName="name"
-        />
-      </div>
-      <div class="col-6">
-        <label for="description" class="mb-2"
-          >Description<i
-            class="bi bi-info-circle ms-2"
-            tooltip="Describe what the layout represents/is used for."
-          ></i
-        ></label>
-        <input
-          id="description"
-          type="text"
-          class="form-control"
-          placeholder="Description"
-          formControlName="description"
-        />
-      </div>
-    </div>
-    <div class="row" *ngIf="!(mode === Mode.Add)">
+<ng-container *ngIf="layout">
+  <section id="reportConfig" class="mb-5" [@fadeIn]>
+    <div class="row mb-2">
       <div class="col">
-        <div class="controls-header mb-4">
-          <h2>
-            Controls<i class="bi bi-card-list ms-2 mb-5"></i
-            ><span
-              ><button
-                type="button"
-                class="btn btn-success btn-sm ms-3"
-                (click)="addControl()"
-                [routerLink]="['.']"
-                fragment="controlConfig"
-              >
-                ADD
-              </button></span
-            >
-          </h2>
-        </div>
-        <hr />
-        <ng-container *ngIf="layout">
-          <table
-            *ngIf="layout.controls.length > 0; else noControls"
-            class="table table-striped table-hover table-responsive"
+        <h1 class="mb-3">
+          Layout Setting -<span
+            class="ms-2 fw-bold"
+            *ngIf="mode === Mode.Add; else layoutName"
+            >New</span
           >
-            <thead>
-              <tr>
-                <th scope="col">
-                  Name<i
-                    class="bi bi-info-circle ms-2"
-                    tooltip="Name of the control. Used to uniquely identify the control for the given layout."
-                  ></i>
-                </th>
-                <th scope="col">
-                  Cell Source<i
-                    class="bi bi-info-circle ms-2"
-                    tooltip="Where the data will be pulled from the Excel workbook."
-                  ></i>
-                </th>
-                <th scope="col">
-                  Section<i
-                    class="bi bi-info-circle ms-2"
-                    tooltip="Section that the control will appear in."
-                  ></i>
-                </th>
-                <th scope="col">
-                  Row<i
-                    class="bi bi-info-circle ms-2"
-                    tooltip="Row that the control will appear in."
-                  ></i>
-                </th>
-                <th scope="col">
-                  Order<i
-                    class="bi bi-info-circle ms-2"
-                    tooltip="Order that the control will appear in, ascending."
-                  ></i>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let control of layout?.controls; let i = index"
-                (click)="selectControl(control)"
-                [routerLink]="['.']"
-                fragment="controlConfig"
-              >
-                <td>{{ control.name }}</td>
-                <td>{{ control.cellSource }}</td>
-                <td>{{ control.section }}</td>
-                <td>{{ control.row }}</td>
-                <td>{{ control.order }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <ng-template #noControls>
-            <div class="row">
-              <p class="mt-1">
-                No controls found. Hit the 'ADD' button above to create a new
-                control.
-              </p>
-            </div>
+          <ng-template #layoutName>
+            <span class="ms-2 fw-bold">{{ layout.name }}</span>
           </ng-template>
-        </ng-container>
+          <span
+            ><button
+              class="btn btn-success btn-sm ms-3"
+              type="submit"
+              form="formConfig"
+              [disabled]="!layoutConfig.dirty"
+            >
+              <span class="button-label">save</span>
+            </button></span
+          >
+          <span
+            ><button
+              type="button"
+              class="btn btn-danger btn-sm ms-2"
+              (click)="deleteLayout()"
+              *ngIf="mode === Mode.Edit"
+            >
+              <span class="button-label">delete</span>
+            </button></span
+          >
+        </h1>
       </div>
     </div>
-  </form>
-</section>
-<section id="controlConfig" *ngIf="showControlConfig">
-  <hr />
-  <app-layout-control
-    (controlSaved)="onControlSaved($event)"
-    (controlDeleted)="onControlDeleted($event)"
-  ></app-layout-control>
-</section>
+    <div class="row">
+      <div class="col">
+        <p>
+          Set configuration to describe the structure of a given layout. Layouts
+          are comprised of individual controls that appear on created reports
+          based on the Excel source data provided by you.
+        </p>
+      </div>
+    </div>
+    <hr />
+    <form
+      id="formConfig"
+      [formGroup]="layoutConfig"
+      (ngSubmit)="saveLayout()"
+      class="mt-5"
+    >
+      <div class="row mb-4">
+        <div class="col-6">
+          <label for="name" class="mb-2"
+            >Name<i
+              class="bi bi-info-circle ms-2"
+              tooltip="The name of the layout. Appears on the final generated report."
+            ></i
+          ></label>
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            formControlName="name"
+          />
+        </div>
+        <div class="col-6">
+          <label for="description" class="mb-2"
+            >Description<i
+              class="bi bi-info-circle ms-2"
+              tooltip="Describe what the layout represents/is used for."
+            ></i
+          ></label>
+          <input
+            id="description"
+            type="text"
+            class="form-control"
+            placeholder="Description"
+            formControlName="description"
+          />
+        </div>
+      </div>
+      <div class="row" *ngIf="!(mode === Mode.Add)">
+        <div class="col">
+          <div class="controls-header mb-4">
+            <h2>
+              Controls<i class="bi bi-card-list ms-2 mb-5"></i
+              ><span
+                ><button
+                  type="button"
+                  class="btn btn-success btn-sm ms-3"
+                  (click)="addControl()"
+                  [routerLink]="['.']"
+                  fragment="controlConfig"
+                >
+                  <span class="button-label">add</span>
+                </button></span
+              >
+            </h2>
+          </div>
+          <hr />
+          <ng-container *ngIf="layout">
+            <table
+              *ngIf="layout.controls.length > 0; else noControls"
+              class="table table-striped table-hover table-responsive"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Name<i
+                      class="bi bi-info-circle ms-2"
+                      tooltip="Name of the control. Used to uniquely identify the control for the given layout."
+                    ></i>
+                  </th>
+                  <th scope="col">
+                    Cell Source<i
+                      class="bi bi-info-circle ms-2"
+                      tooltip="Where the data will be pulled from the Excel workbook."
+                    ></i>
+                  </th>
+                  <th scope="col">
+                    Section<i
+                      class="bi bi-info-circle ms-2"
+                      tooltip="Section that the control will appear in."
+                    ></i>
+                  </th>
+                  <th scope="col">
+                    Row<i
+                      class="bi bi-info-circle ms-2"
+                      tooltip="Row that the control will appear in."
+                    ></i>
+                  </th>
+                  <th scope="col">
+                    Order<i
+                      class="bi bi-info-circle ms-2"
+                      tooltip="Order that the control will appear in, ascending."
+                    ></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let control of layout?.controls; let i = index"
+                  (click)="selectControl(control)"
+                  [routerLink]="['.']"
+                  fragment="controlConfig"
+                >
+                  <td>{{ control.name }}</td>
+                  <td>{{ control.cellSource }}</td>
+                  <td>{{ control.section }}</td>
+                  <td>{{ control.row }}</td>
+                  <td>{{ control.order }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <ng-template #noControls>
+              <div class="row">
+                <p class="mt-1">
+                  No controls found. Hit the 'ADD' button above to create a new
+                  control.
+                </p>
+              </div>
+            </ng-template>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </section>
+  <section id="controlConfig" *ngIf="showControlConfig" [@fadeIn]>
+    <hr />
+    <app-layout-control
+      (controlSaved)="onControlSaved($event)"
+      (controlDeleted)="onControlDeleted($event)"
+    ></app-layout-control>
+  </section>
+</ng-container>

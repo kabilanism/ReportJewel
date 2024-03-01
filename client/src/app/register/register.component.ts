@@ -8,11 +8,13 @@ import { User } from '../_models/user';
 import { formatDate } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { FadeIn } from '../_helpers/animations';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css', '../_styles/row.styles.css'],
+  animations: [FadeIn(200, true)],
 })
 export class RegisterComponent implements OnInit {
   registerModalRef?: BsModalRef;
