@@ -34,6 +34,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.generateForm = this.formBuilder.group({
       layout: ['', Validators.required],
       clientName: ['', Validators.required],
+      sourceFile: ['', Validators.required],
     });
 
     this.userParams = { pageNumber: 1, pageSize: 1000 };
