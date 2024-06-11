@@ -1,1 +1,1 @@
-# ReportJewel - Minimalist Reporting Service
+# ReportJewel - A Reporting Service To Beautify Excel Reports
